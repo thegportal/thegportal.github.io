@@ -2,3 +2,5 @@ theme: jekyll-theme-minimal
 title: GH - Official Github Site
 description: These are my projects :)
 background: #2f00bd
+color:
+  heading: white
