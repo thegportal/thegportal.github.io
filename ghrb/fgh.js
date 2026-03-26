@@ -1,4 +1,4 @@
-fetch('https://thegportal.github.io/ghrb/gtxt.txt')
+fetch('https://thegportal.github.io/ghrb/index.html')
   .then(response => {
     if (!response.ok) throw new Error('Network response was baddd~');
     return response.text();
