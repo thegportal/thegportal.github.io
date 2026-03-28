@@ -4,7 +4,7 @@ if (cm == '') {
 var m;
 //Characters for the glitchy splash message
 var alpha = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-=_+[]{};:,./?`~';
-var alpha2 = '@#$%&_=+QWERTYUIOPASDFGHJKLZXCVBNM';
+var alpha2 = '@#$%&_=+*QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm';
 //Splash messages
 var items = Array(
 'Skibidi Toilet in Fortnite',
@@ -17,7 +17,7 @@ var items = Array(
 'Imagine if the principal got a low taper fade &#128135;',
 'Making school IT teams angy since 2024 &#129324;&#129402;&#129322;',
 'GET OUT!! &#128682;&#128694;',
-'Made using <a href="https://neocities.org" target="_blank" style="text-decoration: underline; color: yellow;">Neocities</a>!',
+'Made using <a href="https://neocities.org" target="_blank" style="text-decoration: underline line-through; color: white;">Neocities</a> <a href="https://github.com" target="_blank" style="text-decoration: underline; color: yellow;">GitHub</a>!',
 'You are now blinking & breathing manually. You&#39;re welcome! &#128541;&#128541;',
 'Join da Discord <a href="https://discord.gg/rAwrBrA3yT" target="_blank" style="text-decoration: underline; color: yellow;">https://discord.gg/rAwrBrA3yT</a>',
 '"Ur brain makes you touch! &#129504;&#129322;&#129322;"',
@@ -39,7 +39,7 @@ var items = Array(
 'I-I-I HAVE NOTINGG!! &#128148;&#128148;&#128483;&#65039;&#128293;&#128557;&#128591;',
 'Fun fact: GHub was originally a <a href="https://sites.google.com/view/perrymissouri/" target="_blank" style="text-decoration: underline; color: yellow;">Google Site</a>!',
 'Good boyy~~ &#128021;&#128021;',
-'Thanks for 1,840,000 visits! &#129297;&#128200;&#9786;&#65039;',
+'<p>Thanks for <crs>2,100,000</crs> 0 visits! &#129297;&#128200;&#9786;&#65039;</p>',
 '"if u can\'t do the time, don\'t do the crime"',
 'Made by Jeremy Powell!',
 'Beware of impostors &#128064;&#128064;',
@@ -60,7 +60,7 @@ var items = Array(
 'Chromebook! Chromebook Chromebook Chromebook!! &#127926;&#127926;&#127926;',
 'This site will be updated eventually!',
 'Learning everyday!',
-'4th of March, 2024 @ 6:25 PM!',
+'4th of March, 2024 @ 6:25 PM CST!',
 'I... AM STEVE! &#128483;&#65039;&#128293;&#128293;',
 '"I am Steve" &#128128;	&#128148;&#129344;',
 'CHICKEN JOCKEY! &#128483;&#65039;&#128293;&#128293;',
@@ -80,7 +80,7 @@ var items = Array(
 'Also try <a href="https://burgerv2.neocities.org/" style="text-decoration: underline; color: yellow;">BurgerV2</a>!',
 'Also try <a href="https://glseries.net/" style="text-decoration: underline; color: yellow;">Geometry Learn</a>!',
 'Cappu-Cappu-Cappuccino Assassino!!',
-'1709599500',
+'1709598300 (CST)',
 'Do your work!',
 '"17 missing assignments"',
 'Hehehehehe...',
@@ -93,9 +93,9 @@ var items = Array(
 'Amazing!',
 'Absolutely atrocious!',
 'Disgusting!! &#129326;&#129326;',
-'There\'s no more splash messages left. This is the last one!',
+'There are no more splash messages left; this is the last one!',
 'Nevermind!',
-'There are [] splashes to collect! (This included!)',
+'There are 000 splashes to collect! (This included!)',
 'It\'s not a phase, mom!',
 'That\'s deep bro...',
 'It\'s deep bro...',
@@ -109,7 +109,7 @@ var items = Array(
 'This is the 100th splash message!',
 'F̶̘̤̃̇̕ŕ̵͕̮̱͒ȩ̶̼̜̎͌̂̈́͘à̵̪͇͖̋k̷̻̦̖̰͎͠ý̶͈̦̘͇͐͜',
 '!!!',
-'Make sure to - your -!',
+'Make sure to #### your ####!',
 'Guess how much moneys I have? 13! (6,227,020,800)',
 'My dad could beat up your dad!',
 '01010010 01101001 01111010 01111010 00100001',
@@ -179,6 +179,11 @@ var items = Array(
 'Epstein list.',
 'Тотя',
 'I\'m the dude man!',
+'let quade = "Awesome!";',
+'<p style="margin: 0; width: auto;">Yes, there are images too</p><img src="assets/goofy-skull.png" onerror="this.src=\'https://thegportal.github.io/ghrb/assets/goofy-skull.png\'" style="height: 25px;">',
+'Giggles!',
+'Fun fact: GHub was originally named GameHub! It was first shortened to GHub on the 18th of March, 2024, 12 days after its release :)',
+'I\'d say GHub\'s prime was the summer of 2024',
 );
 
 //Choose a random splash message & apply it to a div with the id of "rmessage"
@@ -189,19 +194,20 @@ m = items[Math.floor(Math.random()*items.length)];
 }
 
 function checkM() {
-  if (m === 'Make sure to - your -!') {
-  document.getElementById("rmessage").innerHTML = '&nbsp;';
-  if (!m.includes('Make sure to')) {
-      document.getElementById("rmessage").innerHTML = m;
-      setInterval(() => {
-        document.getElementById("rmessage").innerHTML = m.replaceAll('-', alpha2.charAt(Math.floor(Math.random()*alpha2.length)) + alpha2.charAt(Math.floor(Math.random()*alpha2.length)) + alpha2.charAt(Math.floor(Math.random()*alpha2.length)) + alpha2.charAt(Math.floor(Math.random()*alpha2.length)));
+  if (m.includes('Make sure to')) {
+    document.getElementById("rmessage").innerHTML = '&nbsp;';
+    document.getElementById("rmessage").innerHTML = m;
+    setInterval(() => {
+      if (m.includes('Make sure to')) {
+        document.getElementById("rmessage").innerHTML = m.replaceAll('####', alpha2.charAt(Math.floor(Math.random()*alpha2.length)) + alpha2.charAt(Math.floor(Math.random()*alpha2.length)) + alpha2.charAt(Math.floor(Math.random()*alpha2.length)) + alpha2.charAt(Math.floor(Math.random()*alpha2.length)));
+      } else {
+        return;
+      }
       }, 50);
       return;
-  } else {
   }
-}
 
-if (m === 'There are [] splashes to collect! (This included!)') {
+if (m === 'There are 000 splashes to collect! (This included!)') {
   setInterval(() => {
     document.getElementById("rmessage").innerHTML = `There are ${items.length - 2} splashes to collect! (This included!)`;
     if (!m.includes('splashes to collect! (This included!)')) {
@@ -214,7 +220,7 @@ if (m === 'There are [] splashes to collect! (This included!)') {
 if (m === 'Scrambled!') {
   setTimeout(() => {
     document.getElementById("rmessage").innerHTML = scramble(m);
-  }, 50)
+  }, 20)
 }
 }
 
