@@ -296,11 +296,11 @@ gameImport.addEventListener('change', (e) => {
     const url = URL.createObjectURL(file);
     const ruffle = window.RufflePlayer.newest();
     const player = ruffle.createPlayer();
-    player.style.width = '600px';
-    player.style.height = '450px';
+    player.style.width = '640px';
+    player.style.height = '480px';
     player.style.zIndex = '10';
     player.style.position = 'absolute';
-    player.style.top = 'calc((100vh - 475px) / 2)';
+    player.style.top = 'calc((100vh - 505px) / 2)';
     gContent.innerHTML = '';
     gContent.appendChild(player);
     player.load(url);
@@ -313,7 +313,9 @@ gameImport.addEventListener('change', (e) => {
 
 function closeG() {
   gContent.style.display = 'none';
+  gContent.innerHTML = '';
   topgBar.style.display = 'none';
+  multiEls[6].innerText = 'Titley';
 }
 </script>
 </body>
