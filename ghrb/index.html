@@ -58,12 +58,16 @@ input {
 } input[type="file"] {
   background: rgba(255, 255, 255, 0.2);
   border-radius: 5px;
-} input[type="file"]::file-selector-button {
+  transition: 0.3s;
+} input[type="file"]:hover {
+  background: rgba(255, 255, 255, 0.3);
+}input[type="file"]::file-selector-button {
   font-family: Exo;
   color: white;
   border: none;
   border-radius: 5px;
   background: #8e00fa;
+  cursor: pointer;
   transition: 0.3s;
 } input[type="file"]::file-selector-button:hover {
   background: #d621ff;
@@ -230,8 +234,8 @@ input {
 <img src="assets/import.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/import.svg'" width="150" class="img">
 <div style="margin: 10px; width: calc(100vw - 400px)">
 <h1 style="display: inline-block; margin: 0;">Import a Game!</h1><hr style="width: calc(100vw - 400px);">
-<p style="display: inline-block; margin: 0; font-size: 14px;">Import a game, either HTML or SWF (Flash), and play it. It will not be saved as a custom game, only a one-time use. All assets must be in the file, and an SWF may not work entirely, as Ruffle may not support some stuff. This is good for data: URLs.</p>
-<input type="file" id="gameImport" style="width: calc(100vw - 400px);">
+<p style="display: inline-block; margin: 0; font-size: 13px;">Import a game, either HTML or SWF (Flash), and play it. It will not be saved as a custom game, only a one-time use. All assets must be in the file, or have sources from the internet, and an SWF may not work entirely, as Ruffle may not support some stuff. This is good for data: URLs.</p>
+<input type="file" accept=".html, .htm, .swf" id="gameImport" style="width: calc(100vw - 400px);">
 </div>
 </div>
 
