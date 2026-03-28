@@ -1,15 +1,316 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <style>
-      body {
-        background: #2f00bd;
-        font-family: Helvetica;
-        color: white;
-      }
-    </style>
-  </head>
-  <body>
-    <p>Hello. This is where you'll see GHRB (GHub Rebirth) soon! :)</p>
-  </body>
+<meta charset="UTF-8">
+<script src="ruffle/ruffle.js" onerror="this.src='https://thegportal.github.io/ghrb/ruffle/ruffle.js'"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Exo:ital,wght@0,100..900;1,100..900&family=Iosevka+Charon+Mono:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+<head>
+<style>
+html, body {
+  background: linear-gradient(to bottom, #2b008f, #1c002e);
+  background-size: 100vw 100vh;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  margin: 0;
+  color: white;
+  font-family: Iosevka Charon Mono, Helvetica;
+  overflow-x: hidden;
+  user-select: none;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+} body::-webkit-scrollbar {
+  display: none;
+}
+
+p {
+  margin: 0;
+  color: white;
+  font-family: Iosevka Charon Mono, Helvetica;
+}
+
+crs {
+  text-decoration: line-through;
+}
+
+button {
+  border: none;
+  color: white;
+  font-family: Exo, Helvetica;
+  font-weight: bold;
+  background: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+} button:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+hr {
+  height: 4px;
+  border: none;
+  border-radius: 2px;
+  background: white;
+}
+
+input {
+  font-family: Exo;
+  color: white;
+  cursor: pointer;
+} input[type="file"] {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+} input[type="file"]::file-selector-button {
+  font-family: Exo;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  background: #8e00fa;
+  transition: 0.3s;
+} input[type="file"]::file-selector-button:hover {
+  background: #d621ff;
+}
+
+#sidebar {
+  position: fixed;
+  width: 200px;
+  height: 100vh;
+  border-right: 2px solid white;
+  border-radius: 0 10px 10px 0;
+  box-sizing: border-box;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 2;
+}
+
+#top-fade {
+  position: fixed;
+  width: 100vw;
+  height: 100px;
+  background: linear-gradient(to top, transparent, rgba(0, 0, 0, 0.6));
+  z-index: 1;
+  pointer-events: none;
+} #top-fade-c {
+  margin-left: 200px;
+  width: calc(100vw - 200px);
+  display: flex;
+  justify-content: flex-end;
+} #top-fade-c img {
+  pointer-events: auto;
+}
+
+#main-content {
+  position: absolute;
+  margin-left: 200px;
+  margin-top: 75px;
+  width: calc(100vw - 200px);
+}
+
+#rm {
+  position: relative;
+  margin-top: -30px;
+  min-width: 200px;
+  min-height: 75px;
+  width: 50%;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  align-content: center;
+  animation-name: pop-up;
+  animation-duration: 0.4s;
+} #rf {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-family: Exo, Helvetica;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#gContent {
+  width: 100vw;
+  height: calc(100vh - 25px);
+  display: none;
+  position: fixed;
+  top: 25px;
+  place-items: center;
+  background: black;
+  z-index: 10;
+}
+
+#top-gBar {
+  width: 100vw;
+  height: 25px;
+  display: block;
+  position: absolute;
+  background: #111;
+  z-index: 11;
+}
+
+@keyframes pop-up {
+  from {
+    transform: scale(0.2);
+  } to {
+    transform: scale(1);
+  }
+}
+
+.top-btn {
+  width: 55px;
+  height: 55px;
+  margin: 10px;
+  border: none;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: 0.3s;
+} .top-btn:hover {
+  background: rgba(255, 255, 255, 0.5);
+  transform: scale(1.1);
+  transition: 0.3s;
+}
+
+.side-selection {
+  width: 188px;
+  height: 25px;
+  margin-bottom: 5px;
+  border: none;
+  border-left: 2px solid white;
+  border-right: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 0 5px 5px 0;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.img {
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.2);
+} .img-btn {
+  cursor: pointer;
+  transition: 0.3s;
+} .img-btn:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+</style>
+</head>
+<body>
+<div id="sidebar">
+<img src="assets/GHub Logo 5 Small.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/GHub%20Logo%205%20Small.svg'" style="width: 180px; margin: 9px;">
+<div id="menus">
+<button id="mb1" class="side-selection" onclick="mainMenu = 0; checkMMenu()">Home</button><br>
+<button id="mb2" class="side-selection" onclick="mainMenu = 1; checkMMenu()">All Games</button><br>
+<button id="mb3" class="side-selection" onclick="mainMenu = 2; checkMMenu()">Custom Games</button><br>
+</div>
+</div>
+<div id="top-fade">
+<div id="top-fade-c">
+<img class="top-btn" src="assets/settings.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/settings.svg'">
+<img class="top-btn" src="assets/download.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/download.svg'">
+</div>
+</div>
+
+<div id="main-content">
+<center>
+
+<div id="me1">
+<img src="assets/GHub Logo 5.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/GHub%20Logo%205.svg'" style="width: 400px;">
+<div id="rm">
+<button id="rf" onclick="makeM()"><img src="assets/refresh.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/refresh.svg'" style="width: 20px; margin-left: -6px; margin-top: -1px;"></button>
+<div id="rmessage" style="min-width: 150px; width: calc(100% - 50px)"></div>
+</div>
+<p>Hello.</p>
+</div>
+
+<div id="me2"></div>
+
+<div id="me3">
+<div style="width: calc(100vw - 240px); margin: 10px; display: flex; align-items: start; padding: 10px; text-align: left; border-radius: 20px; background: rgba(0, 0, 0, 0.3)">
+<img src="assets/import.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/import.svg'" width="150" class="img">
+<div style="margin: 10px; width: calc(100vw - 400px)">
+<h1 style="display: inline-block; margin: 0;">Import a Game!</h1><hr style="width: calc(100vw - 400px);">
+<p style="display: inline-block; margin: 0; font-size: 14px;">Import a game, either HTML or SWF (Flash), and play it. It will not be saved as a custom game, only a one-time use. All assets must be in the file, and an SWF may not work entirely, as Ruffle may not support some stuff. This is good for data: URLs.</p>
+<input type="file" id="gameImport" style="width: calc(100vw - 400px);">
+</div>
+</div>
+
+<img src="assets/addgame.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/addgame.svg'" width="150" class="img img-btn"><br>
+</div>
+</center>
+</div>
+
+<div id="top-gBar">
+<p id="tb1" style="position: absolute; font-size: 18px;">Titley</p>
+<div style="height: 25px; position: absolute; right: 0;">
+<button style="height: 25px; background: red;" onclick="closeG()">X</button>
+</div>
+</div>
+<div id="gContent"></div>
+
+<script src="assets/rmessage.js" onerror="this.src='https://thegportal.github.io/ghrb/assets/rmessage.js'"></script>
+<script>
+let mainMenu = 0;
+let menuSelect = document.getElementById("menus");
+let gameImport = document.getElementById("gameImport");
+let gContent = document.getElementById("gContent");
+let topgBar = document.getElementById("top-gBar");
+let multiEls = Array(
+document.getElementById("mb1"),
+document.getElementById("mb2"),
+document.getElementById("mb3"),
+document.getElementById("me1"),
+document.getElementById("me2"),
+document.getElementById("me3"),
+document.getElementById("tb1"),
+);
+
+function checkMMenu() {
+  for (let i = 0; i < 3; i++) {
+    multiEls[i].style.borderLeft = "2px solid white";
+  }
+  multiEls[mainMenu].style.borderLeft = "7px solid #14a1ff";
+  for (let i = 3; i < 6; i++) {
+    multiEls[i].style.display = "none";
+  }
+  multiEls[3 + mainMenu].style.display = "block";
+}
+
+checkMMenu();
+
+gameImport.addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  multiEls[6].innerText = file.name;
+  gContent.style.display = 'grid';
+  topgBar.style.display = 'block';
+  gContent.style.position = 'fixed';
+  if (file.type == 'text/html') {
+    const url = URL.createObjectURL(file);
+    gContent.innerHTML = '';
+    gContent.innerHTML += `<embed src="${url}" style="width: 100vw; height: calc(100vh - 25px); position: absolute; top: 25px;">`;
+  } else if (file.type == 'application/x-shockwave-flash') {
+    const url = URL.createObjectURL(file);
+    const ruffle = window.RufflePlayer.newest();
+    const player = ruffle.createPlayer();
+    player.style.width = '600px';
+    player.style.height = '450px';
+    player.style.zIndex = '10';
+    player.style.position = 'absolute';
+    player.style.top = 'calc((100vh - 475px) / 2)';
+    gContent.innerHTML = '';
+    gContent.appendChild(player);
+    player.load(url);
+  } else {
+    window.alert('Only HTML and SWF files are allowed.');
+    gContent.style.display = 'none';
+    topgBar.style.display = 'none';
+  }
+});
+
+function closeG() {
+  gContent.style.display = 'none';
+  topgBar.style.display = 'none';
+}
+</script>
+</body>
 </html>
