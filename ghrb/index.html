@@ -53,11 +53,10 @@ hr {
 
 input {
   font-family: Exo;
-  color: white;
-  cursor: pointer;
 } input[type="file"] {
   background: rgba(255, 255, 255, 0.2);
   border-radius: 5px;
+  cursor: pointer;
   transition: 0.3s;
 } input[type="file"]:hover {
   background: rgba(255, 255, 255, 0.3);
@@ -71,6 +70,16 @@ input {
   transition: 0.3s;
 } input[type="file"]::file-selector-button:hover {
   background: #d621ff;
+} input[type="text"] {
+  width: 205px;
+  margin: 5px;
+  border: 2px solid #8000ff;
+  border-radius: 5px;
+  outline: none;
+} input[type="color"] {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 #sidebar {
@@ -144,12 +153,41 @@ input {
 }
 
 #top-gBar {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100vw;
   height: 25px;
   display: none;
   position: absolute;
   background: #111;
   z-index: 11;
+}
+
+#blur-bg {
+  display: none;
+  position: fixed;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  z-index: 12;
+}
+
+#addGame {
+  display: none;
+  position: fixed;
+  top: 50vh;
+  left: 50vw;
+  transform: translate(-50%, -50%);
+  padding: 10px;
+  width: 80vw;
+  height: 80vh;
+  border: 1px solid #003ea1;
+  border-radius: 15px;
+  background: rgba(0, 20, 54, 0.6);
+  z-index: 12;
 }
 
 @keyframes pop-up {
@@ -186,6 +224,8 @@ input {
   box-sizing: border-box;
   cursor: pointer;
   transition: 0.3s;
+} .side-selection:hover {
+  border-right: 7px solid rgba(255, 255, 255, 0.5);
 }
 
 .img {
@@ -197,6 +237,25 @@ input {
 } .img-btn:hover {
   background: rgba(255, 255, 255, 0.5);
 }
+
+.icon-img {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  border: none;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.game-select {
+  display: inline-block;
+  margin: 10px;
+  width: 300px;
+  height: 170px;
+  padding: 5px;
+  border-radius: 15px;
+  background: rgba(0, 0, 0, 0.3);
+}
 </style>
 </head>
 <body>
@@ -206,12 +265,13 @@ input {
 <button id="mb1" class="side-selection" onclick="mainMenu = 0; checkMMenu()">Home</button><br>
 <button id="mb2" class="side-selection" onclick="mainMenu = 1; checkMMenu()">All Games</button><br>
 <button id="mb3" class="side-selection" onclick="mainMenu = 2; checkMMenu()">Custom Games</button><br>
+<button id="mb4" class="side-selection" onclick="mainMenu = 3; checkMMenu()">Forms & More</button><br>
 </div>
 </div>
 <div id="top-fade">
 <div id="top-fade-c">
-<img class="top-btn" src="assets/settings.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/settings.svg'">
-<img class="top-btn" src="assets/download.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/download.svg'">
+<img class="top-btn" src="assets/settings.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/settings.svg'" title="Settings">
+<img class="top-btn" src="assets/download.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/download.svg'" title="Download and Share GHRB">
 </div>
 </div>
 
@@ -238,13 +298,20 @@ input {
 <input type="file" accept=".html, .htm, .swf" id="gameImport" style="width: calc(100vw - 400px);">
 </div>
 </div>
-
-<img src="assets/addgame.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/addgame.svg'" width="150" class="img img-btn"><br>
+<img src="assets/addgame.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/addgame.svg'" width="150" class="img img-btn" onclick="openEls(['blur-bg','addGame']);document.body.style.overflow='hidden'" title="Add a Custom Game">
+<img src="assets/delete.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/delete.svg'" width="150" class="img img-btn" onclick="deleteAG()" title="Delete All Custom Games">
+<img src="assets/export.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/addgame.svg'" width="150" class="img img-btn" onclick="exportG()" title="Export Custom Game Data as JSON"><br>
+<p>Import from JSON (This will not delete existing custom games):</p>
+<input type="file" accept=".json" id="jsonImport" style="width: 250px;">
+<hr style="width: calc(100vw - 220px); margin: 10px;">
+<div id="cg"></div>
 </div>
+
+<div id="me4"></div>
 </center>
 </div>
 
-<div id="top-gBar">
+<div id="top-gBar" style="position: fixed;">
 <p id="tb1" style="position: absolute; font-size: 18px;">Titley</p>
 <div style="height: 25px; position: absolute; right: 0;">
 <button style="height: 25px; background: red;" onclick="closeG()">X</button>
@@ -252,45 +319,80 @@ input {
 </div>
 <div id="gContent"></div>
 
+<div id="blur-bg"></div>
+<div id="addGame">
+<img src="assets/close.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/close.svg'" class="img img-btn" style="width: 30px; border-radius: 7px;" onclick="closeEls(['addGame','blur-bg']);wipeEls(['pIURL','tI','gURL','wI','hI']);document.body.style.overflow='auto'">
+<center>
+<p>Preview:</p>
+<div class="game-select">
+<img id="preImg" class="icon-img">
+<p id="preTitle">Title</p>
+</div><br>
+<input type="text" placeholder="Icon URL (Supports data: URLs)" id="pIURL">
+<input type="text" placeholder="Game Title" id="tI"><br>
+<hr>
+<input type="text" placeholder="Game URL (Also supports .swf files)" style="width: 300px;" id="gURL"><br>
+<input type="text" placeholder="Width (px or %; ex: 900px, 80%)" id="wI">
+<input type="text" placeholder="Height (px or %; ex: 900px, 80%)" id="hI"><br>
+<p>BG Color (Color of a transparent bg in a document):</p>
+<input type="color" id="bgI"><hr>
+<button style="width: 200px; height: 50px; border-radius: 15px; background: #3498c9;" onclick="addG()">Save</button>
+</center>
+</div>
+
 <script src="assets/rmessage.js" onerror="this.src='https://thegportal.github.io/ghrb/assets/rmessage.js'"></script>
 <script>
 let mainMenu = 0;
 let menuSelect = document.getElementById("menus");
 let gameImport = document.getElementById("gameImport");
+let jsonImport = document.getElementById("jsonImport");
 let gContent = document.getElementById("gContent");
 let topgBar = document.getElementById("top-gBar");
+let preImg = document.getElementById("preImg");
+let preTitle = document.getElementById("preTitle");
+let gURL = document.getElementById("gURL");
+let pIURL = document.getElementById("pIURL");
+let tI = document.getElementById("tI");
+let hI = document.getElementById("hI");
+let wI = document.getElementById("wI");
+let bgI = document.getElementById("bgI");
 let multiEls = Array(
 document.getElementById("mb1"),
 document.getElementById("mb2"),
 document.getElementById("mb3"),
+document.getElementById("mb4"),
 document.getElementById("me1"),
 document.getElementById("me2"),
 document.getElementById("me3"),
+document.getElementById("me4"),
 document.getElementById("tb1"),
 );
 
 function checkMMenu() {
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 4; i++) {
     multiEls[i].style.borderLeft = "2px solid white";
   }
   multiEls[mainMenu].style.borderLeft = "7px solid #14a1ff";
-  for (let i = 3; i < 6; i++) {
+  for (let i = 4; i < 8; i++) {
     multiEls[i].style.display = "none";
   }
-  multiEls[3 + mainMenu].style.display = "block";
+  multiEls[4 + mainMenu].style.display = "block";
 }
 
 checkMMenu();
 
 gameImport.addEventListener('change', (e) => {
   const file = e.target.files[0];
-  multiEls[6].innerText = file.name;
+  multiEls[8].innerText = file.name;
   gContent.style.display = 'grid';
   topgBar.style.display = 'block';
   gContent.style.position = 'fixed';
+  topgBar.style.position = 'fixed';
+  gameImport.value = '';
   if (file.type == 'text/html') {
     const url = URL.createObjectURL(file);
     gContent.innerHTML = '';
+    gContent.style.background = 'white';
     gContent.innerHTML += `<embed src="${url}" style="width: 100vw; height: calc(100vh - 25px); position: absolute; top: 25px;">`;
   } else if (file.type == 'application/x-shockwave-flash') {
     const url = URL.createObjectURL(file);
@@ -302,6 +404,7 @@ gameImport.addEventListener('change', (e) => {
     player.style.position = 'absolute';
     player.style.top = 'calc((100vh - 505px) / 2)';
     gContent.innerHTML = '';
+    gContent.style.background = 'black';
     gContent.appendChild(player);
     player.load(url);
   } else {
@@ -311,12 +414,160 @@ gameImport.addEventListener('change', (e) => {
   }
 });
 
+pIURL.addEventListener('change', () => {
+  preImg.src = pIURL.value.startsWith('https://') || pIURL.value.startsWith('data:') ? pIURL.value : 'https://' + pIURL.value;;
+});
+
+tI.addEventListener('change', () => {
+  preTitle.innerText = tI.value != '' ? tI.value : 'Title';
+});
+
+function addGm(el, sourc, titl, sourcP, wid, hei, bgCol) {
+  document.getElementById(el).innerHTML += `<div class="game-select" onclick="openG('${sourc}', '${wid}', '${hei}', '${bgCol}', '${titl}')">
+  <img id="preImg" class="icon-img" src="${sourcP}">
+  <p id="preTitle">${titl}</p>
+  </div>`;
+}
+
 function closeG() {
   gContent.style.display = 'none';
   gContent.innerHTML = '';
+  gContent.style.background = 'black';
   topgBar.style.display = 'none';
-  multiEls[6].innerText = 'Titley';
+  multiEls[8].innerText = 'Titley';
 }
+
+function openG(sourc, wid, hei, bgCol, titl) {
+  gContent.innerHTML = '';
+  let g = document.createElement('embed');
+  g.src = sourc;
+  g.style.width = wid.includes('%') && parseInt(wid) > 100 ? '100%' : wid;
+  g.style.height = hei.includes('%') && parseInt(hei) > 100 ? '100%' : hei;
+  gContent.appendChild(g);
+  gContent.style.background = bgCol;
+  gContent.style.display = 'block';
+  topgBar.style.display = 'block';
+  multiEls[8].innerText = titl;
+}
+
+function openEls(el) {
+  el.forEach((e) => {
+    document.getElementById(e).style.display = 'block';
+  });
+}
+
+function closeEls(el) {
+  el.forEach((e) => {
+    document.getElementById(e).style.display = 'none';
+  });
+}
+
+function wipeEls(el) {
+  el.forEach((e) => {
+    document.getElementById(e).innerHTML = '';
+  });
+}
+
+//AFTER THIS POINT, FUNCTIONS UTILISE INDEXEDDB AND/OR LOCALSTORAGE. THESE FEATURES WILL NOT WORK ON DATA: URLS.
+
+const request = indexedDB.open("GData", 1);
+
+request.onupgradeneeded = function (event) {
+  const db = event.target.result;
+  const store = db.createObjectStore("dataG", { keyPath: "id" });
+  store.add({
+    id: 1,
+    items: []
+  });
+};
+
+function addG() {
+  if (gURL.value != '' && tI.value != '' && wI.value != '' && hI.value != '') {
+    let sourc = gURL.value.startsWith('https://') || gURL.value.startsWith('data:') ? gURL.value : 'https://' + gURL.value;
+    let titl = tI.value;
+    let sourcP = pIURL.value.startsWith('https://') || pIURL.value.startsWith('data:') ? pIURL.value : 'https://' + pIURL.value;
+    let wid = wI.value.includes("px") || wI.value.includes("%") ? wI.value : wI.value + 'px';
+    let hei = hI.value.includes("px") || hI.value.includes("%") ? hI.value : hI.value + 'px';
+    let bgCol = bgI.value;
+    addGm('cg', sourc, titl, sourcP, wid, hei, bgCol);
+    const request = indexedDB.open("GData", 1);
+    request.onsuccess = function (event) {
+      const db = event.target.result;
+      const tx = db.transaction("dataG", "readwrite");
+      const store = tx.objectStore("dataG");
+      const getReq = store.get(1);
+      getReq.onsuccess = function () {
+        const data = getReq.result;
+        console.log(data);
+        data.items.push([sourc, titl, sourcP, wid, hei, bgCol]);
+        store.put(data);
+      };
+    };
+  }
+}
+
+function deleteAG() {
+  if (window.confirm("Are you sure you want to delete ALL custom games?")) {
+    const DBDeleteRequest = window.indexedDB.deleteDatabase("GData");
+    DBDeleteRequest.onerror = (event) => {
+      console.error("Error deleting database.");
+    };
+    document.getElementById('cg').innerHTML = '';
+  }
+}
+
+function exportG() {
+  let request = indexedDB.open("GData", 1);
+    request.onsuccess = function (event) {
+    let db = event.target.result;
+    let tx = db.transaction("dataG", "readwrite");
+    let store = tx.objectStore("dataG");
+    let getReq = store.get(1);
+    getReq.onsuccess = function () {
+      let data = getReq.result;
+      let dataStr = JSON.stringify(data, null, 2);
+      let dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
+      let exportFileDefaultName = 'gdata.json';
+      let linkElement = document.createElement('a');
+      linkElement.setAttribute('href', dataUri);
+      linkElement.setAttribute('download', exportFileDefaultName);
+      linkElement.click();
+    };
+  }
+}
+
+jsonImport.addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (file && file.type == 'application/json') {
+    const reader = new FileReader();
+    reader.onload = (e1) => {
+      try {
+        const jsonData = JSON.parse(e1.target.result);
+        jsonData.items.forEach((e2) => {
+          addGm('cg', e2[0], e2[1], e2[2], e2[3], e2[4], e2[5]);
+        });
+        const request = indexedDB.open("GData", 1);
+        request.onsuccess = function (event) {
+          const db = event.target.result;
+          const tx = db.transaction("dataG", "readwrite");
+          const store = tx.objectStore("dataG");
+          const getReq = store.get(1);
+          getReq.onsuccess = function () {
+            const data = getReq.result;
+            data.items.push(jsonData);
+            store.put(data);
+          };
+        };
+      } catch (error) {
+        window.alert("Invalid JSON file");
+        console.error(error);
+      }
+    };
+    reader.readAsText(file);
+  } else {
+    window.alert('Only JSON files are allowed.');
+  }
+});
 </script>
 </body>
 </html>
