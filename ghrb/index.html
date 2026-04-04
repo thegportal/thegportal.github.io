@@ -258,14 +258,17 @@ input {
   display: inline-block;
   position: relative;
   overflow: hidden;
+  overflow-wrap: break-word;
+  align-content: center;
   bottom: 0;
   margin: 10px;
-  width: 290px;
+  width: 250px;
   height: 180px;
   padding: 10px;
   border: none;
   border-radius: 15px;
   background: rgba(0, 0, 0, 0.3);
+  font-size: 13.5px;
   cursor: pointer;
   transition: 0.3s;
 } .game-select:hover {
@@ -374,7 +377,7 @@ input {
 </center>
 </div>
 
-<script src="assets/rmessage.js" onerror="this.src='https://thegportal.github.io/ghrb/assets/rmessage.js'"></script>
+<script src="assets/rmessage.js" onerror="this.remove;document.body.appendChild(this.outerHTML)"></script>
 <script>
 let mainMenu = 0;
 let menuSelect = document.getElementById("menus");
@@ -530,8 +533,8 @@ request.onsuccess = (event) => {
   const getReq = store.get(1);
   getReq.onsuccess = function () {
     const data = getReq.result;
-    console.log(data);
-    data.items.forEach((e) => {
+    console.log(data.items);
+    data.items.forEach((e, i) => {
       addGm('cg', e[0], e[1], e[2], e[3], e[4], e[5]);
     });
   };
@@ -563,7 +566,6 @@ function addG() {
       const getReq = store.get(1);
       getReq.onsuccess = function () {
         const data = getReq.result;
-        console.log(data);
         data.items.push([sourc, titl, sourcP, wid, hei, bgCol]);
         store.put(data);
       };
@@ -573,9 +575,17 @@ function addG() {
 
 function deleteAG() {
   if (window.confirm('Are you sure you want to delete ALL custom games?')) {
-    const DBDeleteRequest = window.indexedDB.deleteDatabase('GData');
-    DBDeleteRequest.onerror = (event) => {
-      console.error('Error deleting database.');
+    const request = indexedDB.open('GData', 1);
+    request.onsuccess = function (event) {
+      const db = event.target.result;
+      const tx = db.transaction('dataG', 'readwrite');
+      const store = tx.objectStore('dataG');
+      const getReq = store.get(1);
+      getReq.onsuccess = function () {
+        const data = getReq.result;
+        data.items = [];
+        store.put(data);
+      };
     };
     document.getElementById('cg').innerHTML = '';
   }
@@ -603,6 +613,7 @@ function exportG() {
 
 jsonImport.addEventListener('change', (e) => {
   const file = e.target.files[0];
+  gameImport.value = '';
   if (file && file.type == 'application/json') {
     const reader = new FileReader();
     reader.onload = (e1) => {
@@ -619,7 +630,9 @@ jsonImport.addEventListener('change', (e) => {
           const getReq = store.get(1);
           getReq.onsuccess = function () {
             const data = getReq.result;
-            data.items.push(jsonData);
+            jsonData.items.forEach((e, i) => {
+              data.items.push(jsonData.items[i]);
+            });
             store.put(data);
           };
         };
