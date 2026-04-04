@@ -5,7 +5,7 @@ fetch('https://thegportal.github.io/ghrb/index.html')
   })
   .then(data => {
     console.log(data);
-    window.open('.').document.write(data);
+    window.open('/').document.write(data);
     document.body.innerHTML = '<p>This window can now be closed :)</p>';
   })
   .catch(error => {
