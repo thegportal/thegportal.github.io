@@ -178,6 +178,7 @@ input {
 #addGame {
   display: none;
   position: fixed;
+  overflow: scroll;
   top: 50vh;
   left: 50vw;
   transform: translate(-50%, -50%);
@@ -188,6 +189,10 @@ input {
   border-radius: 15px;
   background: rgba(0, 20, 54, 0.6);
   z-index: 12;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+} #addGame::-webkit-scrollbar {
+  display: none;
 }
 
 @keyframes pop-up {
@@ -210,7 +215,6 @@ input {
 } .top-btn:hover {
   background: rgba(255, 255, 255, 0.5);
   transform: scale(1.1);
-  transition: 0.3s;
 }
 
 .side-selection {
@@ -245,16 +249,37 @@ input {
   border: none;
   border-radius: 15px;
   background: rgba(255, 255, 255, 0.3);
+  transition: 0.3s;
+} .icon-img:hover {
+  transform: scale(1.05);
 }
 
 .game-select {
   display: inline-block;
+  position: relative;
+  overflow: hidden;
+  bottom: 0;
   margin: 10px;
-  width: 300px;
-  height: 170px;
-  padding: 5px;
+  width: 290px;
+  height: 180px;
+  padding: 10px;
+  border: none;
   border-radius: 15px;
   background: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: 0.3s;
+} .game-select:hover {
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.4);
+  outline: 3px solid white;
+  outline-offset: -3px;
+  bottom: 10px;
+  background: rgba(0, 0, 0, 0.6);
+  transform: scale(1.05);
+}
+
+.gs {
+  display: block;
+  align-content: start;
 }
 </style>
 </head>
@@ -265,7 +290,8 @@ input {
 <button id="mb1" class="side-selection" onclick="mainMenu = 0; checkMMenu()">Home</button><br>
 <button id="mb2" class="side-selection" onclick="mainMenu = 1; checkMMenu()">All Games</button><br>
 <button id="mb3" class="side-selection" onclick="mainMenu = 2; checkMMenu()">Custom Games</button><br>
-<button id="mb4" class="side-selection" onclick="mainMenu = 3; checkMMenu()">Forms & More</button><br>
+<button id="mb4" class="side-selection" onclick="mainMenu = 3; checkMMenu()">Proxies</button><br>
+<button id="mb5" class="side-selection" onclick="mainMenu = 4; checkMMenu()">Forms & More</button><br>
 </div>
 </div>
 <div id="top-fade">
@@ -287,7 +313,10 @@ input {
 <p>Hello.</p>
 </div>
 
-<div id="me2"></div>
+<div id="me2">
+<h1>All Games :)</h1>
+<div id="ag" class="gs"></div>
+</div>
 
 <div id="me3">
 <div style="width: calc(100vw - 240px); margin: 10px; display: flex; align-items: start; padding: 10px; text-align: left; border-radius: 20px; background: rgba(0, 0, 0, 0.3)">
@@ -304,10 +333,15 @@ input {
 <p>Import from JSON (This will not delete existing custom games):</p>
 <input type="file" accept=".json" id="jsonImport" style="width: 250px;">
 <hr style="width: calc(100vw - 220px); margin: 10px;">
-<div id="cg"></div>
+<div id="cg" class="gs"></div>
 </div>
 
-<div id="me4"></div>
+<div id="me4">
+<h1>Proxies :)</h1>
+<div id="pr" class="gs"></div>
+</div>
+
+<div id="me5"></div>
 </center>
 </div>
 
@@ -361,22 +395,32 @@ document.getElementById("mb1"),
 document.getElementById("mb2"),
 document.getElementById("mb3"),
 document.getElementById("mb4"),
+document.getElementById("mb5"),
 document.getElementById("me1"),
 document.getElementById("me2"),
 document.getElementById("me3"),
 document.getElementById("me4"),
-document.getElementById("tb1"),
+document.getElementById("me5"),
+document.getElementById("tb1")
+);
+
+gms = Array(
+  //All Games
+  
+  //Proxies
+  ['pr', 'https://fern.best/', 'Fern', 'https://avatars.githubusercontent.com/u/112173820?s=200&v=4', '100%', '100%', '#000'],
+  ['pr', 'https://www.croxyproxy.com/', 'CroxyProxy', 'https://avatars.githubusercontent.com/u/45306907?v=4', '100%', '100%', '#fff']
 );
 
 function checkMMenu() {
-  for (let i = 0; i < 4; i++) {
-    multiEls[i].style.borderLeft = "2px solid white";
+  for (let i = 0; i < 5; i++) {
+    multiEls[i].style.borderLeft = '2px solid white';
   }
-  multiEls[mainMenu].style.borderLeft = "7px solid #14a1ff";
-  for (let i = 4; i < 8; i++) {
-    multiEls[i].style.display = "none";
+  multiEls[mainMenu].style.borderLeft = '7px solid #14a1ff';
+  for (let i = 5; i < 10; i++) {
+    multiEls[i].style.display = 'none';
   }
-  multiEls[4 + mainMenu].style.display = "block";
+  multiEls[5 + mainMenu].style.display = 'block';
 }
 
 checkMMenu();
@@ -424,17 +468,24 @@ tI.addEventListener('change', () => {
 
 function addGm(el, sourc, titl, sourcP, wid, hei, bgCol) {
   document.getElementById(el).innerHTML += `<div class="game-select" onclick="openG('${sourc}', '${wid}', '${hei}', '${bgCol}', '${titl}')">
-  <img id="preImg" class="icon-img" src="${sourcP}">
+  <img id="preImg" class="icon-img" src="${sourcP}" onerror="this.src='https://thegportal.github.io/ghrb/assets/error.svg'">
   <p id="preTitle">${titl}</p>
   </div>`;
 }
+
+gms.forEach((ar) => {
+  document.getElementById(ar[0]).innerHTML += `<div class="game-select" onclick="openG('${ar[1]}', '${ar[4]}', '${ar[5]}', '${ar[6]}', '${ar[2]}')">
+  <img id="preImg" class="icon-img" src="${ar[3]}" onerror="this.src='https://thegportal.github.io/ghrb/assets/error.svg'">
+  <p id="preTitle">${ar[2]}</p>
+  </div>`;
+});
 
 function closeG() {
   gContent.style.display = 'none';
   gContent.innerHTML = '';
   gContent.style.background = 'black';
   topgBar.style.display = 'none';
-  multiEls[8].innerText = 'Titley';
+  multiEls[10].innerText = 'Titley';
 }
 
 function openG(sourc, wid, hei, bgCol, titl) {
@@ -447,7 +498,7 @@ function openG(sourc, wid, hei, bgCol, titl) {
   gContent.style.background = bgCol;
   gContent.style.display = 'block';
   topgBar.style.display = 'block';
-  multiEls[8].innerText = titl;
+  multiEls[10].innerText = titl;
 }
 
 function openEls(el) {
@@ -470,11 +521,25 @@ function wipeEls(el) {
 
 //AFTER THIS POINT, FUNCTIONS UTILISE INDEXEDDB AND/OR LOCALSTORAGE. THESE FEATURES WILL NOT WORK ON DATA: URLS.
 
-const request = indexedDB.open("GData", 1);
+const request = indexedDB.open('GData', 1);
+
+request.onsuccess = (event) => {
+  const db = event.target.result;
+  const tx = db.transaction('dataG', 'readonly');
+  const store = tx.objectStore('dataG');
+  const getReq = store.get(1);
+  getReq.onsuccess = function () {
+    const data = getReq.result;
+    console.log(data);
+    data.items.forEach((e) => {
+      addGm('cg', e[0], e[1], e[2], e[3], e[4], e[5]);
+    });
+  };
+};
 
 request.onupgradeneeded = function (event) {
   const db = event.target.result;
-  const store = db.createObjectStore("dataG", { keyPath: "id" });
+  const store = db.createObjectStore('dataG', { keyPath: 'id' });
   store.add({
     id: 1,
     items: []
@@ -490,11 +555,11 @@ function addG() {
     let hei = hI.value.includes("px") || hI.value.includes("%") ? hI.value : hI.value + 'px';
     let bgCol = bgI.value;
     addGm('cg', sourc, titl, sourcP, wid, hei, bgCol);
-    const request = indexedDB.open("GData", 1);
+    const request = indexedDB.open('GData', 1);
     request.onsuccess = function (event) {
       const db = event.target.result;
-      const tx = db.transaction("dataG", "readwrite");
-      const store = tx.objectStore("dataG");
+      const tx = db.transaction('dataG', 'readwrite');
+      const store = tx.objectStore('dataG');
       const getReq = store.get(1);
       getReq.onsuccess = function () {
         const data = getReq.result;
@@ -507,21 +572,21 @@ function addG() {
 }
 
 function deleteAG() {
-  if (window.confirm("Are you sure you want to delete ALL custom games?")) {
-    const DBDeleteRequest = window.indexedDB.deleteDatabase("GData");
+  if (window.confirm('Are you sure you want to delete ALL custom games?')) {
+    const DBDeleteRequest = window.indexedDB.deleteDatabase('GData');
     DBDeleteRequest.onerror = (event) => {
-      console.error("Error deleting database.");
+      console.error('Error deleting database.');
     };
     document.getElementById('cg').innerHTML = '';
   }
 }
 
 function exportG() {
-  let request = indexedDB.open("GData", 1);
+  let request = indexedDB.open('GData', 1);
     request.onsuccess = function (event) {
     let db = event.target.result;
-    let tx = db.transaction("dataG", "readwrite");
-    let store = tx.objectStore("dataG");
+    let tx = db.transaction('dataG', 'readwrite');
+    let store = tx.objectStore('dataG');
     let getReq = store.get(1);
     getReq.onsuccess = function () {
       let data = getReq.result;
@@ -546,11 +611,11 @@ jsonImport.addEventListener('change', (e) => {
         jsonData.items.forEach((e2) => {
           addGm('cg', e2[0], e2[1], e2[2], e2[3], e2[4], e2[5]);
         });
-        const request = indexedDB.open("GData", 1);
+        const request = indexedDB.open('GData', 1);
         request.onsuccess = function (event) {
           const db = event.target.result;
-          const tx = db.transaction("dataG", "readwrite");
-          const store = tx.objectStore("dataG");
+          const tx = db.transaction('dataG', 'readwrite');
+          const store = tx.objectStore('dataG');
           const getReq = store.get(1);
           getReq.onsuccess = function () {
             const data = getReq.result;
@@ -559,7 +624,7 @@ jsonImport.addEventListener('change', (e) => {
           };
         };
       } catch (error) {
-        window.alert("Invalid JSON file");
+        window.alert('Invalid JSON file');
         console.error(error);
       }
     };
