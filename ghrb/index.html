@@ -168,6 +168,8 @@ input {
   width: 100vw;
   height: calc(100vh - 25px);
   display: none;
+  justify-content: center;
+  align-items: center;
   position: fixed;
   top: 25px;
   place-items: center;
@@ -339,7 +341,7 @@ input {
 <div id="rm">
 <button id="rf" onclick="makeM()"><img src="assets/refresh.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/refresh.svg'" style="width: 20px; margin-left: -6px; margin-top: -1px; cursor: pointer;"></button>
 <button id="cb" onclick="copy()"><img src="assets/copy.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/copy.svg'" style="width: 20px; margin-left: -6px; margin-top: -1px; cursor: pointer;"></button>
-<div id="rmessage" style="min-width: 150px; width: calc(100% - 50px); overflow-wrap: break-word;"></div>
+<div id="rmessage" style="min-width: 150px; width: calc(100% - 50px); overflow-wrap: break-word; pointer-events: none;"></div>
 </div>
 <p>Hello.</p>
 </div>
@@ -398,14 +400,16 @@ input {
 <hr>
 <input type="text" placeholder="Game URL (Also supports .swf files)" style="width: 300px;" id="gURL"><br>
 <p style="display: inline-block; margin: 0;">or choose an HTML or SWF (Unfinished):</p>
-<input type="file" accept=".html, .htm, .swf">
+<input type="file" accept=".html, .htm, .swf" id="fInput">
 <hr>
 <input type="text" placeholder="Width (px or %; ex: 900px, 80%)" id="wI">
 <input type="text" placeholder="Height (px or %; ex: 900px, 80%)" id="hI"><br>
 <p>BG Color (Color of a transparent bg in a document):</p>
 <input type="color" id="bgI"><hr>
+<p>Opening without saving can be used in data: URLs, the others not.</p>
 <button style="width: 200px; height: 50px; border-radius: 15px; background: #3498c9;" onclick="addG(0)">Save</button>
 <button style="width: 200px; height: 50px; border-radius: 15px; background: #34c966;" onclick="addG(1)">Save and Close</button>
+<button style="width: 200px; height: 50px; border-radius: 15px; background: #e3da32;" onclick="oG()">Open Without Saving</button>
 </center>
 </div>
 
@@ -420,6 +424,7 @@ let topgBar = document.getElementById("top-gBar");
 let preImg = document.getElementById("preImg");
 let preTitle = document.getElementById("preTitle");
 let gURL = document.getElementById("gURL");
+let fInput = document.getElementById("fInput");
 let pIURL = document.getElementById("pIURL");
 let tI = document.getElementById("tI");
 let hI = document.getElementById("hI");
@@ -463,7 +468,7 @@ checkMMenu();
 gameImport.addEventListener('change', (e) => {
   const file = e.target.files[0];
   multiEls[8].innerText = file.name;
-  gContent.style.display = 'grid';
+  gContent.style.display = 'flex';
   topgBar.style.display = 'block';
   gContent.style.position = 'fixed';
   topgBar.style.position = 'fixed';
@@ -493,6 +498,20 @@ gameImport.addEventListener('change', (e) => {
   }
 });
 
+fInput.addEventListener('change', (event) => {
+  const file = event.target.files[0];
+  if (file.type == 'text/html' || file.type == 'application/x-shockwave-flash') {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const dataUri = reader.result; 
+      gURL.value = dataUri;
+    };
+    reader.readAsDataURL(file);
+  } else {
+    window.alert('Error: Either failed to load file, or it wasn\'t HTML or SWF :(');
+  }
+});
+
 pIURL.addEventListener('change', () => {
   preImg.src = pIURL.value.startsWith('https://') || pIURL.value.startsWith('data:') ? pIURL.value : 'https://' + pIURL.value;;
 });
@@ -515,6 +534,18 @@ gms.forEach((ar) => {
   </div>`;
 });
 
+function dB(d) {
+  var sD = d.split(',');
+  var byteString = atob(sD[1]);
+  var mimeString = sD[0].split(':')[1].split(';')[0];
+  var ab = new ArrayBuffer(byteString.length);
+  var ia = new Uint8Array(ab);
+  for (var i = 0; i < byteString.length; i++) {
+    ia[i] = byteString.charCodeAt(i);
+  }
+  return new Blob([ab], { type: mimeString });
+}
+
 function closeG() {
   gContent.style.display = 'none';
   gContent.innerHTML = '';
@@ -525,15 +556,36 @@ function closeG() {
 
 function openG(sourc, wid, hei, bgCol, titl) {
   gContent.innerHTML = '';
-  let g = document.createElement('embed');
-  g.src = sourc;
-  g.style.width = wid.includes('%') && parseInt(wid) > 100 ? '100%' : wid;
-  g.style.height = hei.includes('%') && parseInt(hei) > 100 ? '100%' : hei;
-  gContent.appendChild(g);
-  gContent.style.background = bgCol;
-  gContent.style.display = 'block';
-  topgBar.style.display = 'block';
-  multiEls[10].innerText = titl;
+  if (!sourc.startsWith('data:application/x-shockwave-flash') && !sourc.startsWith('data:application/x-shockwave-flash')) {
+    let g = document.createElement('embed');
+    g.src = sourc;
+    g.style.width = wid.includes('%') && parseInt(wid) > 100 ? '100%' : wid;
+    g.style.height = hei.includes('%') && parseInt(hei) > 100 ? '100%' : hei;
+    gContent.appendChild(g);
+    gContent.style.background = bgCol;
+    gContent.style.display = 'flex';
+    topgBar.style.display = 'block';
+    multiEls[10].innerText = titl;
+  } else {
+    const base64Data = sourc.split(',')[1];
+    const binaryString = window.atob(base64Data);
+    const len = binaryString.length;
+    const bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
+    const ruffle = window.RufflePlayer.newest();
+    const player = ruffle.createPlayer();
+    player.style.width = '640px';
+    player.style.height = '480px';
+    player.style.zIndex = '10';
+    player.style.position = 'absolute';
+    player.style.top = 'calc((100vh - 505px) / 2)';
+    gContent.innerHTML = '';
+    gContent.style.background = 'black';
+    gContent.appendChild(player);
+    player.load({data: bytes})
+  }
 }
 
 function openEls(el) {
@@ -565,7 +617,6 @@ request.onsuccess = (event) => {
   const getReq = store.get(1);
   getReq.onsuccess = function () {
     const data = getReq.result;
-    console.log(data.items);
     data.items.forEach((e, i) => {
       addGm('cg', e[0], e[1], e[2], e[3], e[4], e[5]);
     });
@@ -584,10 +635,10 @@ request.onupgradeneeded = function (event) {
 function addG(cl) {
   if (gURL.value != '' && tI.value != '' && wI.value != '' && hI.value != '') {
     let sourc = gURL.value.startsWith('https://') || gURL.value.startsWith('data:') ? gURL.value : 'https://' + gURL.value;
-    let titl = tI.value;
+    let titl = tI.value.replaceAll('\'', '\\\'');
     let sourcP = pIURL.value.startsWith('https://') || pIURL.value.startsWith('data:') ? pIURL.value : 'https://' + pIURL.value;
-    let wid = wI.value.includes("px") || wI.value.includes("%") ? wI.value : wI.value + 'px';
-    let hei = hI.value.includes("px") || hI.value.includes("%") ? hI.value : hI.value + 'px';
+    let wid = wI.value.includes('px') || wI.value.includes('%') ? wI.value : wI.value + 'px';
+    let hei = hI.value.includes('px') || hI.value.includes('%') ? hI.value : hI.value + 'px';
     let bgCol = bgI.value;
     addGm('cg', sourc, titl, sourcP, wid, hei, bgCol);
     const request = indexedDB.open('GData', 1);
