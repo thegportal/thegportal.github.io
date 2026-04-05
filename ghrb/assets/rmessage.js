@@ -184,7 +184,10 @@ var items = Array(
 'Giggles!',
 'Fun fact: GHub was originally named GameHub! It was first shortened to GHub on the 18th of March, 2024, 12 days after its release :)',
 'I\'d say GHub\'s prime was the summer of 2024',
-'They\'re watching your screen. They count your keystrokes. They see through your camera. They sell your data to third parties and advertisers.'
+'They\'re watching your screen. They count your keystrokes. They see through your camera. They sell your data to third parties and advertisers.',
+'Tung tung tung sahere!',
+'<p style="font-size: 24px;">ॐ</p>',
+'<p style="font-size: 13px;">let quade = \'Awesome!\'; let colors = [\'red\',\'orange\',\'yellow\',\'lime\',\'blue\',\'purple\',\'brown\',\'black\']; let c = 0; setInterval(() => {if (c < colors.length - 1) {/*Hehe C++*/c++;} else {c = 0} document.body.innerHTML += `&lt;p style="color:${colors[c]}"&gt;${quade}&lt;/p&gt;`;  window.scrollTo(0, document.body.scrollHeight);}, 50);</p>'
 );
 
 //Choose a random splash message & apply it to a div with the id of "rmessage"
@@ -194,13 +197,22 @@ m = items[Math.floor(Math.random()*items.length)];
   document.getElementById("rmessage").innerHTML = cm;
 }
 
+function replaceS(str, pattern, replacement, indexToReplace) {
+  let count = 0;
+  return str.replace(new RegExp(pattern, 'g'), (match) => {
+    count++;
+    return count === indexToReplace ? replacement : match;
+  });
+}
+
 function checkM() {
   if (m.includes('Make sure to')) {
-    document.getElementById("rmessage").innerHTML = '&nbsp;';
-    document.getElementById("rmessage").innerHTML = m;
+    document.getElementById('rmessage').innerHTML = '&nbsp;';
+    document.getElementById('rmessage').innerHTML = m;
     setInterval(() => {
       if (m.includes('Make sure to')) {
-        document.getElementById("rmessage").innerHTML = m.replaceAll('####', alpha2.charAt(Math.floor(Math.random()*alpha2.length)) + alpha2.charAt(Math.floor(Math.random()*alpha2.length)) + alpha2.charAt(Math.floor(Math.random()*alpha2.length)) + alpha2.charAt(Math.floor(Math.random()*alpha2.length)));
+        document.getElementById('rmessage').innerHTML = replaceS(m, '####', (alpha2.charAt(Math.floor(Math.random()*alpha2.length)) + alpha2.charAt(Math.floor(Math.random()*alpha2.length)) + alpha2.charAt(Math.floor(Math.random()*alpha2.length)) + alpha2.charAt(Math.floor(Math.random()*alpha2.length))), 1)
+        document.getElementById('rmessage').innerHTML = replaceS(document.getElementById('rmessage').innerHTML, '####', (alpha2.charAt(Math.floor(Math.random()*alpha2.length)) + alpha2.charAt(Math.floor(Math.random()*alpha2.length)) + alpha2.charAt(Math.floor(Math.random()*alpha2.length)) + alpha2.charAt(Math.floor(Math.random()*alpha2.length))), 1);
       } else {
         return;
       }
@@ -260,6 +272,16 @@ function openLinkM() {
 
 function openLV() {
   window.open('https://drive.google.com/file/d/1YOZFBI9UmrvE0uE8iBrxSJuPrFiQ1uaH/view?usp=sharing');
+}
+
+function copy() {
+  navigator.clipboard.writeText(document.getElementById('rmessage').innerText)
+  .then(() => {
+    console.log("Text copied to clipboard");
+  })
+  .catch(error => {
+    console.error("Failed to copy: ", error);
+  });
 }
 
 document.getElementById('vbtn').innerHTML = 'Download Latest Version (1.0.6)';
