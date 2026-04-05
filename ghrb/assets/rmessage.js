@@ -184,6 +184,7 @@ var items = Array(
 'Giggles!',
 'Fun fact: GHub was originally named GameHub! It was first shortened to GHub on the 18th of March, 2024, 12 days after its release :)',
 'I\'d say GHub\'s prime was the summer of 2024',
+'They\'re watching your screen. They count your keystrokes. They see through your camera. They sell your data to third parties and advertisers.'
 );
 
 //Choose a random splash message & apply it to a div with the id of "rmessage"
