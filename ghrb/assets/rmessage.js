@@ -1,5 +1,7 @@
 //Custom message (If specified)
 var cm = '';
+let shsm0001 = 0;
+let clfclg = 0;
 if (cm == '') {
 var m;
 //Characters for the glitchy splash message
@@ -187,9 +189,11 @@ var items = Array(
 'They\'re watching your screen. They count your keystrokes. They see through your camera. They sell your data to third parties and advertisers.',
 'Tung tung tung sahere!',
 '<p style="font-size: 24px;">ॐ</p>',
-'<p style="font-size: 13px;">let quade = \'Awesome!\'; let colors = [\'red\',\'orange\',\'yellow\',\'lime\',\'blue\',\'purple\',\'brown\',\'black\']; let c = 0; setInterval(() => {if (c < colors.length - 1) {/*Hehe C++*/c++;} else {c = 0} document.body.innerHTML += `&lt;p style="color:${colors[c]}"&gt;${quade}&lt;/p&gt;`;  window.scrollTo(0, document.body.scrollHeight);}, 50);</p>',
+'<p style="font-size: 13px;">let quade = \'Awesome!\'; let colors = [\'red\', \'orange\', \'yellow\', \'lime\', \'blue\', \'purple\', \'brown\', \'black\']; let c = 0; setInterval(() => {if (c < colors.length - 1) {/*Hehe C++*/c++;} else {c = 0} document.body.innerHTML += `&lt;p style="color:${colors[c]}"&gt;${quade}&lt;/p&gt;`;  window.scrollTo(0, document.body.scrollHeight);}, 50);</p>',
 'Brr brr patapresent!',
-'I\'m cappuccino presentino!'
+'I\'m cappuccino presentino!',
+'<p style="display:inline-block">Hey, wanna know a secret?</p><button style="margin:5px;border-radius:5px" onclick="if(shsm0001 == 0){document.getElementById(\'sm0001\').style.display=\'inline-block\';this.innerHTML=\'&lt;&lt;\';shsm0001 = 1}else if(shsm0001 == 1){document.getElementById(\'sm0001\').style.display=\'none\';this.innerHTML=\'&gt;&gt;\';shsm0001 = 0}">&gt;&gt;</button><p style="display:none" id="sm0001">I farted hehe</p>',
+'<button onclick="clfclg++;document.getElementById(\'clcoc\').innerText=\'Clicks: \' + clfclg">Click</button><p id="clcoc">Clicks: 0</p><button onclick="clfclg = 0;document.getElementById(\'clcoc\').innerText=\'Clicks: 0\'">Reset</button>'
 );
 
 //Choose a random splash message & apply it to a div with the id of "rmessage"
@@ -237,6 +241,10 @@ if (m === 'Scrambled!') {
     document.getElementById("rmessage").innerHTML = scramble(m);
   }, 20)
 }
+
+if (m === '<button onclick="clfclg++;document.getElementById(\'clcoc\').innerText=\'Clicks: \' + clfclg">Click</button><p id="clcoc">Clicks: 0</p><button onclick="clfclg = 0;document.getElementById(\'clcoc\').innerText=\'Clicks: 0\'">Reset</button>') {
+  document.getElementById('clcoc').innerText='Clicks: ' + clfclg;
+}
 }
 
 function scramble(str) {
@@ -255,6 +263,7 @@ function scramble(str) {
 }
 
 function makeM() {
+  shsm0001 = 0;
   m = items[Math.floor(Math.random()*items.length)];
   document.getElementById("rmessage").innerHTML = m;
   checkM();
