@@ -187,7 +187,9 @@ var items = Array(
 'They\'re watching your screen. They count your keystrokes. They see through your camera. They sell your data to third parties and advertisers.',
 'Tung tung tung sahere!',
 '<p style="font-size: 24px;">ॐ</p>',
-'<p style="font-size: 13px;">let quade = \'Awesome!\'; let colors = [\'red\',\'orange\',\'yellow\',\'lime\',\'blue\',\'purple\',\'brown\',\'black\']; let c = 0; setInterval(() => {if (c < colors.length - 1) {/*Hehe C++*/c++;} else {c = 0} document.body.innerHTML += `&lt;p style="color:${colors[c]}"&gt;${quade}&lt;/p&gt;`;  window.scrollTo(0, document.body.scrollHeight);}, 50);</p>'
+'<p style="font-size: 13px;">let quade = \'Awesome!\'; let colors = [\'red\',\'orange\',\'yellow\',\'lime\',\'blue\',\'purple\',\'brown\',\'black\']; let c = 0; setInterval(() => {if (c < colors.length - 1) {/*Hehe C++*/c++;} else {c = 0} document.body.innerHTML += `&lt;p style="color:${colors[c]}"&gt;${quade}&lt;/p&gt;`;  window.scrollTo(0, document.body.scrollHeight);}, 50);</p>',
+'Brr brr patapresent!',
+'I\'m cappuccino presentino!'
 );
 
 //Choose a random splash message & apply it to a div with the id of "rmessage"
