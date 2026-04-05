@@ -585,6 +585,9 @@ function openG(sourc, wid, hei, bgCol, titl) {
     gContent.style.background = 'black';
     gContent.appendChild(player);
     player.load({data: bytes})
+    gContent.style.display = 'flex';
+    topgBar.style.display = 'block';
+    multiEls[10].innerText = titl;
   }
 }
 
