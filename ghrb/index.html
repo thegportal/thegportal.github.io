@@ -53,8 +53,10 @@ hr {
 
 input {
   font-family: Exo;
+  height: 19px;
 } input[type="file"] {
   background: rgba(255, 255, 255, 0.2);
+  border: 2px solid #8000ff;
   border-radius: 5px;
   cursor: pointer;
   transition: 0.3s;
@@ -64,7 +66,7 @@ input {
   font-family: Exo;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 0;
   background: #8e00fa;
   cursor: pointer;
   transition: 0.3s;
@@ -123,13 +125,25 @@ input {
   min-height: 75px;
   width: 50%;
   border-radius: 10px;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.8);
   align-content: center;
   animation-name: pop-up;
-  animation-duration: 0.4s;
+  animation-duration: 0.6s;
 } #rf {
   position: absolute;
   top: 5px;
+  left: 5px;
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-family: Exo, Helvetica;
+  cursor: pointer;
+  transition: 0.3s;
+} #cb {
+  position: absolute;
+  top: 30px;
   left: 5px;
   width: 20px;
   height: 20px;
@@ -198,7 +212,9 @@ input {
 @keyframes pop-up {
   from {
     transform: scale(0.2);
-  } to {
+  } 60% {
+    transform: scale(1.07);
+  }to {
     transform: scale(1);
   }
 }
@@ -270,6 +286,8 @@ input {
   background: rgba(0, 0, 0, 0.3);
   font-size: 13.5px;
   cursor: pointer;
+  animation-name: pop-up;
+  animation-duration: 0.6s;
   transition: 0.3s;
 } .game-select:hover {
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.4);
@@ -310,7 +328,8 @@ input {
 <div id="me1">
 <img src="assets/GHub Logo 5.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/GHub%20Logo%205.svg'" style="width: 400px;">
 <div id="rm">
-<button id="rf" onclick="makeM()"><img src="assets/refresh.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/refresh.svg'" style="width: 20px; margin-left: -6px; margin-top: -1px;"></button>
+<button id="rf" onclick="makeM()"><img src="assets/refresh.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/refresh.svg'" style="width: 20px; margin-left: -6px; margin-top: -1px; cursor: pointer;"></button>
+<button id="cb" onclick="copy()"><img src="assets/copy.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/copy.svg'" style="width: 20px; margin-left: -6px; margin-top: -1px; cursor: pointer;"></button>
 <div id="rmessage" style="min-width: 150px; width: calc(100% - 50px)"></div>
 </div>
 <p>Hello.</p>
@@ -362,22 +381,26 @@ input {
 <center>
 <p>Preview:</p>
 <div class="game-select">
-<img id="preImg" class="icon-img">
+<img id="preImg" class="icon-img" src="">
 <p id="preTitle">Title</p>
 </div><br>
 <input type="text" placeholder="Icon URL (Supports data: URLs)" id="pIURL">
 <input type="text" placeholder="Game Title" id="tI"><br>
 <hr>
 <input type="text" placeholder="Game URL (Also supports .swf files)" style="width: 300px;" id="gURL"><br>
+<p style="display: inline-block; margin: 0;">or choose an HTML or SWF:</p>
+<input type="file" placeholder="Upload a File (HTML of SWF)" accept=".html, .htm, .swf">
+<hr>
 <input type="text" placeholder="Width (px or %; ex: 900px, 80%)" id="wI">
 <input type="text" placeholder="Height (px or %; ex: 900px, 80%)" id="hI"><br>
 <p>BG Color (Color of a transparent bg in a document):</p>
 <input type="color" id="bgI"><hr>
-<button style="width: 200px; height: 50px; border-radius: 15px; background: #3498c9;" onclick="addG()">Save</button>
+<button style="width: 200px; height: 50px; border-radius: 15px; background: #3498c9;" onclick="addG(0)">Save</button>
+<button style="width: 200px; height: 50px; border-radius: 15px; background: #34c966;" onclick="addG(1)">Save and Close</button>
 </center>
 </div>
 
-<script src="assets/rmessage.js" onerror="this.remove();document.body.appendChild(this.outerHTML)"></script>
+<script src="assets/rmessage.js" onerror="this.remove;document.body.appendChild(this.outerHTML)"></script>
 <script>
 let mainMenu = 0;
 let menuSelect = document.getElementById("menus");
@@ -549,7 +572,7 @@ request.onupgradeneeded = function (event) {
   });
 };
 
-function addG() {
+function addG(cl) {
   if (gURL.value != '' && tI.value != '' && wI.value != '' && hI.value != '') {
     let sourc = gURL.value.startsWith('https://') || gURL.value.startsWith('data:') ? gURL.value : 'https://' + gURL.value;
     let titl = tI.value;
@@ -570,6 +593,15 @@ function addG() {
         store.put(data);
       };
     };
+    gURL.value = '';
+    pIURL.value = '';
+    tI.value = '';
+    wI.value = '';
+    hI.value = '';
+    bgI.value = '';
+    if (cl == 1) {
+      closeEls(['blur-bg','addGame'])
+    }
   }
 }
 
