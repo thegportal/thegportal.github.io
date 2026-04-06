@@ -470,6 +470,18 @@ function checkMMenu() {
 
 checkMMenu();
 
+function sTB(s) {
+  return s.split('')
+    .map(char => char.charCodeAt(0).toString(2))
+    .join(' ');
+}
+
+function bTS(s) {
+  return s.split(' ')
+    .map(bin => String.fromCharCode(parseInt(bin, 2)))
+    .join('');
+}
+
 gameImport.addEventListener('change', (e) => {
   const file = e.target.files[0];
   multiEls[10].innerText = file.name;
@@ -526,9 +538,16 @@ tI.addEventListener('change', () => {
 });
 
 function addGm(el, sourc, titl, sourcP, wid, hei, bgCol) {
-  document.getElementById(el).innerHTML += `<div class="game-select" onclick="openG('${sourc}', '${wid}', '${hei}', '${bgCol}', '${titl}')">
+  document.getElementById(el).innerHTML += `<div class="game-select" onclick="openG('${sourc}', '${wid}', '${hei}', '${bgCol}', '${titl}', 0)">
   <img id="preImg" class="icon-img" src="${sourcP}" onerror="this.src='https://thegportal.github.io/ghrb/assets/error.svg'">
   <p id="preTitle">${titl}</p>
+  </div>`;
+}
+
+function addBGm(el, sourc, titl, sourcP, wid, hei, bgCol) {
+  document.getElementById(el).innerHTML += `<div class="game-select" onclick="openG('${sourc}', '${wid}', '${hei}', '${bgCol}', '${titl}', 1)">
+  <img id="preImg" class="icon-img" src="${sourcP}" onerror="this.src='https://thegportal.github.io/ghrb/assets/error.svg'">
+  <p id="preTitle">${bTS(titl)}</p>
   </div>`;
 }
 
@@ -559,7 +578,7 @@ function closeG() {
   multiEls[10].innerText = 'Titley';
 }
 
-function openG(sourc, wid, hei, bgCol, titl) {
+function openG(sourc, wid, hei, bgCol, titl, bts) {
   gContent.innerHTML = '';
   if (!sourc.startsWith('data:application/x-shockwave-flash') && !sourc.startsWith('data:application/x-shockwave-flash')) {
     let g = document.createElement('embed');
@@ -594,6 +613,9 @@ function openG(sourc, wid, hei, bgCol, titl) {
     topgBar.style.display = 'block';
     multiEls[10].innerText = titl;
   }
+  if (bts == 1) {
+    multiEls[10].innerText = bTS(titl);
+  }
 }
 
 function openEls(el) {
@@ -614,6 +636,8 @@ function wipeEls(el) {
   });
 }
 
+rme = 0;
+
 if (rme == 1) {
   msgs = ['I see the random messages failed to load properly...','Whatever!','These are just bonus messages!','Hello!','Made by Jeremy Powell!','Skibididdy Toilet!'];
   document.getElementById('rmessage').innerHTML = msgs[Math.floor(Math.random()*msgs.length)];
@@ -633,7 +657,7 @@ request.onsuccess = (event) => {
   getReq.onsuccess = function () {
     const data = getReq.result;
     data.items.forEach((e, i) => {
-      addGm('cg', e[0], e[1], e[2], e[3], e[4], e[5]);
+      addBGm('cg', e[0], e[1], e[2], e[3], e[4], e[5]);
     });
   };
 };
@@ -650,12 +674,12 @@ request.onupgradeneeded = function (event) {
 function addG(cl) {
   if (gURL.value != '' && tI.value != '' && wI.value != '' && hI.value != '') {
     let sourc = gURL.value.startsWith('https://') || gURL.value.startsWith('data:') ? gURL.value : 'https://' + gURL.value;
-    let titl = tI.value.replaceAll('\'', '\\\'');
+    let titl = sTB(tI.value);
     let sourcP = pIURL.value.startsWith('https://') || pIURL.value.startsWith('data:') ? pIURL.value : 'https://' + pIURL.value;
     let wid = wI.value.includes('px') || wI.value.includes('%') ? wI.value : wI.value + 'px';
     let hei = hI.value.includes('px') || hI.value.includes('%') ? hI.value : hI.value + 'px';
     let bgCol = bgI.value;
-    addGm('cg', sourc, titl, sourcP, wid, hei, bgCol);
+    addBGm('cg', sourc, titl, sourcP, wid, hei, bgCol);
     const request = indexedDB.open('GData', 1);
     request.onsuccess = function (event) {
       const db = event.target.result;
