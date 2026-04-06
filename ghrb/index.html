@@ -11,7 +11,7 @@
 
   gtag('config', 'G-0N6LBFDHDX');
 </script>
-<script src="ruffle/ruffle.js" onerror="this.src='https://thegportal.github.io/ghrb/ruffle/ruffle.js'"></script>
+<script src="https://unpkg.com/@ruffle-rs/ruffle" onerror="this.src='https://thegportal.github.io/ghrb/ruffle/ruffle.js'"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Exo:ital,wght@0,100..900;1,100..900&family=Iosevka+Charon+Mono:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
@@ -90,6 +90,12 @@ input {
 } input[type="color"] {
   border: none;
   border-radius: 5px;
+  cursor: pointer;
+}
+
+a {
+  color: yellow;
+  text-decoration: underline;
   cursor: pointer;
 }
 
@@ -319,6 +325,14 @@ input {
   display: block;
   align-content: start;
 }
+
+.frm {
+  width: 80%;
+  height: 300px;
+  border: 3px solid #c45ced;
+  border-radius: 15px;
+  background: white;
+}
 </style>
 </head>
 <body>
@@ -354,11 +368,13 @@ input {
 </div>
 
 <div id="me2">
-<h1>All Games :)</h1>
+<h1>All Games! :)</h1>
+<p>There are no games yet. Either <a onclick="mainMenu = 2; checkMMenu()">add a custom game</a>, or come back tomorrow.</p>
 <div id="ag" class="gs"></div>
 </div>
 
 <div id="me3">
+<h1>Custom Games! :)</h1>
 <div style="width: calc(100vw - 240px); margin: 10px; display: flex; align-items: start; padding: 10px; text-align: left; border-radius: 20px; background: rgba(0, 0, 0, 0.3)">
 <img src="assets/import.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/import.svg'" width="150" class="img">
 <div style="margin: 10px; width: calc(100vw - 400px)">
@@ -373,6 +389,7 @@ input {
 <p>Import from JSON (This will not delete existing custom games):</p>
 <input type="file" accept=".json" id="jsonImport" style="width: 250px;">
 <hr style="width: calc(100vw - 220px); margin: 10px;">
+<p>Note: Flash games may not work on versions of GHRB that Ruffle doesn't support.</p>
 <div id="cg" class="gs"></div>
 </div>
 
@@ -381,7 +398,13 @@ input {
 <div id="pr" class="gs"></div>
 </div>
 
-<div id="me5"></div>
+<div id="me5" style="padding: 10px;">
+<h1>Forms & More :)</h1>
+<p>Request a Game/Feature</p>
+<object data="https://docs.google.com/forms/d/e/1FAIpQLScl3j1ZuG9ENOiY-KlGYDfh6FImpe5ECHpJV7c1iOEq5V40qA/viewform?embedded=true" class="frm">If you see this text, the form may have not loaded correctly :(</object><hr>
+<p>Report a Problem</p>
+<object data="https://docs.google.com/forms/d/e/1FAIpQLScbnf5yjlLtawLyMVYepb8VwwCwgtV4fABgQOi0eBD3_E2npQ/viewform?embedded=true" class="frm">If you see this text, the form may have not loaded correctly :(</object><hr>
+</div>
 </center>
 </div>
 
@@ -395,28 +418,30 @@ input {
 
 <div id="blur-bg"></div>
 <div id="addGame">
-<img src="assets/close.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/close.svg'" class="img img-btn" style="width: 30px; border-radius: 7px;" onclick="closeEls(['addGame','blur-bg']);wipeEls(['pIURL','tI','gURL','wI','hI']);document.body.style.overflow='auto'">
+<img src="assets/close.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/close.svg'" class="img img-btn" style="width: 30px; border-radius: 7px;" onclick="closeEls(['addGame','blur-bg']);wipeEls(['pIURL','tI','gURL','wI','hI','fInput'], 1);document.body.style.overflow='auto';preTitle.innerText = 'Title'">
 <center>
 <p>Preview:</p>
 <div class="game-select">
 <img id="preImg" class="icon-img" src="">
 <p id="preTitle">Title</p>
 </div><br>
+<p>The title and source URL/file are required.</p>
 <input type="text" placeholder="Icon URL (Supports data: URLs)" id="pIURL">
-<input type="text" placeholder="Game Title" id="tI"><br>
+<input type="text" placeholder="Game Title" id="tI" class="ast"><br>
 <hr>
 <input type="text" placeholder="Game URL (Also supports .swf files)" style="width: 300px;" id="gURL"><br>
-<p style="display: inline-block; margin: 0;">or choose an HTML or SWF (Unfinished):</p>
+<p style="display: inline-block; margin: 0;">or choose an HTML or SWF:</p>
 <input type="file" accept=".html, .htm, .swf" id="fInput">
 <hr>
+<p>If you leave these attributes empty, they will automatically be set to 100%</p>
 <input type="text" placeholder="Width (px or %; ex: 900px, 80%)" id="wI">
 <input type="text" placeholder="Height (px or %; ex: 900px, 80%)" id="hI"><br>
 <p>BG Color (Color of a transparent bg in a document):</p>
 <input type="color" id="bgI"><hr>
 <p>Opening without saving can be used in data: URLs, the others not.</p>
-<button style="width: 200px; height: 50px; border-radius: 15px; background: #3498c9;" onclick="addG(0)">Save</button>
-<button style="width: 200px; height: 50px; border-radius: 15px; background: #34c966;" onclick="addG(1)">Save and Close</button>
-<button style="width: 200px; height: 50px; border-radius: 15px; background: #e3da32;" onclick="oG()">Open Without Saving</button>
+<button style="width: 200px; height: 50px; border-radius: 15px; background: #3498c9; margin: 5px;" onclick="addG(0)">Save</button>
+<button style="width: 200px; height: 50px; border-radius: 15px; background: #34c966; margin: 5px;" onclick="addG(1)">Save and Close</button>
+<button style="width: 200px; height: 50px; border-radius: 15px; background: #e3da32; margin: 5px;" onclick="oG()">Open Without Saving</button>
 </center>
 </div>
 <script src="assets/rmessage.js" onerror="rme = 1;document.getElementById('rf').setAttribute('onclick', 'makeEM()');document.getElementById('cb').remove()"></script>
@@ -631,10 +656,62 @@ function closeEls(el) {
   });
 }
 
-function wipeEls(el) {
-  el.forEach((e) => {
-    document.getElementById(e).innerHTML = '';
-  });
+function wipeEls(el, co) {
+  if (co == 0) {
+    el.forEach((e) => {
+      document.getElementById(e).innerHTML = '';
+    });
+  } else {
+    el.forEach((e) => {
+      document.getElementById(e).value = '';
+    });
+  }
+}
+
+function oG() {
+  if (gURL.value != '' && tI.value != '') {
+    let sourc = gURL.value.startsWith('https://') || gURL.value.startsWith('data:') ? gURL.value : 'https://' + gURL.value;
+    let titl = tI.value;
+    let wid = wI.value != '' ? wI.value.includes('px') || wI.value.includes('%') ? wI.value : wI.value + 'px' : '100%';
+    let hei = wI.value != '' ? hI.value.includes('px') || hI.value.includes('%') ? hI.value : hI.value + 'px' : '100%';
+    let bgCol = bgI.value;
+    if (!sourc.startsWith('data:application/x-shockwave-flash') && !sourc.startsWith('data:application/x-shockwave-flash')) {
+      let g = document.createElement('embed');
+      g.src = sourc;
+      g.style.width = wid.includes('%') && parseInt(wid) > 100 ? '100%' : wid;
+      g.style.height = hei.includes('%') && parseInt(hei) > 100 ? '100%' : hei;
+      gContent.appendChild(g);
+      gContent.style.background = bgCol;
+      gContent.style.display = 'flex';
+      topgBar.style.display = 'block';
+      multiEls[10].innerText = titl;
+    } else {
+      const base64Data = sourc.split(',')[1];
+      const binaryString = window.atob(base64Data);
+      const len = binaryString.length;
+      const bytes = new Uint8Array(len);
+      for (let i = 0; i < len; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+      const ruffle = window.RufflePlayer.newest();
+      const player = ruffle.createPlayer();
+      player.style.width = '640px';
+      player.style.height = '480px';
+      player.style.zIndex = '10';
+      player.style.position = 'absolute';
+      player.style.top = 'calc((100vh - 505px) / 2)';
+      gContent.innerHTML = '';
+      gContent.style.background = bgCol;
+      gContent.appendChild(player);
+      player.load({data: bytes})
+      gContent.style.display = 'flex';
+      topgBar.style.display = 'block';
+      multiEls[10].innerText = titl;
+    }
+    preTitle.innerText = 'Title';
+    wipeEls(['pIURL','tI','gURL','wI','hI','fInput'], 1);
+    closeEls(['blur-bg','addGame']);
+  }
 }
 
 rme = 0;
@@ -673,12 +750,12 @@ request.onupgradeneeded = function (event) {
 };
 
 function addG(cl) {
-  if (gURL.value != '' && tI.value != '' && wI.value != '' && hI.value != '') {
+  if (gURL.value != '' && tI.value != '') {
     let sourc = gURL.value.startsWith('https://') || gURL.value.startsWith('data:') ? gURL.value : 'https://' + gURL.value;
     let titl = sTB(tI.value);
     let sourcP = pIURL.value.startsWith('https://') || pIURL.value.startsWith('data:') ? pIURL.value : 'https://' + pIURL.value;
-    let wid = wI.value.includes('px') || wI.value.includes('%') ? wI.value : wI.value + 'px';
-    let hei = hI.value.includes('px') || hI.value.includes('%') ? hI.value : hI.value + 'px';
+    let wid = wI.value != '' ? wI.value.includes('px') || wI.value.includes('%') ? wI.value : wI.value + 'px' : '100%';
+    let hei = wI.value != '' ? hI.value.includes('px') || hI.value.includes('%') ? hI.value : hI.value + 'px' : '100%';
     let bgCol = bgI.value;
     addBGm('cg', sourc, titl, sourcP, wid, hei, bgCol);
     const request = indexedDB.open('GData', 1);
@@ -699,8 +776,9 @@ function addG(cl) {
     wI.value = '';
     hI.value = '';
     bgI.value = '';
+    preTitle.innerText = 'Title';
     if (cl == 1) {
-      closeEls(['blur-bg','addGame'])
+      closeEls(['blur-bg','addGame']);
     }
   }
 }
