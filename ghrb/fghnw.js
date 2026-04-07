@@ -16,3 +16,4 @@ function fetgh() {
       <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScbnf5yjlLtawLyMVYepb8VwwCwgtV4fABgQOi0eBD3_E2npQ/viewform?embedded=true" width="640" height="425" style="border: 2px solid black; border-radius: 5px;">Loading…</iframe>`;
     });
 }
+fetgh();
