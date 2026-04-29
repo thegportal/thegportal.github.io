@@ -193,7 +193,15 @@ var items = Array(
 'Brr brr patapresent!',
 'I\'m cappuccino presentino!',
 '<p style="display:inline-block">Hey, wanna know a secret?</p><button style="margin:5px;border-radius:5px" onclick="if(shsm0001 == 0){document.getElementById(\'sm0001\').style.display=\'inline-block\';this.innerHTML=\'&lt;&lt;\';shsm0001 = 1}else if(shsm0001 == 1){document.getElementById(\'sm0001\').style.display=\'none\';this.innerHTML=\'&gt;&gt;\';shsm0001 = 0}">&gt;&gt;</button><p style="display:none" id="sm0001">I farted hehe</p>',
-'<button onclick="clfclg++;document.getElementById(\'clcoc\').innerText=\'Clicks: \' + clfclg">Click</button><p id="clcoc">Clicks: 0</p><button onclick="clfclg = 0;document.getElementById(\'clcoc\').innerText=\'Clicks: 0\'">Reset</button>'
+'<button onclick="clfclg++;document.getElementById(\'clcoc\').innerText=\'Clicks: \' + clfclg">Click</button><p id="clcoc">Clicks: 0</p><button onclick="clfclg = 0;document.getElementById(\'clcoc\').innerText=\'Clicks: 0\'">Reset</button>',
+'Good!',
+'Great',
+'Excellent!',
+'Amazing!',
+'Unbelievable!',
+'Got Milk?',
+'<button onclick="document.body.setAttribute(\'contenteditable\', \'true\')">Click me and you can edit the page!</button>',
+'SEND THIS VIDEO TO... &#128552;&#128552;'
 );
 
 //Choose a random splash message & apply it to a div with the id of "rmessage"
