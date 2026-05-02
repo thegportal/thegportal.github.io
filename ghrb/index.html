@@ -36,7 +36,7 @@ Snapchat: @jer_powell2024 ||| Discord: https://discord.gg/rAwrBrA3yT
 </script>
 <title>GHRB</title>
 <link rel="icon" type="image/x-icon" href="assets/favi.svg" onerror="this.href='https://thegportal.github.io/ghrb/assets/favi.svg'"
-<script src="https://unpkg.com/@ruffle-rs/ruffle" onerror="this.src='https://thegportal.github.io/ghrb/ruffle/ruffle.js'"></script>
+<script src="https://thegportal.github.io/ghrb/ruffle/ruffle.js" onerror="this.src='https://unpkg.com/@ruffle-rs/ruffle'"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Exo:ital,wght@0,100..900;1,100..900&family=Iosevka+Charon+Mono:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
@@ -393,6 +393,25 @@ a {
 } .ibtn:hover {
   background: rgba(255, 255, 255, 0.3);
 }
+
+.urlerror {
+  background: rgba(255, 0, 0, 0.7);
+  border: 2px solid #fc5347;
+  border-radius: 5px;
+  width: calc(100% - 20px);
+  margin: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.adsbygoogle {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid white;
+  border-radius: 10px;
+} .adsbygoogle::before {
+  content: 'Ads help me out! :)';
+  text-decoration: none;
+}
 </style>
 </head>
 <body spellcheck="false">
@@ -400,9 +419,9 @@ a {
 <img src="assets/GHub Logo 5 Small.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/GHub%20Logo%205%20Small.svg'" style="width: 180px; margin: 9px;">
 
 <div style="position: absolute; bottom: 0; padding: 5px;">
-<div class="side-social"><img src="assets/snap.svg" width="20" style="background: #fffc00; border-radius: 5px; display: inline"><br>
+<div class="side-social"><img src="assets/snap.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/snap.svg'" width="20" style="background: #fffc00; border-radius: 5px; display: inline"><br>
 <a href="https://www.snapchat.com/add/jer_powell2024?share_id=eKGXzsvSRqI&locale=en-US" target="_blank" style="text-decoration: underline; color: yellow;">jer_powell2024</a></div>
-<div class="side-social"><img src="assets/dis.svg" width="20" style="background: #5865f2; border-radius: 5px;"><br>
+<div class="side-social"><img src="assets/dis.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/dis.svg'" width="20" style="background: #5865f2; border-radius: 5px;"><br>
 <a href="https://discord.gg/rAwrBrA3yT" target="_blank" style="text-decoration: underline; color: yellow; font-size: 12px;">https://discord.gg/rAwrBrA3yT</a></div>
 </div>
 
@@ -437,7 +456,18 @@ a {
 
 <div id="me2">
 <h1 id="gt">All Games! :)</h1>
-<input class="c" id="gameSearch" type="text" placeholder="Search for Games & Tags!" style="border-color: #9830ff; border-radius: 10px; background: rgba(50, 50, 50, 0.7); color: white; font-size: 15px; max-width: 450px; min-width: 200px; width: calc(100% - 300px); height: 35px; text-align: center; box-shadow: 0px 5px 10px black;">
+<div class="urlerror"></div>
+<input class="c" id="gameSearch" type="text" placeholder="Search for Games!" style="border-color: #9830ff; border-radius: 10px; background: rgba(50, 50, 50, 0.7); color: white; font-size: 15px; max-width: 450px; min-width: 200px; width: calc(100% - 300px); height: 35px; text-align: center; box-shadow: 0px 5px 10px black;">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8270134843640137"
+     crossorigin="anonymous"></script>
+<!-- Ad -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:728px;height:90px"
+     data-ad-client="ca-pub-8270134843640137"
+     data-ad-slot="7605497310"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 
 <div id="ag" class="gs"></div>
 </div>
@@ -469,6 +499,7 @@ a {
 <p style="display: inline-block">or</p>
 <button onclick="pasteGD()" class="ibtn" id="pgd">Paste JSON data</button>
 <hr style="width: calc(100vw - 220px); margin: 10px;">
+<div class="urlerror"></div>
 <p>Note: Flash games may not work on versions of GHRB that Ruffle doesn't support.</p>
 <div id="cg" class="gs"></div>
 </div>
@@ -525,7 +556,7 @@ a {
 <button style="width: 200px; height: 50px; border-radius: 15px; background: #e3da32; margin: 5px;" onclick="oG()">Open Without Saving</button>
 </center>
 </div>
-<script src="assets/rmessage.js" onerror="rme = 1;document.getElementById('rf').setAttribute('onclick', 'makeEM()');document.getElementById('cb').remove()"></script>
+<script src="assets/rmessage.js" onerror="let emsgs = ['I see the random messages failed to load properly...','Whatever!','These are just bonus messages!','Hello!','Made by Jeremy Powell!','Skibididdy Toilet!'];document.getElementById('rmessage').innerHTML = emsgs[Math.floor(Math.random()*emsgs.length)];document.getElementById('rf').remove();document.getElementById('cb').remove()"></script>
 <script>
 let mainMenu = 0;
 let menuSelect = document.getElementById("menus");
@@ -590,6 +621,8 @@ function bTS(s) {
     .map(bin => String.fromCharCode(parseInt(bin, 2)))
     .join('');
 }
+
+console.log(window.RufflePlayer);
 
 gameImport.addEventListener('change', (e) => {
   const file = e.target.files[0];
@@ -719,6 +752,10 @@ function openG(sourc, wid, hei, bgCol, titl, bts) {
     topgBar.style.display = 'block';
     multiEls[10].innerText = titl;
   } else {
+    if (window.location.href.startsWith('file') || window.location.href.startsWith('data') || window.location.href.startsWith('blob')) {
+      window.alert(`This game is currently unplayable, because you are on a ${window.location.href.slice(0, 4)} URL :(\nI am working on a way to play flash games on this URL, but it may not work for all filters.`);
+      return 'Failed to open game :(';
+    }
     const base64Data = sourc.split(',')[1];
     const binaryString = window.atob(base64Data);
     const len = binaryString.length;
@@ -816,15 +853,6 @@ function oG() {
   }
 }
 
-rme = 0;
-
-if (rme == 1) {
-  msgs = ['I see the random messages failed to load properly...','Whatever!','These are just bonus messages!','Hello!','Made by Jeremy Powell!','Skibididdy Toilet!'];
-  document.getElementById('rmessage').innerHTML = msgs[Math.floor(Math.random()*msgs.length)];
-} function makeEM() {
-  document.getElementById('rmessage').innerHTML = msgs[Math.floor(Math.random()*msgs.length)];
-}
-
 var search = document.getElementById('gameSearch');
 
 var elementsWithClass = document.getElementById('ag').querySelectorAll(".game-select");
@@ -908,6 +936,13 @@ if (window.location.href.startsWith('blob:') || window.location.href.startsWith(
   });
   document.getElementById('pgd').setAttribute('onclick', 'pasteGDB()');
   window.alert('You are on a data: or blob: URL! Some features, such as custom games and settings, may not work as intended. Make sure to export or copy your game and settings data!')
+}
+
+if (window.location.href.startsWith('file') || window.location.href.startsWith('data') || window.location.href.startsWith('blob')) {
+  for (let i = 0; i < document.getElementsByClassName('urlerror').length; i++) {
+    document.getElementsByClassName('urlerror')[i].style.display = 'block';
+    document.getElementsByClassName('urlerror')[i].innerText = `You are on a ${window.location.href.slice(0, 4)} URL, so certain games (such as flash games) may not work :(`;
+  }
 }
 
 //AFTER THIS POINT, FUNCTIONS UTILISE INDEXEDDB AND/OR LOCALSTORAGE. THESE FEATURES WILL NOT WORK ON DATA: URLS.
