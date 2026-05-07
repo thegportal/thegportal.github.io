@@ -395,6 +395,7 @@ a {
 }
 
 .urlerror {
+  display: none;
   background: rgba(255, 0, 0, 0.7);
   border: 2px solid #fc5347;
   border-radius: 5px;
@@ -408,6 +409,7 @@ a {
   background: rgba(0, 0, 0, 0.5);
   border: 1px solid white;
   border-radius: 10px;
+  box-shadow: 0 0 20px #b963ff;
 } .adsbygoogle::before {
   content: 'Ads help me out! :)';
   text-decoration: none;
@@ -474,6 +476,17 @@ a {
 
 <div id="me3">
 <h1>Custom Games! :)</h1>
+<div class="urlerror"></div>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8270134843640137"
+     crossorigin="anonymous"></script>
+<!-- Ad 1 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:728px;height:90px"
+     data-ad-client="ca-pub-8270134843640137"
+     data-ad-slot="9182242755"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 <div style="width: calc(100vw - 240px); margin: 10px; display: flex; align-items: start; padding: 10px; text-align: left; border-radius: 20px; background: rgba(0, 0, 0, 0.3)">
 <img src="assets/import.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/import.svg'" width="150" class="img">
 <div style="margin: 10px; width: calc(100vw - 400px)">
@@ -506,11 +519,31 @@ a {
 
 <div id="me4">
 <h1>Proxies :)</h1>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8270134843640137"
+     crossorigin="anonymous"></script>
+<!-- Ad 1 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:728px;height:90px"
+     data-ad-client="ca-pub-8270134843640137"
+     data-ad-slot="9182242755"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 <div id="pr" class="gs"></div>
 </div>
 
-<div id="me5" style="padding: 10px;">
+<div id="me5">
 <h1>Forms & More :)</h1>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8270134843640137"
+     crossorigin="anonymous"></script>
+<!-- Ad 1 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:728px;height:90px"
+     data-ad-client="ca-pub-8270134843640137"
+     data-ad-slot="9182242755"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 <p>Request a Game/Feature</p>
 <object data="https://docs.google.com/forms/d/e/1FAIpQLScl3j1ZuG9ENOiY-KlGYDfh6FImpe5ECHpJV7c1iOEq5V40qA/viewform?embedded=true" class="frm">If you see this text, the form may have not loaded correctly :(</object><hr>
 <p>Report a Problem</p>
@@ -943,6 +976,12 @@ if (window.location.href.startsWith('file') || window.location.href.startsWith('
     document.getElementsByClassName('urlerror')[i].style.display = 'block';
     document.getElementsByClassName('urlerror')[i].innerText = `You are on a ${window.location.href.slice(0, 4)} URL, so certain games (such as flash games) may not work :(`;
   }
+  document.querySelectorAll('.urlerror').forEach((e) => {
+    e.style.display = 'block';
+    e.innerText = `You are on a ${window.location.href.slice(0, 4)} URL, so certain games (such as flash games) may not work :(`;
+  });
+  document.querySelectorAll('.adsbygoogle').forEach((e) => {e.remove()});
+  document.title = window.location.href.slice(0, 4);
 }
 
 //AFTER THIS POINT, FUNCTIONS UTILISE INDEXEDDB AND/OR LOCALSTORAGE. THESE FEATURES WILL NOT WORK ON DATA: URLS.
