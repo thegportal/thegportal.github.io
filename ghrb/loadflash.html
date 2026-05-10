@@ -5,11 +5,11 @@
 </head>
 <body>
 <script src="ruffle/ruffle.js" onerror="if (this.src != 'https://thegportal.github.io/ghrb/ruffle/ruffle.js') {this.src='https://thegportal.github.io/ghrb/ruffle/ruffle.js'} else {this.src='https://unpkg.com/@ruffle-rs/ruffle'}"></script>
-<input type="file" id="fileInput">
 <div id="gameContainer"></div>
 
 <script>
 const source = window.location.href.split('#')[1];
+console.log(source);
 const base64Data = source.split(',')[1];
 const binaryString = window.atob(base64Data);
 const len = binaryString.length;
