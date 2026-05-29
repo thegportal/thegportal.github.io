@@ -23,19 +23,24 @@
 		<div class="webgl-content"><div id="gameContainer" style="width: 100%; height: 100%; margin: auto"></div></div>
 		<script>
 			setInterval(() => {
-					const request = db.transaction("yourObjectStoreName", "readonly")
-	                  .objectStore("yourObjectStoreName")
-	                  .getAll();
-	
-					request.onsuccess = (event) => {
-					  const allData = event.target.result;
-					  console.log("All data retrieved:", allData);
-					};
-					
-					request.onerror = (event) => {
-					  console.error("Error fetching data", event.target.error);
-					};
-				}, 7500);
+				const request = indexedDB.open("MyDatabase", 1);
+
+				request.onsuccess = (event) => {
+				  const db = event.target.result;
+				  const transaction = db.transaction("/idbfs", "readonly");
+				  const store = transaction.objectStore("/idbfs");
+				
+				  const getAllRequest = store.getAll();
+				
+				  getAllRequest.onsuccess = () => {
+					console.log("All data:", getAllRequest.result);
+				  };
+				
+				  getAllRequest.onerror = (err) => {
+					console.error("Error fetching data:", err);
+				  };
+				};
+			}, 7500);
 		</script>
     </body>
 </html>
