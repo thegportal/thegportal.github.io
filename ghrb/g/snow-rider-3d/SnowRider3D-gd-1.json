@@ -1,9 +1,9 @@
 {
 "companyName": "Snow Rider",
 "productName": "Snow Rider 3D",
-"dataUrl": "https://github.com/thegportal/thegportal.github.io/raw/refs/heads/main/ghrb/g/snow-rider-3d/SnowRider3D-gd-1.data.unityweb",
-"wasmCodeUrl": "https://github.com/thegportal/thegportal.github.io/raw/refs/heads/main/ghrb/g/snow-rider-3d/SnowRider3D-gd-1.wasm.code.unityweb",
-"wasmFrameworkUrl": "https://github.com/thegportal/thegportal.github.io/raw/refs/heads/main/ghrb/g/snow-rider-3d/SnowRider3D-gd-1.wasm.framework.unityweb.js",
+"dataUrl": "https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/snow-rider-3d/SnowRider3D-gd-1.data.unityweb",
+"wasmCodeUrl": "https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/snow-rider-3d/SnowRider3D-gd-1.wasm.code.unityweb",
+"wasmFrameworkUrl": "https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/snow-rider-3d/SnowRider3D-gd-1.wasm.framework.unityweb.js",
 "TOTAL_MEMORY": 268435456,
 "graphicsAPI": ["WebGL 2.0", "WebGL 1.0"],
 "webglContextAttributes": {"preserveDrawingBuffer": false},
