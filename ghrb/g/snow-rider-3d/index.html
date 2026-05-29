@@ -21,5 +21,21 @@
 	</head>
 	<body>
 		<div class="webgl-content"><div id="gameContainer" style="width: 100%; height: 100%; margin: auto"></div></div>
+		<script>
+			setInterval(() => {
+					const request = db.transaction("yourObjectStoreName", "readonly")
+	                  .objectStore("yourObjectStoreName")
+	                  .getAll();
+	
+					request.onsuccess = (event) => {
+					  const allData = event.target.result;
+					  console.log("All data retrieved:", allData);
+					};
+					
+					request.onerror = (event) => {
+					  console.error("Error fetching data", event.target.error);
+					};
+				}, 2500);
+		</script>
     </body>
 </html>
