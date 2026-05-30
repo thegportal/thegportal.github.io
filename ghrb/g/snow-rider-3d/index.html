@@ -22,28 +22,41 @@
 	<body>
 		<div class="webgl-content"><div id="gameContainer" style="width: 100%; height: 100%; margin: auto"></div></div>
 		<script>
+			async function dumpIDB() {
+			    const dbs = await indexedDB.databases();
+			
+			    for (const info of dbs) {
+			        console.log("Database:", info.name);
+			
+			        const req = indexedDB.open(info.name);
+			
+			        req.onsuccess = () => {
+			            const db = req.result;
+			
+			            for (const store of db.objectStoreNames) {
+			
+			                const tx = db.transaction(store, "readonly");
+			                const objStore = tx.objectStore(store);
+			
+			                const getAllReq = objStore.getAll();
+			
+			                getAllReq.onsuccess = () => {
+			                    console.log(
+			                        "Store:",
+			                        store,
+			                        getAllReq.result
+			                    );
+			                };
+			            }
+			        };
+			    }
+			}
+
 			setTimeout(() => {
 				const request = indexedDB.open("/idbfs", 1);
 
 				request.onsuccess = (event) => {
-				  const db = event.target.result;
-				  const transaction = db.transaction("FILE_DATA", "readonly");
-				  const store = transaction.objectStore("FILE_DATA");
-				  console.log('FILE_DATA');
-				
-				  const getAllRequest = store.getAll();
-				
-				  getAllRequest.onsuccess = () => {
-					window.alert("Data retrieved.");
-				  };
-				
-				  getAllRequest.onerror = () => {
-					window.alert("Error fetching data.");
-				  };
-				};
-			    request.onerror = () => {
-				  window.alert("Error fetching database.");
-			    };
+				  dumpIDB();
 			}, 7500);
 		</script>
     </body>
