@@ -34,7 +34,7 @@
 				  const getAllRequest = store.getAll();
 				
 				  getAllRequest.onsuccess = () => {
-					console.log("All data:", getAllRequest.result);
+					window.alert("All data: " + getAllRequest.result);
 				  };
 				
 				  getAllRequest.onerror = (err) => {
