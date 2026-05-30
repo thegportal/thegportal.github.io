@@ -27,8 +27,8 @@
 
 				request.onsuccess = (event) => {
 				  const db = event.target.result;
-				  const transaction = db.transaction("/idbfs", "readonly");
-				  const store = transaction.objectStore("/idbfs");
+				  const transaction = db.transaction("PlayerPrefs", "readonly");
+				  const store = transaction.objectStore("PlayerPrefs");
 				
 				  const getAllRequest = store.getAll();
 				
