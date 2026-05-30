@@ -22,14 +22,14 @@
 	<body>
 		<div class="webgl-content"><div id="gameContainer" style="width: 100%; height: 100%; margin: auto"></div></div>
 		<script>
-			setInterval(() => {
+			setTimeout(() => {
 				const request = indexedDB.open("MyDatabase", 1);
 
 				request.onsuccess = (event) => {
 				  const db = event.target.result;
-				  const transaction = db.transaction("EM_FS_<site>", "readonly");
-				  const store = transaction.objectStore("EM_FS_<site>");
-				  console.log('EM_FS_<site>');
+				  const transaction = db.transaction("UNITY_<game>", "readonly");
+				  const store = transaction.objectStore("UNITY_<game>");
+				  console.log('UNITY_<game>');
 				
 				  const getAllRequest = store.getAll();
 				
