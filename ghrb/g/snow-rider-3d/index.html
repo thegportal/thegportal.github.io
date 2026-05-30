@@ -158,11 +158,6 @@
 		    alert("Import complete");
 		}
 		
-		document.getElementById("exportBtn")
-		.addEventListener("click", () => {
-		    exportDB();
-		});
-		
 		document.getElementById('file-btn').addEventListener('change', (event) => {
 		    const file = event.target.files[0];
 		    if (file.type == 'application/json') {
