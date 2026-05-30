@@ -53,9 +53,6 @@
 			}
 
 			setTimeout(() => {
-				const request = indexedDB.open("/idbfs", 1);
-
-				request.onsuccess = (event) => {
 				  dumpIDB();
 			}, 7500);
 		</script>
