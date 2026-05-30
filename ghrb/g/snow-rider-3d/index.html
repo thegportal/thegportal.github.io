@@ -25,7 +25,7 @@
 			setTimeout(() => {
 				const request = indexedDB.open("MyDatabase", 1);
 
-				request.onsuccess = (event) => {
+				request.onsuccess = (event) => {//FILE_DATA
 				  const db = event.target.result;
 				  const transaction = db.transaction("UNITY_<game>", "readonly");
 				  const store = transaction.objectStore("UNITY_<game>");
