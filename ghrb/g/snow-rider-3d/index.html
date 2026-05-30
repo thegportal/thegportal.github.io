@@ -41,6 +41,9 @@
 					window.alert("Error fetching data.");
 				  };
 				};
+			    request.onerror = () => {
+				  window.alert("Error fetching database.");
+			    };
 			}, 7500);
 		</script>
     </body>
