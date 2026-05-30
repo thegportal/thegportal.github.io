@@ -34,11 +34,11 @@
 				  const getAllRequest = store.getAll();
 				
 				  getAllRequest.onsuccess = () => {
-					window.alert("All data: " + getAllRequest.result);
+					window.alert("Data retrieved.");
 				  };
 				
-				  getAllRequest.onerror = (err) => {
-					window.alert("Error fetching data:" + err);
+				  getAllRequest.onerror = () => {
+					window.alert("Error fetching data.");
 				  };
 				};
 			}, 7500);
