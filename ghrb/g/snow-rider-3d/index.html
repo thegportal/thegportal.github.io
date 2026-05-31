@@ -102,16 +102,17 @@ async function exportAllIDB(c) {
 }
 
 async function importAllIDB(p) {
+    let json;
     if (p == 0) {
-        const file = document.getElementById("file-btn").files[0];
+        let file = document.getElementById("file-btn").files[0];
         if (file.type != 'application/json') {
             alert("Choose a JSON file");
             return;
         }
-        const json = JSON.parse(await file.text());
+        json = JSON.parse(await file.text());
     } else {
         let file = prompt("Paste your JSON here.");
-        const json = JSON.parse(file);
+        json = JSON.parse(file);
     }
     for (const dbName in json.databases) {
         const importedDB = json.databases[dbName];
