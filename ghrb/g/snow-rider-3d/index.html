@@ -137,57 +137,60 @@ async function importAllIDB(p) {
                 console.warn(`Store "${storeName}" missing`);
                 continue;
             }
-            const tx =
-                db.transaction(storeName, "readwrite");
-            const store =
-                tx.objectStore(storeName);
-            await new Promise(
-                (
-                    resolve,
-                    reject
-                ) => {
-                const req = store.clear();
-                req.onsuccess = resolve;
-                req.onerror = reject;
-            });
-            for (const item of importedDB.stores[storeName]) {
-                await new Promise(
-                (resolve,reject)=>{
-                    let req;
-                    try {
-                        if (item.key !== undefined) {
-                            req = store.put(
-                                item.value,
-                                item.key
-                            );
-                        } else {
-                            req = store.put(
-                                item.value
-                            );
-                        }
-                        req.onsuccess=resolve;
-                        req.onerror=()=>{
+            await new Promise((resolve, reject) => {
+                const tx = db.transaction(
+                    storeName,
+                    "readwrite"
+                );
+                const store = tx.objectStore(storeName);
+                const clearReq = store.clear();
+                clearReq.onerror = () => {
+                    reject(clearReq.error);
+                };
+        
+                clearReq.onsuccess = () => {=
+                    for (const item of importedDB.stores[storeName]) {
+                        let req;
+                        try {
+                            if (item.key !== undefined) {
+                                console.log(
+                                    storeName,
+                                    item
+                                );
+                                req = store.put(
+                                    item.value,
+                                    item.key
+                                );
+                            } else {
+                                console.log(
+                                  storeName,
+                                  item
+                                );
+                                req = store.put(item.value);
+        
+                            }
+                            req.onerror = () => {
+                                console.error("Failed item:", item);
+                                console.error(
+                                    req.error
+                                );
+                            };
+                        } catch(err) {
                             console.error(
-                                "Failed item:",
+                                err,
                                 item
                             );
-                            reject(req.error);
-                        };
-                    } catch(err){
-                        console.error(
-                            "Put error:",
-                            err,
-                            item
-                        );
-                        reject(err);
+                        }
                     }
-                });
-            }
-            await new Promise(
-                resolve => {
-                    tx.oncomplete = resolve;
-                }
-            );
+        
+                };
+                tx.oncomplete = () => {
+                    resolve();
+                };
+                tx.onerror = () => {
+                    reject(tx.error);
+                };
+            });
         }
         db.close();
     }
