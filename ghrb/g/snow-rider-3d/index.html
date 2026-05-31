@@ -26,153 +26,147 @@
 		<label for="file-btn" style="display: flex; justify-content: center; align-items: center; height: 28px; width: 60px; background: #0330fc; border-radius: 5px; cursor: pointer;">Import</label>
 		<input type="file" id="file-btn" style="display: none;" />
 		<button onclick="pasteDB()" style="position: absolute; top: 4px; left: 70px; height: 28px; width: 60px; background: #9900ff; border: none; border-radius: 5px; font-size: 15px; color: white; cursor: pointer;">Paste</button>
-		<button onclick="exportDB(0)" style="position: absolute; top: 4px; left: 136px; height: 28px; width: 60px; background: #11ab00; border: none; border-radius: 5px; font-size: 15px; color: white; cursor: pointer;">Export</button>
-		<button onclick="exportDB(1)" style="position: absolute; top: 4px; left: 202px; height: 28px; width: 60px; background: #04b88b; border: none; border-radius: 5px; font-size: 15px; color: white; cursor: pointer;">Copy</button>
+		<button onclick="exportAllIDB(0)" style="position: absolute; top: 4px; left: 136px; height: 28px; width: 60px; background: #11ab00; border: none; border-radius: 5px; font-size: 15px; color: white; cursor: pointer;">Export</button>
+		<button onclick="exportAllIDB(1)" style="position: absolute; top: 4px; left: 202px; height: 28px; width: 60px; background: #04b88b; border: none; border-radius: 5px; font-size: 15px; color: white; cursor: pointer;">Copy</button>
 		<button onclick="window.alert('-> If you attempt to refresh or close this tab or window, a pop-up will appear. If you press \'Cancel\', this bar will reappear, and you will be able to save your data, even if the bar was closed before.\n-> Games may restart to accommodate the new imported data.\n-> TIP: Do NOT attempt to close or refresh the window when a pop-up, like this, pops up. The pop-up warning will not appear, and you will lose your new data if you do!\n-> Buh-Bye! :D')" style="position: absolute; top: 4px; left: 268px; height: 28px; width: 115px; background: #fcba03; border: none; border-radius: 5px; font-size: 15px; color: white; cursor: pointer;">Important Info</button>
 		<button onclick="this.parentElement.style.display = 'none';" style="position: absolute; top: 4px; right: 4px; height: 28px; width: 60px; background: #fc1703; border: none; border-radius: 5px; font-size: 15px; color: white; cursor: pointer;">Close</button>
 		</div>
 		<script>
-		const dBName = "EM_FS_" + window.location.pathname;
+		gn = '';
 		
-		function openDB() {
+		function openDB(name) {
 		    return new Promise((resolve, reject) => {
-		        const request = indexedDB.open(dBName);
-		        request.onsuccess = () => {
-		            resolve(request.result);
+		        const req = indexedDB.open(name);
+		        req.onsuccess = () => {
+		            resolve(req.result);
 		        };
-		        request.onerror = () => {
-		            reject(request.error);
+		        req.onerror = () => {
+		            reject(req.error);
 		        };
 		    });
 		}
 		
-		async function exportDB(c) {
-		    const db = await openDB();
+		async function exportAllIDB(c) {
+		    const dbList = await indexedDB.databases();
 		    const output = {
-		        database: db.name,
-		        version: db.version,
-		        stores: {}
+		        databases: {}
 		    };
-		    const stores = [...db.objectStoreNames];
-		    for (const storeName of stores) {
-		        const tx = db.transaction(storeName, "readonly");
-		        const store = tx.objectStore(storeName);
-		        const data = await new Promise((resolve, reject) => {
-		            const req = store.getAll();
-		            req.onsuccess = () => resolve(req.result);
-		            req.onerror = () => reject(req.error);
-		        });
-		        output.stores[storeName] = data;
+		    for (const info of dbList) {
+		        if (!info.name) continue;
+		        console.log(
+		            "Reading database:",
+		            info.name);
+		        const db = await openDB(info.name);
+		        output.databases[info.name] = {
+		            version: db.version,
+		            stores: {}
+		        };
+		        for (const storeName of db.objectStoreNames) {
+		            const tx = db.transaction(storeName, "readonly");
+		            const store = tx.objectStore(storeName);
+		            const data = await new Promise(
+		                (resolve, reject) => {
+		                const req = store.getAll();
+		                req.onsuccess = () => {
+		                    resolve(req.result);
+		                };
+		                req.onerror = () => {
+		                    reject(req.error);
+		                };
+		
+		            });
+		            console.log("Store:", storeName, data);
+		            output
+		                .databases[info.name]
+		                .stores[storeName] = data;
+		        }
+		        db.close();
 		    }
 		    if (c == 0) {
-		        const blob = new Blob(
-		            [JSON.stringify(output, null, 2)],
-		            {type: "application/json"}
+		        const blob = new Blob([
+		            JSON.stringify(
+		              output,
+		              null,
+		              2
+		            )], { type: "application/json" }
 		        );
 		        const a = document.createElement("a");
 		        a.href = URL.createObjectURL(blob);
-		        a.download = `${dBName}.json`;
+		        a.download = `${gn} (DB).json`;
 		        a.click();
 		        URL.revokeObjectURL(a.href);
+		        console.log("Export complete");
+		    } else {
+		        navigator.clipboard.writetext(JSON.stringify(output));
+		    }
+		}
+		
+		async function importAllIDB(p) {
+		    if (p == 0) {
+		        const file = document.getElementById("file-btn").files[0];
+		        if (file.type != 'application/json') {
+		            alert("Choose a JSON file");
+		            return;
+		        }
+		        const json = JSON.parse(await file.text());
+		    } else {
+		        let file = prompt("Paste your JSON here.");
+		        const json = JSON.parse(file);
+		    }
+		    for (const dbName in json.databases) {
+		        const importedDB = json.databases[dbName];
+		        console.log(
+		            "Importing:",
+		            dbName
+		        );
+		        const db = await openDB(dbName);
+		        for (const storeName in importedDB.stores) {
+		            if (!db.objectStoreNames.contains(storeName)) {
+		                console.warn(`Store "${storeName}" missing`);
+		                continue;
+		            }
+		            const tx =
+		                db.transaction(
+		                    storeName,
+		                    "readwrite"
+		                );
+		            const store =
+		                tx.objectStore(
+		                    storeName
+		                );
+		            await new Promise(
+		                (
+		                    resolve,
+		                    reject
+		                ) => {
+		                const req = store.clear();
+		                req.onsuccess = resolve;
+		                req.onerror = reject;
+		            });
+		            for (const item of importedDB.stores[storeName]) {
+		                await new Promise(
+		                    (
+		                        resolve,
+		                        reject
+		                    ) => {
+		                    const req = store.put(item);
+		                    req.onsuccess = resolve;
+		                    req.onerror = reject;
+		                });
+		            }
+		            await new Promise(
+		                resolve => {
+		                    tx.oncomplete = resolve;
+		                }
+		            );
+		        }
 		        db.close();
-		    } else {
-		        navigator.clipboard.writetext(JSON.stringify(output, null, 2));
 		    }
-		}
-		
-		async function importDB(file) {
-		    const text = await file.text();
-		    const imported = JSON.parse(text);
-		    const db = await openDB(dBName);
-		    for (const storeName in imported.stores) {
-		        if (!db.objectStoreNames.contains(storeName)) {
-		            console.warn(
-		                `Store "${storeName}" does not exist`
-		            );
-		            continue;
-		        }
-		        const tx = db.transaction(
-		            storeName,
-		            "readwrite"
-		        );
-		        const store = tx.objectStore(storeName);
-		        await new Promise((resolve,reject)=>{
-		            const req = store.clear();
-		            req.onsuccess = resolve;
-		            req.onerror = reject;
-		        });
-		        for (const item of imported.stores[storeName]) {
-		
-		            await new Promise((resolve,reject)=>{
-		                const req = store.put(item);
-		
-		                req.onsuccess = resolve;
-		                req.onerror = reject;
-		            });
-		
-		        }
-		        await new Promise(resolve=>{
-		            tx.oncomplete = resolve;
-		        });
-		    }
-		    db.close();
 		    alert("Import complete");
 		}
 		
-		async function pasteDB() {
-		    const text = window.prompt('Paste JSON data here.');
-		    const imported = JSON.parse(text);
-		    const db = await openDB(dBName);
-		    for (const storeName in imported.stores) {
-		        if (!db.objectStoreNames.contains(storeName)) {
-		            console.warn(
-		                `Store "${storeName}" does not exist`
-		            );
-		            continue;
-		        }
-		        const tx = db.transaction(
-		            storeName,
-		            "readwrite"
-		        );
-		        const store = tx.objectStore(storeName);
-		        await new Promise((resolve,reject)=>{
-		            const req = store.clear();
-		            req.onsuccess = resolve;
-		            req.onerror = reject;
-		        });
-		        for (const item of imported.stores[storeName]) {
-		
-		            await new Promise((resolve,reject)=>{
-		                const req = store.put(item);
-		
-		                req.onsuccess = resolve;
-		                req.onerror = reject;
-		            });
-		
-		        }
-		        await new Promise(resolve=>{
-		            tx.oncomplete = resolve;
-		        });
-		    }
-		    db.close();
-		    alert("Import complete");
-		}
-		
-		document.getElementById('file-btn').addEventListener('change', (event) => {
-		    const file = event.target.files[0];
-		    if (file.type == 'application/json') {
-		      importDB(
-		          file
-		      );
-		    } else {
-		      window.alert('Invalid file type.');
-		    }
-		});
-		
-		window.addEventListener('beforeunload', (event) => {
-		  event.preventDefault();
-		  event.returnValue = '';
-		  document.getElementById('data-bar').style.display = 'block';
+		document.getElementById('file-btn').addEventListener('change', () => {
+		  importAllIDB();
 		});
 		</script>
     </body>
