@@ -65,16 +65,27 @@ async function exportAllIDB(c) {
             const tx = db.transaction(storeName, "readonly");
             const store = tx.objectStore(storeName);
             const data = await new Promise(
-                (resolve, reject) => {
-                const req = store.getAll();
-                req.onsuccess = () => {
-                    resolve(req.result);
-                };
-                req.onerror = () => {
-                    reject(req.error);
-                };
-
-            });
+                (resolve,reject)=>{
+                    const valuesReq = store.getAll();
+                    const keysReq = store.getAllKeys();
+                    Promise.all([
+                        new Promise((r,j)=>{
+                            valuesReq.onsuccess=()=>r(valuesReq.result);
+                            valuesReq.onerror=()=>j(valuesReq.error);
+                        }),
+                        new Promise((r,j)=>{
+                            keysReq.onsuccess=()=>r(keysReq.result);
+                            keysReq.onerror=()=>j(keysReq.error);
+                        })
+                    ]).then(([values,keys])=>{
+                        resolve(
+                            values.map((value,i)=>({
+                                key: keys[i],
+                                value: value
+                            }))
+                        );
+                    }).catch(reject);
+                });
             console.log("Store:", storeName, data);
             output
                 .databases[info.name]
@@ -141,13 +152,35 @@ async function importAllIDB(p) {
             });
             for (const item of importedDB.stores[storeName]) {
                 await new Promise(
-                    (
-                        resolve,
-                        reject
-                    ) => {
-                    const req = store.put(item);
-                    req.onsuccess = resolve;
-                    req.onerror = reject;
+                (resolve,reject)=>{
+                    let req;
+                    try {
+                        if (item.key !== undefined) {
+                            req = store.put(
+                                item.value,
+                                item.key
+                            );
+                        } else {
+                            req = store.put(
+                                item.value
+                            );
+                        }
+                        req.onsuccess=resolve;
+                        req.onerror=()=>{
+                            console.error(
+                                "Failed item:",
+                                item
+                            );
+                            reject(req.error);
+                        };
+                    } catch(err){
+                        console.error(
+                            "Put error:",
+                            err,
+                            item
+                        );
+                        reject(err);
+                    }
                 });
             }
             await new Promise(
