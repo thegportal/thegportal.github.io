@@ -148,7 +148,7 @@ async function importAllIDB(p) {
                     reject(clearReq.error);
                 };
         
-                clearReq.onsuccess = () => {=
+                clearReq.onsuccess = () => {
                     for (const item of importedDB.stores[storeName]) {
                         let req;
                         try {
