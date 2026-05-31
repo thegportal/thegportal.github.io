@@ -46,6 +46,41 @@ function openDB(name) {
     });
 }
 
+function serialize(obj) {
+    return JSON.parse(
+        JSON.stringify(
+            obj,
+            (key, value) => {
+                if (value instanceof Date) {
+                    return {
+                        __type: "Date",
+                        value: value.toISOString()
+                    };
+                }
+                if (value instanceof ArrayBuffer) {
+                    return {
+                        __type: "ArrayBuffer",
+                        value: Array.from(
+                            new Uint8Array(value)
+                        )
+                    };
+                }
+                if (
+                    ArrayBuffer.isView(value)
+                ) {
+                    return {
+                        __type:
+                            value.constructor.name,
+                        value:
+                            Array.from(value)
+                    };
+                }
+                return value;
+            }
+        )
+    );
+}
+
 async function exportAllIDB(c) {
     const dbList = await indexedDB.databases();
     const output = {
@@ -79,9 +114,9 @@ async function exportAllIDB(c) {
                         })
                     ]).then(([values,keys])=>{
                         resolve(
-                            values.map((value,i)=>({
+                            values.map((value, i) => ({
                                 key: keys[i],
-                                value: value
+                                value: serialize(value)
                             }))
                         );
                     }).catch(reject);
@@ -110,6 +145,55 @@ async function exportAllIDB(c) {
     } else {
         navigator.clipboard.writetext(JSON.stringify(output));
     }
+}
+
+function deserialize(obj) {
+
+    if (obj && typeof obj === "object") {
+        for (const k in obj) {
+            obj[k] =
+                deserialize(
+                    obj[k]
+                );
+        }
+        if (obj.__type) {
+            switch (obj.__type) {
+                case "Date":
+                    return new Date(
+                        obj.value
+                    );
+                case "ArrayBuffer":
+                    return new Uint8Array(
+                        obj.value
+                    ).buffer;
+                case "Uint8Array":
+                    return new Uint8Array(
+                        obj.value
+                    );
+                case "Int8Array":
+                    return new Int8Array(
+                        obj.value
+                    );
+                case "Uint16Array":
+                    return new Uint16Array(
+                        obj.value
+                    );
+                case "Int16Array":
+                    return new Int16Array(
+                        obj.value
+                    );
+                case "Uint32Array":
+                    return new Uint32Array(
+                        obj.value
+                    );
+                case "Int32Array":
+                    return new Int32Array(
+                        obj.value
+                    );
+            }
+        }
+    }
+    return obj;
 }
 
 async function importAllIDB(p) {
@@ -147,25 +231,21 @@ async function importAllIDB(p) {
                 clearReq.onerror = () => {
                     reject(clearReq.error);
                 };
-        
                 clearReq.onsuccess = () => {
                     for (const item of importedDB.stores[storeName]) {
                         let req;
                         try {
+                            item.value = deserialize(item.value);
+                            console.log(
+                              storeName,
+                              item
+                            );
                             if (item.key !== undefined) {
-                                console.log(
-                                    storeName,
-                                    item
-                                );
                                 req = store.put(
                                     item.value,
                                     item.key
                                 );
                             } else {
-                                console.log(
-                                  storeName,
-                                  item
-                                );
                                 req = store.put(item.value);
         
                             }
