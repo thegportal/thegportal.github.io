@@ -25,7 +25,7 @@
 <div id="data-bar" style="position: absolute; top: 0; left: 0; z-index: 9999; width: 100vw; height: 40px; background: #444; box-sizing: border-box; border: 2px solid #777; border-radius: 0 0 10px 10px; padding: 4px; font-family: Helvetica; font-size: 15px; color: white; user-select: none;">
 <label for="file-btn" style="display: flex; justify-content: center; align-items: center; height: 28px; width: 60px; background: #0330fc; border-radius: 5px; cursor: pointer;">Import</label>
 <input type="file" id="file-btn" style="display: none;" />
-<button onclick="pasteDB()" style="position: absolute; top: 4px; left: 70px; height: 28px; width: 60px; background: #9900ff; border: none; border-radius: 5px; font-size: 15px; color: white; cursor: pointer;">Paste</button>
+<button onclick="importAllIDB(1)" style="position: absolute; top: 4px; left: 70px; height: 28px; width: 60px; background: #9900ff; border: none; border-radius: 5px; font-size: 15px; color: white; cursor: pointer;">Paste</button>
 <button onclick="exportAllIDB(0)" style="position: absolute; top: 4px; left: 136px; height: 28px; width: 60px; background: #11ab00; border: none; border-radius: 5px; font-size: 15px; color: white; cursor: pointer;">Export</button>
 <button onclick="exportAllIDB(1)" style="position: absolute; top: 4px; left: 202px; height: 28px; width: 60px; background: #04b88b; border: none; border-radius: 5px; font-size: 15px; color: white; cursor: pointer;">Copy</button>
 <button onclick="window.alert('-> If you attempt to refresh or close this tab or window, a pop-up will appear. If you press \'Cancel\', this bar will reappear, and you will be able to save your data, even if the bar was closed before.\n-> Games may restart to accommodate the new imported data.\n-> TIP: Do NOT attempt to close or refresh the window when a pop-up, like this, pops up. The pop-up warning will not appear, and you will lose your new data if you do!\n-> Buh-Bye! :D')" style="position: absolute; top: 4px; left: 268px; height: 28px; width: 115px; background: #fcba03; border: none; border-radius: 5px; font-size: 15px; color: white; cursor: pointer;">Important Info</button>
@@ -162,7 +162,7 @@ async function importAllIDB(p) {
 }
 
 document.getElementById('file-btn').addEventListener('change', () => {
-  importAllIDB();
+  importAllIDB(0);
 });
 </script>
     </body>
