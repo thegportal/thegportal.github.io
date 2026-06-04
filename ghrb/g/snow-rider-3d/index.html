@@ -132,8 +132,7 @@ async function exportAllIDB(c) {
         const blob = new Blob([
             JSON.stringify(
               output,
-              null,
-              2
+              null
             )], { type: "application/json" }
         );
         const a = document.createElement("a");
@@ -143,7 +142,7 @@ async function exportAllIDB(c) {
         URL.revokeObjectURL(a.href);
         console.log("Export complete");
     } else {
-        navigator.clipboard.writetext(JSON.stringify(output));
+        navigator.clipboard.writeText(JSON.stringify(output, null));
     }
 }
 
