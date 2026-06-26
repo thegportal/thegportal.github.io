@@ -15,7 +15,7 @@ E       M     M    Y
 EEEEEEE M     M    Y
 
  [] []
- 
+_     _
 \\___//
  \___/
 
@@ -48,7 +48,7 @@ html, body {
   background-attachment: fixed;
   margin: 0;
   color: white;
-  font-family: Iosevka Charon Mono, Helvetica;
+  font-family: Iosevka Charon Mono, Monospace;
   overflow-x: hidden;
   user-select: none;
   -ms-overflow-style: none;
@@ -60,7 +60,7 @@ html, body {
 p {
   margin: 0;
   color: white;
-  font-family: Iosevka Charon Mono, Helvetica;
+  font-family: Iosevka Charon Mono, Monospace;
 }
 
 crs {
@@ -122,6 +122,12 @@ a {
   color: yellow;
   text-decoration: underline;
   cursor: pointer;
+}
+
+select {
+  font-family: Iosevka Charon Mono, Monospace;
+} option {
+  font-family: Iosevka Charon Mono, Monospace;
 }
 
 #sidebar {
@@ -360,6 +366,7 @@ a {
 .gs {
   display: block;
   align-content: start;
+  max-width: 875px;
 }
 
 .frm {
@@ -414,13 +421,55 @@ a {
   content: 'Ads help me out! :)';
   text-decoration: none;
 }
+
+#loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  background: black;
+}
+
+#winds {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+}
+
+.wind {
+  position: fixed;
+  top: 50px;
+  left: 50px;
+  width: calc(100vw - 100px);
+  height: calc(100vh - 100px);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  border: 3px solid #fc95d8;
+  border-radius: 15px;
+}
 </style>
 </head>
 <body spellcheck="false">
+<div id="loading">
+<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+<img src="https://images.chesscomfiles.com/proxy/ih1.redbubble.net/image.4984926493.8694/bg,f8f8f8-flat,750x,075,f-pad,750x1000,f8f8f8/https/3662f787b5.jpg" style="object-fit: cover; object-position: top; width: 100px; height: 75px;">
+<h1 style="margin: 0; font-family: Monospace;">Loading GHRB...</h1>
+<p style="color: #aae5a4; font-family: Monospace;">If this screen does not disappear, then Javascript is broken/disabled on this page :(</p>
+</div>
+</div>
 <div id="sidebar">
 <img src="assets/GHub Logo 5 Small.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/GHub%20Logo%205%20Small.svg'" style="width: 180px; margin: 9px;">
 
 <div style="position: absolute; bottom: 0; padding: 5px;">
+<a href="" target="_blank"><img src="assets/yt.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/snap.svg'" width="20" style="background: white; border-radius: 5px; display: inline" title="@Θήτα8"></a>
+<a href="https://t.me/+lqNbFMe-v4BjMTVh" target="_blank"><img src="assets/tele.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/snap.svg'" width="20" style="background: white; border-radius: 5px; display: inline" title="https://t.me/+lqNbFMe-v4BjMTVh"></a>
 <div class="side-social"><img src="assets/snap.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/snap.svg'" width="20" style="background: #fffc00; border-radius: 5px; display: inline"><br>
 <a href="https://www.snapchat.com/add/jer_powell2024?share_id=eKGXzsvSRqI&locale=en-US" target="_blank" style="text-decoration: underline; color: yellow;">jer_powell2024</a></div>
 <div class="side-social"><img src="assets/dis.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/dis.svg'" width="20" style="background: #5865f2; border-radius: 5px;"><br>
@@ -437,15 +486,40 @@ a {
 </div>
 <div id="top-fade">
 <div id="top-fade-c">
-<img class="top-btn" src="assets/settings.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/settings.svg'" title="Settings">
+<img class="top-btn" src="assets/settings.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/settings.svg'" onclick="document.getElementById('winds').style.display = 'block'; document.getElementById('sett').style.display = 'block'; document.getElementById('main-content').style.overflow = 'hidden'" title="Settings">
 <img class="top-btn" src="assets/download.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/download.svg'" title="Download and Share GHRB">
 </div>
+</div>
+
+<div id="winds">
+
+<div id="sett" class="wind">
+<img src="assets/close.svg" height="25" class="ibtn" style="position: absolute; top: 10px; right: 10px; cursor: pointer; border: none;" onclick="this.parentElement.style.display = 'none'; this.parentElement.parentElement.style.display = 'none'; document.body.style.overflow = 'auto'">
+<p>Settings</p>
+
+<label for="filters">Choose Your Filter:</label>
+
+<select name="filters" id="filters">
+  <option value="GoGuardian">GoGuardian</option>
+  <option value="Securly">Securly</option>
+  <option value="LightSpeed">LightSpeed</option>
+  <option value="Blocksi">Blocksi</option>
+  <option value="LANSchool">LANSchool</option>
+  <option value="Linewise">Linewise</option>
+  <option value="Fortiguard">Fortiguard</option>
+  <option value="Cisco Umbrellla">Cisco Umbrellla</option>
+  <option value="ContentKeeper">ContentKeeper</option>
+  <option value="Hapara">Hapara</option>
+  <option value="iboss">iboss</option>
+</select>
+</div>
+
 </div>
 
 <div id="main-content">
 <center>
 
-<div id="me1">
+<div id="me1" class="m">
 <img src="assets/GHub Logo 5.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/GHub%20Logo%205.svg'" style="width: 400px;">
 <div id="rm">
 <button id="rf" onclick="makeM()"><img src="assets/refresh.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/refresh.svg'" style="width: 20px; margin-left: -6px; margin-top: -1px; cursor: pointer;"></button>
@@ -454,9 +528,11 @@ a {
 </div>
 <embed class="c" src="https://incr.easrng.net/badge?key=thegportal876" style="background: white; border-radius: 5px; display: block; margin: 5px;" title="increment badge" width="88" height="31" frameborder="0">
 <p>Hello.</p>
+<hr>
+<h1>Tools</h1>
 </div>
 
-<div id="me2">
+<div id="me2" class="m">
 <h1 id="gt">All Games! :)</h1>
 <div class="urlerror"></div>
 <input class="c" id="gameSearch" type="text" placeholder="Search for Games!" style="border-color: #9830ff; border-radius: 10px; background: rgba(50, 50, 50, 0.7); color: white; font-size: 15px; max-width: 450px; min-width: 200px; width: calc(100% - 300px); height: 35px; text-align: center; box-shadow: 0px 5px 10px black;">
@@ -474,9 +550,8 @@ a {
 <div id="ag" class="gs"></div>
 </div>
 
-<div id="me3">
+<div id="me3" class="m">
 <h1>Custom Games! :)</h1>
-<div class="urlerror"></div>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8270134843640137"
      crossorigin="anonymous"></script>
 <!-- Ad 1 -->
@@ -517,30 +592,30 @@ a {
 <div id="cg" class="gs"></div>
 </div>
 
-<div id="me4">
+<div id="me4" class="m">
 <h1>Proxies :)</h1>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8270134843640137"
      crossorigin="anonymous"></script>
-<!-- Ad 1 -->
+<!-- Ad 2 -->
 <ins class="adsbygoogle"
      style="display:inline-block;width:728px;height:90px"
      data-ad-client="ca-pub-8270134843640137"
-     data-ad-slot="9182242755"></ins>
+     data-ad-slot="7869161083"></ins>
 <script>
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
 <div id="pr" class="gs"></div>
 </div>
 
-<div id="me5">
+<div id="me5" class="m">
 <h1>Forms & More :)</h1>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8270134843640137"
      crossorigin="anonymous"></script>
-<!-- Ad 1 -->
+<!-- Ad 3 -->
 <ins class="adsbygoogle"
      style="display:inline-block;width:728px;height:90px"
      data-ad-client="ca-pub-8270134843640137"
-     data-ad-slot="9182242755"></ins>
+     data-ad-slot="8895302294"></ins>
 <script>
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
@@ -623,11 +698,12 @@ document.getElementById("tb1")
 
 gms = Array(
   //All Games
-  ['ag', 'https://example.com', 'Test', 'none', '100%', '100%', '#fff', ['flashg', 'sigma']],
-  ['ag', 'https://example.com', 'Test 2', 'none', '100%', '100%', '#fff', ['flashg', 'sigma', 'diddy']],
+  ['ag', 'https://example.com', 'Test', 'none', '100%', '100%', '#fff', ['Flash']],
+  ['ag', 'https://example.com', 'Test 2', 'none', '100%', '100%', '#fff', ['Flash']],
+  ['ag', 'https://thegportal.github.io/ghrb/g/snow-rider-3d/index.html', 'Snow Rider 3D (TEST)', 'none', '70%', '100%', 'black', ['Endless']],
   //Proxies
-  ['pr', 'https://fern.best/', 'Fern', 'https://avatars.githubusercontent.com/u/112173820?s=200&v=4', '100%', '100%', '#000', null],
-  ['pr', 'https://www.croxyproxy.com/', 'CroxyProxy', 'https://avatars.githubusercontent.com/u/45306907?v=4', '100%', '100%', '#fff', null]
+  ['pr', 'https://fern.best/', 'Fern', 'https://avatars.githubusercontent.com/u/112173820?s=200&v=4', '100%', '100%', '#000', ['Proxy']],
+  ['pr', 'https://www.croxyproxy.com/', 'CroxyProxy', 'https://avatars.githubusercontent.com/u/45306907?v=4', '100%', '100%', '#fff', ['Proxy']]
 );
 
 function checkMMenu() {
@@ -727,14 +803,15 @@ function addBGm(el, sourc, titl, sourcP, wid, hei, bgCol) {
 }
 
 let ct = Array(
-  ['flashg', '#eb4034'],
-  ['sigma', '#34eb8f'],
-  ['diddy', '#fff700']
+  ['Proxy', '#000'],
+  ['Flash', '#eb4034'],
+  ['Sigma', '#34eb8f'],
+  ['Diddy', '#fff700'],
+  ['Endless', '#339cde']
 );
 
 gms.forEach((ar) => {
   let ng = document.createElement('div');
-  ng.setAttribute('class', 'game-select');
   ng.setAttribute('onclick', `openG('${ar[1]}', '${ar[4]}', '${ar[5]}', '${ar[6]}', '${ar[2]}', 0)`);
   ng.innerHTML = `<img id="preImg" class="icon-img" src="${ar[3]}" onerror="this.src='https://thegportal.github.io/ghrb/assets/error.svg'">
   <p id="preTitle">${ar[2]}</p>`;
@@ -746,6 +823,7 @@ gms.forEach((ar) => {
     tg.style.left = '5px';
     ar[7].forEach(el => {
       tg.innerHTML += `<button class="c tagbtn ${el}" style="background: ${ct.find(subArray => subArray.includes(el))[1]}; border: 2px solid color-mix(in srgb, ${ct.find(subArray => subArray.includes(el))[1]}, white 50%);" onclick="event.stopPropagation(); filterT('${el}')" title="${el}"></button>`;
+      ng.setAttribute('class', `game-select ${el}`);
     });
     ng.appendChild(tg);
   }
@@ -786,7 +864,7 @@ function openG(sourc, wid, hei, bgCol, titl, bts) {
     multiEls[10].innerText = titl;
   } else {
     if (window.location.href.startsWith('file') || window.location.href.startsWith('data') || window.location.href.startsWith('blob')) {
-      window.alert(`This game is currently unplayable, because you are on a ${window.location.href.slice(0, 4)} URL :(\nI am working on a way to play flash games on this URL, but it may not work for all filters.`);
+      let wc = window.confirm(`This game is unplayable, because you are on a ${window.location.href.slice(0, 4)} URL, and a new ChromeOS update made it impossible to load flash games on this URL :(`);
       return 'Failed to open game :(';
     }
     const base64Data = sourc.split(',')[1];
@@ -905,9 +983,6 @@ function searchItems() {
 
 search.addEventListener('change', searchItems);
 
-const flashg = document.querySelectorAll('.flashg');
-const sigma = document.querySelectorAll('.sigma');
-
 let glist = document.getElementById('ag');
 
 function filterT(vari) {
@@ -979,9 +1054,10 @@ if (window.location.href.startsWith('file') || window.location.href.startsWith('
   document.querySelectorAll('.urlerror').forEach((e) => {
     e.style.display = 'block';
     e.innerText = `You are on a ${window.location.href.slice(0, 4)} URL, so certain games (such as flash games) may not work :(`;
+    document.getElementById('loading').style.display = 'none';
   });
   document.querySelectorAll('.adsbygoogle').forEach((e) => {e.remove()});
-  document.title = window.location.href.slice(0, 4);
+  document.title = 'GHRB (' + window.location.href.slice(0, 4) + ')';
 }
 
 //AFTER THIS POINT, FUNCTIONS UTILISE INDEXEDDB AND/OR LOCALSTORAGE. THESE FEATURES WILL NOT WORK ON DATA: URLS.
@@ -1157,6 +1233,8 @@ function pasteGD() {
       }
   }
 }
+
+document.getElementById('loading').style.display = 'none';
 </script>
 </body>
 </html>
