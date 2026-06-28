@@ -165,7 +165,7 @@ async function exportAllIDB(c) {
         { type: "application/gzip" });
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
-      a.download = `Maths (DB).gzip`;
+      a.download = `Maths (DB).gz`;
       a.click();
       URL.revokeObjectURL(a.href);
       console.log("Export complete");
@@ -252,7 +252,7 @@ async function importAllIDB(p) {
     let json;
     if (p == 0) {
       let file = document.getElementById("file-btn").files[0];
-      if (file.type != 'application/gzip') {
+      if (file.type != 'application/gzip' && file.type != 'application/json') {
         alert("Choose a gzip file");
         return;
       }
