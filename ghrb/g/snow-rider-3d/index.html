@@ -15,7 +15,7 @@
 let gu = 'https://thegportal.github.io/ghrb/g/snow-rider-3d/index.html';
 let iu = (window.parent.location.href.startsWith('data:') || window.parent.location.href.startsWith('blob:')) && window.location.href == 'about:srcdoc';
 
-if (!iu) {
+if (iu) {
   co = window.confirm('-> You are on a blob, file or data URL, with the game in a sd, which does not work. You must switch the method of unblocking to an embed.\n-> NOTE: There is absolutely NO guarantee that this method will work, as it has been patched by (at least) GoGuardian. A better fix to this issue would to access your games website using a method other than blob or data URLs.\n-> Do you wish to continue with the new method?');
   if (co) {
     document.body.innerHTML = `<object style="position: absolute; top: 0; left: 0; width: 100vw; height: 100vh;" data="${gu}"></object>`;
