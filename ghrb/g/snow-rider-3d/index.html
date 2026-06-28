@@ -252,8 +252,8 @@ async function importAllIDB(p) {
     let json;
     if (p == 0) {
       let file = document.getElementById("file-btn").files[0];
-      if (file.type != 'application/json') {
-        alert("Choose a JSON file");
+      if (file.type != 'application/gzip') {
+        alert("Choose a gzip file");
         return;
       }
       const buffer =
