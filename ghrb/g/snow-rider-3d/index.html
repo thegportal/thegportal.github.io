@@ -1,27 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-		<title>Snow Rider 3D</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" href="https://thegportal.github.io/ghrb/g/snow-rider-3d/themes.css" />
-		<script src="https://thegportal.github.io/ghrb/g/snow-rider-3d/UnityProgress.js"></script>
-		<script src="https://thegportal.github.io/ghrb/g/snow-rider-3d/UnityLoader.js"></script>
-		<script>
-			var gameInstance = UnityLoader.instantiate("gameContainer", "https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/snow-rider-3d/SnowRider3D-gd-1.json", {
-				onProgress: UnityProgress,
-				Module: {
-					onRuntimeInitialized: function () {
-						UnityProgress(gameInstance, "complete");
-					},
-				},
-			});
-		</script>
-	</head>
-	<body>
-		<div class="webgl-content"><div id="gameContainer" style="width: 100%; height: 100%; margin: auto"></div></div>
-
+<html>
+<body>
 <div onclick="document.getElementById('data-bar').style.display = 'block';" style="position: absolute; top: 0; left: calc(50vw - 20px); z-index: 9998; width: 40px; height: 7px; background: #444; box-sizing: border-box; border: 2px solid #777; border-radius: 0 0 7px 7px; cursor: pointer; transition: 0.5s;"></div>
 <div id="data-bar" style="position: absolute; top: 0; left: 0; z-index: 9999; width: 100vw; height: 40px; background: #444; box-sizing: border-box; border: 2px solid #777; border-radius: 0 0 10px 10px; padding: 4px; font-family: Helvetica; font-size: 15px; color: white; user-select: none;">
 <label for="file-btn" style="display: flex; justify-content: center; align-items: center; height: 28px; width: 60px; background: #0330fc; border-radius: 5px; cursor: pointer;">Import</label>
@@ -33,254 +12,313 @@
 <button onclick="this.parentElement.style.display = 'none';" style="position: absolute; top: 4px; right: 4px; height: 28px; width: 60px; background: #fc1703; border: none; border-radius: 5px; font-size: 15px; color: white; cursor: pointer;">Close</button>
 </div>
 <script>
-gn = '';
+let gu = 'https://thegportal.github.io/ghrb/g/snow-rider-3d/index.html';
+let iu = (window.parent.location.href.startsWith('data:') || window.parent.location.href.startsWith('blob:')) && window.location.href == 'about:srcdoc';
+
+if (!iu) {
+  co = window.confirm('-> You are on a blob, file or data URL, with the game in a sd, which does not work. You must switch the method of unblocking to an embed.\n-> NOTE: There is absolutely NO guarantee that this method will work, as it has been patched by (at least) GoGuardian. A better fix to this issue would to access your games website using a method other than blob or data URLs.\n-> Do you wish to continue with the new method?');
+  if (co) {
+    document.body.innerHTML = `<object style="position: absolute; top: 0; left: 0; width: 100vw; height: 100vh;" data="${gu}"></object>`;
+  }
+}
 
 function openDB(name) {
+  if (!iu) {
     return new Promise((resolve, reject) => {
-        const req = indexedDB.open(name);
-        req.onsuccess = () => {
-            resolve(req.result);
-        };
-        req.onerror = () => {
-            reject(req.error);
-        };
+      const req = indexedDB.open(name);
+      req.onsuccess = () => {
+        resolve(req.result);
+      };
+      req.onerror = () => {
+        reject(req.error);
+      };
     });
+  }
 }
 
 function serialize(obj) {
-    return JSON.parse(
-        JSON.stringify(
-            obj,
-            (key, value) => {
-                if (value instanceof Date) {
-                    return {
-                        __type: "Date",
-                        value: value.toISOString()
-                    };
-                }
-                if (value instanceof ArrayBuffer) {
-                    return {
-                        __type: "ArrayBuffer",
-                        value: Array.from(
-                            new Uint8Array(value)
-                        )
-                    };
-                }
-                if (
-                    ArrayBuffer.isView(value)
-                ) {
-                    return {
-                        __type:
-                            value.constructor.name,
-                        value:
-                            Array.from(value)
-                    };
-                }
-                return value;
-            }
-        )
-    );
+  return JSON.parse(
+    JSON.stringify(
+      obj,
+      (key, value) => {
+        if (value instanceof Date) {
+          return {
+            __type: "Date",
+            value: value.toISOString()
+          };
+        }
+        function toBase64(buffer) {
+          let binary = '';
+          const bytes = new Uint8Array(buffer);
+          for (let i = 0; i < bytes.length; i++) {
+            binary += String.fromCharCode(bytes[i]);
+          }
+          return btoa(binary);
+        }
+        if (value instanceof ArrayBuffer) {
+          return {
+            __type: "ArrayBuffer",
+            value: toBase64(value)
+          };
+        }
+        if (ArrayBuffer.isView(value)) {
+          return {
+            __type: value.constructor.name,
+            value: toBase64(value.buffer)
+          };
+        }
+        return value;
+      }
+    )
+  );
 }
 
 async function exportAllIDB(c) {
+  if (!iu) {
     const dbList = await indexedDB.databases();
     const output = {
-        databases: {}
+      databases: {}
     };
     for (const info of dbList) {
-        if (!info.name) continue;
-        console.log(
-            "Reading database:",
-            info.name);
-        const db = await openDB(info.name);
-        output.databases[info.name] = {
-            version: db.version,
-            stores: {}
-        };
-        for (const storeName of db.objectStoreNames) {
-            const tx = db.transaction(storeName, "readonly");
-            const store = tx.objectStore(storeName);
-            const data = await new Promise(
-                (resolve,reject)=>{
-                    const valuesReq = store.getAll();
-                    const keysReq = store.getAllKeys();
-                    Promise.all([
-                        new Promise((r,j)=>{
-                            valuesReq.onsuccess=()=>r(valuesReq.result);
-                            valuesReq.onerror=()=>j(valuesReq.error);
-                        }),
-                        new Promise((r,j)=>{
-                            keysReq.onsuccess=()=>r(keysReq.result);
-                            keysReq.onerror=()=>j(keysReq.error);
-                        })
-                    ]).then(([values,keys])=>{
-                        resolve(
-                            values.map((value, i) => ({
-                                key: keys[i],
-                                value: serialize(value)
-                            }))
-                        );
-                    }).catch(reject);
-                });
-            console.log("Store:", storeName, data);
-            output
-                .databases[info.name]
-                .stores[storeName] = data;
-        }
-        db.close();
+      if (!info.name) continue;
+      console.log(
+        "Reading database:",
+        info.name);
+      const db = await openDB(info.name);
+      output.databases[info.name] = {
+        version: db.version,
+        stores: {}
+      };
+      for (const storeName of db.objectStoreNames) {
+        const tx = db.transaction(storeName, "readonly");
+        const store = tx.objectStore(storeName);
+        const data = await new Promise(
+          (resolve,reject)=>{
+            const valuesReq = store.getAll();
+            const keysReq = store.getAllKeys();
+            Promise.all([
+              new Promise((r,j)=>{
+                valuesReq.onsuccess=()=>r(valuesReq.result);
+                valuesReq.onerror=()=>j(valuesReq.error);
+              }),
+              new Promise((r,j)=>{
+                keysReq.onsuccess=()=>r(keysReq.result);
+                keysReq.onerror=()=>j(keysReq.error);
+              })
+            ]).then(([values,keys])=>{
+              resolve(
+                values.map((value, i) => ({
+                  key: keys[i],
+                  value: serialize(value)
+                }))
+              );
+            }).catch(reject);
+          });
+        console.log("Store:", storeName, data);
+        output
+          .databases[info.name]
+          .stores[storeName] = data;
+      }
+      db.close();
     }
     if (c == 0) {
-        const blob = new Blob([
-            JSON.stringify(
-              output,
-              null
-            )], { type: "application/json" }
+      async function gzipCompress(str) {
+        const stream = new CompressionStream("gzip");
+        const writer = stream.writable.getWriter();
+        writer.write(
+          new TextEncoder().encode(str)
         );
-        const a = document.createElement("a");
-        a.href = URL.createObjectURL(blob);
-        a.download = `${gn} (DB).json`;
-        a.click();
-        URL.revokeObjectURL(a.href);
-        console.log("Export complete");
-    } else {
-        navigator.clipboard.writeText(JSON.stringify(output, null));
+        writer.close();
+        const compressed =
+          await new Response(
+            stream.readable
+          ).arrayBuffer();
+        return compressed;
     }
+      const json =
+        JSON.stringify(output);
+      const compressed =
+        await gzipCompress(json);
+      const blob = new Blob(
+        [compressed],
+        { type: "application/gzip" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `Maths (DB).gzip`;
+      a.click();
+      URL.revokeObjectURL(a.href);
+      console.log("Export complete");
+    } else {
+      navigator.clipboard.writeText(JSON.stringify(output, null));
+    }
+  }
 }
 
 function deserialize(obj) {
-
-    if (obj && typeof obj === "object") {
-        for (const k in obj) {
-            obj[k] =
-                deserialize(
-                    obj[k]
-                );
-        }
-        if (obj.__type) {
-            switch (obj.__type) {
-                case "Date":
-                    return new Date(
-                        obj.value
-                    );
-                case "ArrayBuffer":
-                    return new Uint8Array(
-                        obj.value
-                    ).buffer;
-                case "Uint8Array":
-                    return new Uint8Array(
-                        obj.value
-                    );
-                case "Int8Array":
-                    return new Int8Array(
-                        obj.value
-                    );
-                case "Uint16Array":
-                    return new Uint16Array(
-                        obj.value
-                    );
-                case "Int16Array":
-                    return new Int16Array(
-                        obj.value
-                    );
-                case "Uint32Array":
-                    return new Uint32Array(
-                        obj.value
-                    );
-                case "Int32Array":
-                    return new Int32Array(
-                        obj.value
-                    );
-            }
-        }
+  if (obj && typeof obj === "object") {
+    for (const k in obj) {
+      obj[k] =
+        deserialize(
+          obj[k]
+        );
     }
-    return obj;
+    if (obj.__type) {
+      switch (obj.__type) {
+        case "Date":
+          return new Date(
+            obj.value
+          );
+        function fromBase64(base64) {
+          const binary = atob(base64);
+          const bytes = new Uint8Array(binary.length);
+        
+          for (let i = 0; i < binary.length; i++) {
+            bytes[i] = binary.charCodeAt(i);
+          }
+        
+          return bytes.buffer;
+        }
+        
+        case "ArrayBuffer":
+          return fromBase64(obj.value);
+        case "Uint8Array":
+          return new Uint8Array(
+            fromBase64(obj.value)
+          );
+        case "Int8Array":
+          return new Int8Array(
+            fromBase64(obj.value)
+          );
+        case "Uint16Array":
+          return new Uint16Array(
+            fromBase64(obj.value)
+          );
+        case "Int16Array":
+          return new Int16Array(
+            fromBase64(obj.value)
+          );
+        case "Uint32Array":
+          return new Uint32Array(
+            fromBase64(obj.value)
+          );
+        case "Int32Array":
+          return new Int32Array(
+            fromBase64(obj.value)
+          );
+      }
+    }
+  }
+  return obj;
+}
+
+async function gzipDecompress(buffer) {
+  const stream =
+    new DecompressionStream(
+      "gzip"
+    );
+  const writer =
+    stream.writable
+    .getWriter();
+  writer.write(buffer);
+  writer.close();
+  return await new Response(
+    stream.readable
+  ).text();
 }
 
 async function importAllIDB(p) {
+  if (!iu) {
     let json;
     if (p == 0) {
-        let file = document.getElementById("file-btn").files[0];
-        if (file.type != 'application/json') {
-            alert("Choose a JSON file");
-            return;
-        }
-        json = JSON.parse(await file.text());
+      let file = document.getElementById("file-btn").files[0];
+      if (file.type != 'application/json') {
+        alert("Choose a JSON file");
+        return;
+      }
+      const buffer =
+      await file.arrayBuffer();
+      const text =
+        await gzipDecompress(
+          buffer
+        );
+      json = JSON.parse(text);
     } else {
-        let file = prompt("Paste your JSON here.");
-        json = JSON.parse(file);
+      let file = prompt("Paste your JSON here.");
+      json = JSON.parse(file);
     }
     for (const dbName in json.databases) {
-        const importedDB = json.databases[dbName];
-        console.log(
-            "Importing:",
-            dbName
-        );
-        const db = await openDB(dbName);
-        for (const storeName in importedDB.stores) {
-            if (!db.objectStoreNames.contains(storeName)) {
-                console.warn(`Store "${storeName}" missing`);
-                continue;
-            }
-            await new Promise((resolve, reject) => {
-                const tx = db.transaction(
-                    storeName,
-                    "readwrite"
-                );
-                const store = tx.objectStore(storeName);
-                const clearReq = store.clear();
-                clearReq.onerror = () => {
-                    reject(clearReq.error);
-                };
-                clearReq.onsuccess = () => {
-                    for (const item of importedDB.stores[storeName]) {
-                        let req;
-                        try {
-                            item.value = deserialize(item.value);
-                            console.log(
-                              storeName,
-                              item
-                            );
-                            if (item.key !== undefined) {
-                                req = store.put(
-                                    item.value,
-                                    item.key
-                                );
-                            } else {
-                                req = store.put(item.value);
-        
-                            }
-                            req.onerror = () => {
-                                console.error("Failed item:", item);
-                                console.error(
-                                    req.error
-                                );
-                            };
-                        } catch(err) {
-                            console.error(
-                                err,
-                                item
-                            );
-                        }
-                    }
-        
-                };
-                tx.oncomplete = () => {
-                    resolve();
-                };
-                tx.onerror = () => {
-                    reject(tx.error);
-                };
-            });
+      const importedDB = json.databases[dbName];
+      console.log(
+        "Importing:",
+        dbName
+      );
+      const db = await openDB(dbName);
+      for (const storeName in importedDB.stores) {
+        if (!db.objectStoreNames.contains(storeName)) {
+          console.warn(`Store "${storeName}" missing`);
+          continue;
         }
-        db.close();
+        await new Promise((resolve, reject) => {
+          const tx = db.transaction(
+            storeName,
+            "readwrite"
+          );
+          const store = tx.objectStore(storeName);
+          const clearReq = store.clear();
+          clearReq.onerror = () => {
+            reject(clearReq.error);
+          };
+          clearReq.onsuccess = () => {
+            for (const item of importedDB.stores[storeName]) {
+              let req;
+              try {
+                item.value = deserialize(item.value);
+                console.log(
+                  storeName,
+                  item
+                );
+                if (item.key !== undefined) {
+                  req = store.put(
+                    item.value,
+                    item.key
+                  );
+                } else {
+                  req = store.put(item.value);
+
+                }
+                req.onerror = () => {
+                  console.error("Failed item:", item);
+                  console.error(
+                    req.error
+                  );
+                };
+              } catch(err) {
+                console.error(
+                  err,
+                  item
+                );
+              }
+            }
+
+          };
+          tx.oncomplete = () => {
+            resolve();
+          };
+          tx.onerror = () => {
+            reject(tx.error);
+          };
+        });
+      }
+      db.close();
     }
     alert("Import complete");
     window.location.reload();
+  }
 }
 
 document.getElementById('file-btn').addEventListener('change', () => {
   importAllIDB(0);
 });
 </script>
-    </body>
+</body>
 </html>
