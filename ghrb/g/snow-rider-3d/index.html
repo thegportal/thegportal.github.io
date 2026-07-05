@@ -200,7 +200,7 @@ async function exportAllIDB(c) {
     
     const base64 = arrayBufferToBase64(compressed);
     await navigator.clipboard.writeText(base64);
-      navigator.clipboard.writeText(JSON.stringify(base64, null));
+      navigator.clipboard.writeText(base64);
     }
   }
 }
