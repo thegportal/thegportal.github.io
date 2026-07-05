@@ -155,7 +155,8 @@ async function exportAllIDB(c) {
             stream.readable
           ).arrayBuffer();
         return compressed;
-    }
+      }
+    
       const json =
         JSON.stringify(output);
       const compressed =
@@ -170,6 +171,35 @@ async function exportAllIDB(c) {
       URL.revokeObjectURL(a.href);
       console.log("Export complete");
     } else {
+    async function gzipCompress(str) {
+        const stream = new CompressionStream("gzip");
+        const writer = stream.writable.getWriter();
+        writer.write(
+          new TextEncoder().encode(str)
+        );
+        writer.close();
+        const compressed =
+          await new Response(
+            stream.readable
+          ).arrayBuffer();
+        return compressed;
+    }
+      const json =
+        JSON.stringify(output);
+      const compressed =
+        await gzipCompress(json);
+        
+    function arrayBufferToBase64(buffer) {
+        const bytes = new Uint8Array(buffer);
+        let binary = "";
+        for (let i = 0; i < bytes.length; i++) {
+            binary += String.fromCharCode(bytes[i]);
+        }
+        return btoa(binary);
+    }
+    
+    const base64 = arrayBufferToBase64(compressed);
+    await navigator.clipboard.writeText(base64);
       navigator.clipboard.writeText(JSON.stringify(output, null));
     }
   }
@@ -265,8 +295,19 @@ async function importAllIDB(p) {
         );
       json = JSON.parse(text);
     } else {
-      let file = prompt("Paste your JSON here.");
-      json = JSON.parse(file);
+      const base64 = prompt("Paste your JSON here.");
+      function base64ToArrayBuffer(base64) {
+        const binary = atob(base64);
+        const bytes = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) {
+          bytes[i] = binary.charCodeAt(i);
+        }
+        return bytes.buffer;
+      }
+      
+      const compressed = base64ToArrayBuffer(base64);
+      const data = await gzipDecompress(compressed);
+      json = JSON.parse(data);
     }
     for (const dbName in json.databases) {
       const importedDB = json.databases[dbName];
