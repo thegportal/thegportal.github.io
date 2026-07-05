@@ -83,10 +83,18 @@ function serialize(obj) {
           };
         }
         if (ArrayBuffer.isView(value)) {
-          return {
-            __type: value.constructor.name,
-            value: toBase64(value.buffer)
-          };
+            const bytes = new Uint8Array(
+                value.buffer,
+                value.byteOffset,
+                value.byteLength
+            );
+            return {
+                __type: value.constructor.name,
+                value: toBase64(bytes.buffer.slice(
+                    bytes.byteOffset,
+                    bytes.byteOffset + bytes.byteLength
+                ))
+            };
         }
         return value;
       }
