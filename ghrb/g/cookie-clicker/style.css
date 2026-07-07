@@ -1042,7 +1042,7 @@ q:after
 	top:-128px;
 	/*background:url(img/perfectCookie.png);
 	background-size:256px 256px;*/
-	background:url(https://raw.githubusercontent.com/thegportal/thegportal.github.io/main/ghrb/g/cookie-clicker/img/perfectCookie.png);/* somehow necessary; an empty div with no background seems to be click-through */
+	background:url(https://raw.githubusercontent.com/thegportal/thegportal.github.io/main/ghrb/g/cookie-clicker/img/empty.png);/* somehow necessary; an empty div with no background seems to be click-through */
 	cursor:pointer;
 	z-index:10000;
 	border-radius:128px;
