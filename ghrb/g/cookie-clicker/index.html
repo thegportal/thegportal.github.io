@@ -158,7 +158,21 @@ var Base64 = {
  
 }
 </script>
-<script src="main.js"></script>
+<script src="main.js">
+function getScript(url) {
+	return new Promise((resolve, reject) => {
+		const script = document.createElement('script');
+		script.src = url;
+		script.async = true;
+		script.onload = () => resolve('Script loaded.');
+		script.onerror = () => reject(new Error('Scrippt failed to load :('));
+		document.body.appendChild(script);
+	});
+}
+getScript('https://raw.githubusercontent.com/thegportal/thegportal.github.io/main/ghrb/g/cookie-clicker/main.js')
+	.then(msg => console.log(msg))
+	.catch(err => console.error(err));
+</script>
 <style>
 /* reset CSS */
 html, body, div, span, applet, object, iframe,
