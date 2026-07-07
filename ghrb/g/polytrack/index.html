@@ -17,18 +17,24 @@
 			const scripts = document.querySelectorAll('script, link');
 			scripts.forEach((el) => {
 				soh = el.hasAttribute('src') ? true : false;
-				try {
-					let response;
-					if (soh) {
-						response = await fetch(el.getAttribute('src'))
-					} else {
-						response = fetch(el.getAttribute('href'))
+				if (soh) {
+					try {
+						let response = await fetch(el.getAttribute('src'));
+						if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+						const data = await response.text();
+						el.setAttribute(('src'), 'data:text/javascript;base64,' + btoa(data));
+					} catch (error) {
+						console.error('Fetch failed:', error);
 					}
-					if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-					const data = await response.text();
-					el.setAttribute((soh ? 'src' : 'href'), 'data:text/javascript;base64,' + btoa(data))
-				} catch (error) {
-					console.error('Fetch failed:', error);
+				else {
+					try {
+						let response = await fetch(el.getAttribute('href'));
+						if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+						const data = await response.text();
+						el.setAttribute(('href'), 'data:text/javascript;base64,' + btoa(data));
+					} catch (error) {
+						console.error('Fetch failed:', error);
+					}
 				}
 			});
 		</script>
