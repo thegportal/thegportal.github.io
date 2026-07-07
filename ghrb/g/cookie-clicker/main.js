@@ -1168,7 +1168,7 @@ Game.Launch=function()
 		Game.Loader=new Loader();
 		Game.Loader.domain='img/';
 		Game.Loader.loaded=Game.Init;
-		Game.Loader.Load(['filler.png']);
+		Game.Loader.Load(['https://raw.githubusercontent.com/thegportal/thegportal.github.io/main/ghrb/g/cookie-clicker/img/filler.png']);
 	}
 	Game.ErrorFrame=function()
 	{
