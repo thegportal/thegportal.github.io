@@ -13,5 +13,19 @@
 		<div id="transition-layer"></div>
 
 		<script type="module" src="https://thegportal.github.io/ghrb/g/polytrack/main.bundle.js" defer></script>
+		<script>
+			const scripts = document.querySelectorAll('script, link');
+			scripts.forEach((el) => {
+				soh = el.hasAttribute('src') ? true : false;
+				try {
+					const response = (soh ? await fetch(el.getAttribute('src')) : await fetch(el.getAttribute('href')));
+					if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+					const data = await response.text();
+					el.setAttribute((soh ? 'src' : 'href'), 'data:text/javascript;base64,' + btoa(data))
+				} catch (error) {
+					console.error('Fetch failed:', error);
+				}
+			});
+		</script>
 	</body>
 </html>
