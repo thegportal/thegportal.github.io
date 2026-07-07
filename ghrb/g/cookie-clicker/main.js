@@ -1166,9 +1166,9 @@ Game.Launch=function()
 	{
 		//l('javascriptError').innerHTML='<div style="padding:64px 128px;"><div class="title">Loading...</div></div>';
 		Game.Loader=new Loader();
-		Game.Loader.domain='img/';
+		Game.Loader.domain='https://raw.githubusercontent.com/thegportal/thegportal.github.io/main/ghrb/g/cookie-clicker/img/';
 		Game.Loader.loaded=Game.Init;
-		Game.Loader.Load(['https://raw.githubusercontent.com/thegportal/thegportal.github.io/main/ghrb/g/cookie-clicker/img/filler.png']);
+		Game.Loader.Load(['filler.png']);
 	}
 	Game.ErrorFrame=function()
 	{
