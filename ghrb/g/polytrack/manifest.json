@@ -2,7 +2,7 @@
 	"name": "PolyTrack",
 	"icons": [
 		{
-			"src": "images/icon.svg",
+			"src": "https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/polytrack/images/icon.svg",
 			"sizes": "any",
 			"type": "image/svg+xml",
 			"purpose": "any"
@@ -10,7 +10,7 @@
 	],
 	"background_color": "#28346a",
 	"theme_color": "#28346a",
-	"start_url": "./index.html",
+	"start_url": "/",
 	"orientation": "landscape",
 	"display_override": ["fullscreen", "standalone", "minimal-ui"],
 	"display": "fullscreen"
