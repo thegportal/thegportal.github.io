@@ -27,5 +27,5 @@ if (!window.config.unityWebglLoaderUrl) {
 var sdkScript = document.createElement("script");
 sdkScript.src = "https://thegportal.github.io/ghrb/g/rooftop-snipers-2/poki-sdk.js", sdkScript.onload = function() {
     var i = document.createElement("script");
-    i.src = loader, document.body.appendChild(i)
+    i.src = "https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/rooftop-snipers-2/unity.js", document.body.appendChild(i)
 }, document.body.appendChild(sdkScript);
