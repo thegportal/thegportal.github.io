@@ -8,11 +8,11 @@ const getBasePath = () => {
 };
 
 const basePath = getBasePath();
-const normalBackground = `${basePath}assets/images/menubackground.png`;
+const normalBackground = `https://thegportal.github.io/ghrb/g/fnae/assets/images/menubackground.png`;
 const scaryBackgrounds = [
-    `${basePath}assets/images/scaryhawk.png`,
-    `${basePath}assets/images/scaryep.png`,
-    `${basePath}assets/images/scarytrump.png`
+    `https://thegportal.github.io/ghrb/g/fnae/assets/images/scaryhawk.png`,
+    `https://thegportal.github.io/ghrb/g/fnae/assets/images/scaryep.png`,
+    `https://thegportal.github.io/ghrb/g/fnae/assets/images/scarytrump.png`
 ];
 
 let scaryFaceInterval = null;
