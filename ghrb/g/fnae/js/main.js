@@ -121,46 +121,46 @@ async function preloadGameAssets() {
     
     // 定义所有需要预加载的资源
     const imagePaths = [
-        'assets/images/original.png',
-        'assets/images/Cam1.png',
-        'assets/images/Cam2.png',
-        'assets/images/Cam3.png',
-        'assets/images/Cam4.png',
-        'assets/images/Cam5.png',
-        'assets/images/Cam6.png',
-        'assets/images/Cam7.png',
-        'assets/images/Cam8.png',
-        'assets/images/Cam9.png',
-        'assets/images/Cam10.png',
-        'assets/images/Cam11.png',
-        'assets/images/jump.png',
-        'assets/images/menubackground.png',
-        'assets/images/cutscene.png',
-        'assets/images/fa3.png',
-        'assets/images/FNAE-Map-layout.png',
-        'assets/images/enemyep1.png',
-        'assets/images/ep1.png',
-        'assets/images/ep4.png',
-        'assets/images/enemyep4.png',
-        'assets/images/scaryhawk.png',
-        'assets/images/scaryep.png',
-        'assets/images/scarytrump.png',
-        'assets/images/winscreen.png',  // Night 5 胜利画面
-        'assets/images/goldenstephen.png'  // Golden 霍金
+        'https://thegportal.github.io/ghrb/g/fnae/assets/images/original.png',
+        'https://thegportal.github.io/ghrb/g/fnae/assets/images/Cam1.png',
+        'https://thegportal.github.io/ghrb/g/fnae/assets/images/Cam2.png',
+        'https://thegportal.github.io/ghrb/g/fnae/assets/images/Cam3.png',
+        'https://thegportal.github.io/ghrb/g/fnae/assets/images/Cam4.png',
+        'https://thegportal.github.io/ghrb/g/fnae/assets/images/Cam5.png',
+        'https://thegportal.github.io/ghrb/g/fnae/assets/images/Cam6.png',
+        'https://thegportal.github.io/ghrb/g/fnae/assets/images/Cam7.png',
+        'https://thegportal.github.io/ghrb/g/fnae/assets/images/Cam8.png',
+        'https://thegportal.github.io/ghrb/g/fnae/assets/images/Cam9.png',
+        'https://thegportal.github.io/ghrb/g/fnae/assets/images/Cam10.png',
+        'https://thegportal.github.io/ghrb/g/fnae/assets/images/Cam11.png',
+        'https://thegportal.github.io/ghrb/g/fnae/assets/images/jump.png',
+        'https://thegportal.github.io/ghrb/g/fnae/assets/images/menubackground.png',
+        'https://thegportal.github.io/ghrb/g/fnae/assets/images/cutscene.png',
+        'https://thegportal.github.io/ghrb/g/fnae/assets/images/fa3.png',
+        'https://thegportal.github.io/ghrb/g/fnae/assets/images/FNAE-Map-layout.png',
+        'https://thegportal.github.io/ghrb/g/fnae/assets/images/enemyep1.png',
+        'https://thegportal.github.io/ghrb/g/fnae/assets/images/ep1.png',
+        'https://thegportal.github.io/ghrb/g/fnae/assets/images/ep4.png',
+        'https://thegportal.github.io/ghrb/g/fnae/assets/images/enemyep4.png',
+        'https://thegportal.github.io/ghrb/g/fnae/assets/images/scaryhawk.png',
+        'https://thegportal.github.io/ghrb/g/fnae/assets/images/scaryep.png',
+        'https://thegportal.github.io/ghrb/g/fnae/assets/images/scarytrump.png',
+        'https://thegportal.github.io/ghrb/g/fnae/assets/images/winscreen.png',  // Night 5 胜利画面
+        'https://thegportal.github.io/ghrb/g/fnae/assets/images/goldenstephen.png'  // Golden 霍金
     ];
     
     const soundPaths = [
-        'assets/sounds/music.ogg',
-        'assets/sounds/music3.ogg',
-        'assets/sounds/Static_sound.ogg',
-        'assets/sounds/vents.ogg',
-        'assets/sounds/jumpcare.ogg',
-        'assets/sounds/Blip.ogg',
-        'assets/sounds/winmusic.ogg',
-        'assets/sounds/chimes.ogg',
-        'assets/sounds/Crank1.ogg',
-        'assets/sounds/Crank2.ogg',
-        'assets/sounds/goldenstephenscare.ogg'  // Golden 霍金音效
+        'https://thegportal.github.io/ghrb/g/fnae/assets/sounds/music.ogg',
+        'https://thegportal.github.io/ghrb/g/fnae/assets/sounds/music3.ogg',
+        'https://thegportal.github.io/ghrb/g/fnae/assets/sounds/Static_sound.ogg',
+        'https://thegportal.github.io/ghrb/g/fnae/assets/sounds/vents.ogg',
+        'https://thegportal.github.io/ghrb/g/fnae/assets/sounds/jumpcare.ogg',
+        'https://thegportal.github.io/ghrb/g/fnae/assets/sounds/Blip.ogg',
+        'https://thegportal.github.io/ghrb/g/fnae/assets/sounds/winmusic.ogg',
+        'https://thegportal.github.io/ghrb/g/fnae/assets/sounds/chimes.ogg',
+        'https://thegportal.github.io/ghrb/g/fnae/assets/sounds/Crank1.ogg',
+        'https://thegportal.github.io/ghrb/g/fnae/assets/sounds/Crank2.ogg',
+        'https://thegportal.github.io/ghrb/g/fnae/assets/sounds/goldenstephenscare.ogg'  // Golden 霍金音效
     ];
     
     totalAssets = imagePaths.length + soundPaths.length;
