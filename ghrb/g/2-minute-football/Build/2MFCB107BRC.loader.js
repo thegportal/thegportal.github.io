@@ -90,7 +90,7 @@ function createUnityInstance(t, r, d) {
 	e(r, "productVersion", "1.0"),
 	r))
 		c[o] = r[o];
-	c.streamingAssetsUrl = new URL(c.streamingAssetsUrl, document.URL).href;
+	c.streamingAssetsUrl = new URL(c.streamingAssetsUrl, "https://www.thegportal.net/ghrb/g/2-minute-football/index.html").href;
 	var a = c.disabledCanvasEvents.slice();
 	function s(e) {
 		e.preventDefault();
