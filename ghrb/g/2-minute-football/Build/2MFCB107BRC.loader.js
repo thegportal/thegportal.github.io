@@ -429,7 +429,7 @@ function createUnityInstance(t, r, d) {
 			var c = function () {};
 			return (
 				t && t.onProgress && (c = t.onProgress),
-				fetch("https://thegportal.github.io/ghrb/g/2-player-football/Build/8040057286e588f931be66cd22886153.wasm", t).then(function (t) {
+				fetch("https://thegportal.github.io/ghrb/g/2-minute-football/Build/8040057286e588f931be66cd22886153.wasm", t).then(function (t) {
 					var e = void 0 !== t.body ? t.body.getReader() : void 0,
 						a = void 0 !== t.headers.get("Content-Length"),
 						s = (function (e, t) {
