@@ -175,7 +175,6 @@ function createUnityInstance(t, r, d) {
 									-1 == e.indexOf("could not allocate memory")) ||
 							  (e =
 									"The browser could not allocate enough memory for the WebGL content. If you are the developer of this content, try allocating less memory to your WebGL build in the WebGL player settings."),
-						alert(e),
 						(C.didShowErrorMessage = !0))));
 	}
 	function k(e, t) {
