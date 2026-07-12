@@ -24258,8 +24258,8 @@ function _An(event) {
         }
         var _Gn;
         var _Hn;
-        _Gn = _Cn.pageX * 0.8;
-        _Hn = _Cn.pageY * 0.8;
+        _Gn = _Cn.pageX;
+        _Hn = _Cn.pageY;
         if (_xn == 0) {
             if (_In != null) {
                 _Jn = _Gn;
@@ -68040,8 +68040,8 @@ function _Yu2(_q72) {
 }
 
 function _4v2(_5v2) {
-    _Jn = _5v2.pageX * 0.8;
-    _Kn = _5v2.pageY * 0.8;
+    _Jn = _5v2.pageX;
+    _Kn = _5v2.pageY;
     _Mn[_5v2.button].x = _Jn;
     _Mn[_5v2.button].y = _Kn
 }
@@ -68057,12 +68057,10 @@ function _6v2(_5v2) {
     _gu2 = _fu2;
     _Ln |= (1 << _fu2);
     _Mn[_5v2.button]._Nn = _On | _Pn | _Qn;
-    _Mn[_5v2.button].x = _5v2.pageX * 0.8;
-    _Mn[_5v2.button].y = _5v2.pageY * 0.8;
+    _Mn[_5v2.button].x = _5v2.pageX;
+    _Mn[_5v2.button].y = _5v2.pageY;
     return _5v2
 }
-
-console.log('TESTING');
 
 function _1v2(_5v2) {
     _fu2 = _5v2.button;
