@@ -24,6 +24,7 @@ Made by Jeremy Powell :)
 Snapchat: @jer_powell2024 ||| Discord: https://discord.gg/rAwrBrA3yT
 -->
 <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 <head>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-0N6LBFDHDX"></script>
@@ -861,7 +862,7 @@ function closeG() {
 
 function openG(sourc, wid, hei, bgCol, titl, bts) {
   gContent.innerHTML = '';
-  if (!sourc.startsWith('data:application/x-shockwave-flash') && !sourc.startsWith('data:application/x-shockwave-flash')) {
+  if (!sourc.startsWith('data:application/x-shockwave-flash')) {
     let g = document.createElement('embed');
     g.src = sourc;
     g.style.width = wid.includes('%') && parseInt(wid) > 100 ? '100%' : wid;
