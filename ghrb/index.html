@@ -127,8 +127,11 @@ a {
 
 select {
   font-family: Iosevka Charon Mono, Monospace;
+  outline: none;
 } option {
   font-family: Iosevka Charon Mono, Monospace;
+  color: white;
+  background: #360073;
 }
 
 #sidebar {
@@ -269,7 +272,7 @@ select {
     transform: scale(0.2);
   } 60% {
     transform: scale(1.07);
-  }to {
+  } to {
     transform: scale(1);
   }
 }
@@ -424,7 +427,7 @@ select {
 }
 
 #loading {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
@@ -435,6 +438,7 @@ select {
 
 #winds {
   position: fixed;
+  display: none;
   top: 0;
   left: 0;
   width: 100vw;
@@ -446,6 +450,7 @@ select {
 
 .wind {
   position: fixed;
+  display: none;
   top: 50px;
   left: 50px;
   width: calc(100vw - 100px);
@@ -454,6 +459,33 @@ select {
   backdrop-filter: blur(5px);
   border: 3px solid #fc95d8;
   border-radius: 15px;
+}
+
+.tag-results {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  top: 0;
+  left: 0;
+  z-index: 9999;
+} .tag-results2 {
+  position: fixed;
+  right: 0;
+  width: 70vw;
+  height: 100vh;
+  background: #1a0047;
+  padding: 10px;
+  animation-name: slide-left-tr;
+  animation-duration: 1s;
+}
+
+@keyframes slide-left-tr {
+  from {
+    right: -100vw;
+  } to {
+    right: 0px;
+  }
 }
 </style>
 </head>
@@ -537,6 +569,10 @@ select {
 <h1 id="gt">All Games! :)</h1>
 <div class="urlerror"></div>
 <input class="c" id="gameSearch" type="text" placeholder="Search for Games!" style="border-color: #9830ff; border-radius: 10px; background: rgba(50, 50, 50, 0.7); color: white; font-size: 15px; max-width: 450px; min-width: 200px; width: calc(100% - 300px); height: 35px; text-align: center; box-shadow: 0px 5px 10px black;">
+<div style="position: absolute; display: inline-flex; right: 10px; height: 75px; align-content: center; pointer-events: none;">
+<p style="display: inline; z-index: -1">Flash gamez!!1 --></p>
+<img class="top-btn" style="margin: 0; pointer-events: auto;" src="https://ruffle.rs/favicon-180.png" onclick="" title="Flash Games!">
+</div>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8270134843640137"
      crossorigin="anonymous"></script>
 <!-- Ad -->
@@ -567,7 +603,7 @@ select {
 <img src="assets/import.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/import.svg'" width="150" class="img">
 <div style="margin: 10px; width: calc(100vw - 400px)">
 <h1 style="display: inline-block; margin: 0;">Import a Game!</h1><hr style="width: calc(100vw - 400px);">
-<p style="display: inline-block; margin: 0; font-size: 13px;">Import a game, either HTML or SWF (Flash), and play it. It will not be saved as a custom game, only a one-time use. All assets must be in the file, or have sources from the internet, and an SWF may not work entirely, as Ruffle may not support some stuff. This is good for data: URLs.</p>
+<p style="display: inline-block; margin: 0; font-size: 13px;">Import a game, either HTML or SWF (Flash), and play it. It will not be saved as a custom game, only a one-time use. All assets must be in the file, or have sources from the internet that don't get blocked by CORS errors or CORB (cross-origin blocking), and an SWF may not work entirely, as Ruffle may not support some stuff. This is good for data: URLs.</p>
 <input type="file" accept=".html, .htm, .swf" id="gameImport" style="width: calc(100vw - 400px);">
 </div>
 </div>
@@ -595,6 +631,7 @@ select {
 
 <div id="me4" class="m">
 <h1>Proxies :)</h1>
+<p>Proxies ay not work in your school district, and new methods for bypassing cannot be applied to them (at least for now).</p>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8270134843640137"
      crossorigin="anonymous"></script>
 <!-- Ad 2 -->
@@ -629,10 +666,17 @@ select {
 </div>
 
 <div id="top-gBar" style="position: fixed;">
-<p id="tb1" style="position: absolute; font-size: 18px;">Titley</p>
-<div style="height: 25px; position: absolute; right: 0;">
-<button style="height: 25px; background: red;" onclick="closeG()">X</button>
+<div style="position: absolute;">
+<p id="tb1" style="font-size: 18px; display: inline;">Titley</p>
+<p id="fps-counter" style="font-size: 18px; display: inline;"></p>
 </div>
+<div style="height: 25px; position: absolute; right: 0; display: flex; gap: 0;">
+<button style="height: 25px; width: 50px; margin: 0; background: blue;" onclick="optionsG()">&bull;&bull;&bull;</button>
+<button style="height: 25px; width: 50px; margin: 0; background: red;" onclick="closeG()">X</button>
+</div>
+</div>
+<div id="gOptions">
+
 </div>
 <div id="gContent"></div>
 
@@ -665,6 +709,24 @@ select {
 <button style="width: 200px; height: 50px; border-radius: 15px; background: #e3da32; margin: 5px;" onclick="oG()">Open Without Saving</button>
 </center>
 </div>
+<script>
+const fpsDisplay = document.getElementById('fps-counter');
+let frameCount = 0;
+let lastTime = performance.now();
+function monitorFrames() {
+  frameCount++;
+  const now = performance.now();
+  const elapsed = now - lastTime;
+  if (elapsed >= 500) {
+    const fps = Math.round((frameCount / elapsed) * 1000);
+    fpsDisplay.textContent = `- FPS: ${fps}`;
+    frameCount = 0;
+    lastTime = now;
+  }
+  window.requestAnimationFrame(monitorFrames);
+}
+window.requestAnimationFrame(monitorFrames);
+</script>
 <script src="assets/rmessage.js" onerror="let emsgs = ['I see the random messages failed to load properly...','Whatever!','These are just bonus messages!','Hello!','Made by Jeremy Powell!','Skibididdy Toilet!'];document.getElementById('rmessage').innerHTML = emsgs[Math.floor(Math.random()*emsgs.length)];document.getElementById('rf').remove();document.getElementById('cb').remove()"></script>
 <script>
 let mainMenu = 0;
@@ -699,13 +761,13 @@ document.getElementById("tb1")
 
 gms = Array(
   //All Games
-  ['ag', 'https://thegportal.github.io/ghrb/g/2-minute-football/index.html', '2 Minute Football', 'none', '100%', '100%', 'black', ['None']],
-  ['ag', 'https://thegportal.github.io/ghrb/g/cookie-clicker/index.html', 'Cookie Clicker', 'none', '100%', '100%', 'black', ['Endless', 'Tycoon']],
-  ['ag', 'https://thegportal.github.io/ghrb/g/escape-road/index.html', 'Escape Road', 'none', '100%', '100%', 'black', ['Car', 'Endless']],
-  ['ag', 'https://thegportal.github.io/ghrb/g/fnae/index.html', 'Five Nights at Epstein\'s', 'none', '100%', '100%', 'black', ['Horror']],
-  ['ag', 'https://thegportal.github.io/ghrb/g/polytrack/index.html', 'PolyTrack', 'none', '100%', '100%', 'black', ['Car']],
-  ['ag', 'https://thegportal.github.io/ghrb/g/rooftop-snipers-2/index.html', 'Rooftop Snipers 2', 'none', '100%', '100%', 'black', ['Gun']],
-  ['ag', 'https://thegportal.github.io/ghrb/g/snow-rider-3d/index.html', 'Snow Rider 3D', 'none', '70%', '100%', 'black', ['Endless']],
+  ['ag', 'https://thegportal.github.io/ghrb/g/2-minute-football/index.html', '2 Minute Football', 'https://play-lh.googleusercontent.com/OwOd0amGXqDehq0ezR79Y-ZBMYyB9jlMAzVWwnXLCQvTEKLpkWO3OcYXWOovbjMsfBrs33DQljWMjdSnBWoPWYg=w240-h480-rw', '100%', '100%', 'black', ['Sports']],
+  ['ag', 'https://thegportal.github.io/ghrb/g/cookie-clicker/index.html', 'Cookie Clicker', 'https://super142.wordpress.com/wp-content/uploads/2022/07/cookie-clicker.jpg', '100%', '100%', 'black', ['Endless', 'Tycoon']],
+  ['ag', 'https://thegportal.github.io/ghrb/g/escape-road/index.html', 'Escape Road', 'https://poorbunny2.io/data/image/game/escaperoad.png', '100%', '100%', 'black', ['Car', 'Endless']],
+  ['ag', 'https://thegportal.github.io/ghrb/g/fnae/index.html', `Five Nights at Epstein\\'s`, 'https://granny1.io/data/image/game/five-nights-at-epsteins.png', '100%', '100%', 'black', ['Horror']],
+  ['ag', 'https://thegportal.github.io/ghrb/g/polytrack/index.html', 'PolyTrack', 'https://play-lh.googleusercontent.com/6unB5hJ12tCWdJeyFhuI2mZS_H2PEe9JlufONK_89LKc3a3PH8LLLFTSMv72-hm0bmQFBq1uks3m8_4CPT7Xtw', '100%', '100%', 'black', ['Car']],
+  ['ag', 'https://thegportal.github.io/ghrb/g/rooftop-snipers-2/index.html', 'Rooftop Snipers 2', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLTs454jc7lbWAkvy8hLmV40Lm1D3sjp3FL-DZalasCPgpjMYaSA_9gxY&s=10', '100%', '100%', 'black', ['Gun']],
+  ['ag', 'https://thegportal.github.io/ghrb/g/snow-rider-3d/index.html', 'Snow Rider 3D', 'https://bowlgames.io/data/image/snow-rider.png', '70%', '100%', 'black', ['Endless']],
   //Proxies
   ['pr', 'https://fern.best/', 'Fern', 'https://avatars.githubusercontent.com/u/112173820?s=200&v=4', '100%', '100%', '#000', ['Proxy']],
   ['pr', 'https://www.croxyproxy.com/', 'CroxyProxy', 'https://avatars.githubusercontent.com/u/45306907?v=4', '100%', '100%', '#fff', ['Proxy']]
@@ -808,23 +870,23 @@ function addBGm(el, sourc, titl, sourcP, wid, hei, bgCol) {
 }
 
 let ct = Array(
-  ['Proxy', '#262626'],
-  ['Car', '#05e9ed'],
+  ['Proxy', 'linear-gradient(45deg, #fc0303, #030ffc)'],
+  ['Car', '#348feb'],
   ['Gun', '#999999'],
   ['Horror', '#6e0000'],
   ['Flash', '#eb4034'],
-  ['Sigma', '#34eb8f'],
-  ['Diddy', '#fff700'],
   ['Endless', '#0049d1'],
   ['Tycoon', '#fbff2b'],
+  ['Sports', '#fc8803'],
   ['None', '#000']
 );
 
 gms.forEach((ar) => {
   let ng = document.createElement('div');
   ng.setAttribute('onclick', `openG('${ar[1]}', '${ar[4]}', '${ar[5]}', '${ar[6]}', '${ar[2]}', 0)`);
+  ng.setAttribute('class', 'game-select');
   ng.innerHTML = `<img id="preImg" class="icon-img" src="${ar[3]}" onerror="this.src='https://thegportal.github.io/ghrb/assets/error.svg'">
-  <p id="preTitle">${ar[2]}</p>`;
+  <p id="preTitle">${ar[2].replaceAll('\\','')}</p>`;
   if (ar[7] != null) {
     console.log('success');
     let tg = document.createElement('div');
@@ -832,8 +894,8 @@ gms.forEach((ar) => {
     tg.style.bottom = '5px';
     tg.style.left = '5px';
     ar[7].forEach(el => {
-      tg.innerHTML += `<button class="c tagbtn ${el}" style="background: ${ct.find(subArray => subArray.includes(el))[1]}; border: 2px solid color-mix(in srgb, ${ct.find(subArray => subArray.includes(el))[1]}, white 50%);" onclick="event.stopPropagation(); filterT('${el}')" title="${el}"></button>`;
-      ng.setAttribute('class', `game-select ${el}`);
+      tg.innerHTML += `<button class="c tagbtn t${el}" style="background: ${ct.find(subArray => subArray.includes(el))[1]};/* border: 2px solid color-mix(in srgb, ${ct.find(subArray => subArray.includes(el))[1]}, white 50%);*/" onclick="event.stopPropagation(); filterT('t${el}')" title="${el}"></button>`;
+      ng.classList.add(el);
     });
     ng.appendChild(tg);
   }
@@ -996,14 +1058,24 @@ search.addEventListener('change', searchItems);
 let glist = document.getElementById('ag');
 
 function filterT(vari) {
-  glist.innerHTML = '';
-  document.querySelectorAll(`.${vari}`).forEach(element => {
+  const v = vari.replace('t','');
+  const results = document.createElement('div');
+  const results2 = document.createElement('div');
+  results.setAttribute('class', 'tag-results');
+  results2.setAttribute('class', 'tag-results2');
+  results2.innerHTML = `<img src="assets/close.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/close.svg'" class="img img-btn" style="position: absolute; top: 10px; left: 10px; width: 30px; border-radius: 7px;" onclick="this.parentElement.parentElement.remove(); document.getElementById('main-content').style.overflow = 'auto';"><div style="height: 40px; text-align: right;"><h2 style="margin: 0;">Results for: ${v.charAt(0).toUpperCase() + v.slice(1)}</h2></div>`;
+  document.querySelectorAll(`.${v}`).forEach(element => {
     console.log('adding...');
-    glist.innerHTML += element.parentElement.parentElement.outerHTML;
+    results2.innerHTML += element.outerHTML;
   });
-  let gt = document.getElementById('gt');
+  results2.querySelectorAll('.tagbtn').forEach(element => {
+    element.remove();
+  });
+  /*let gt = document.getElementById('gt');
   let rect = gt.getBoundingClientRect();
-  window.scrollTo(0, rect.top + window.scrollY);
+  window.scrollTo(0, rect.top + window.scrollY);*/
+  results.appendChild(results2);
+  document.body.appendChild(results);
 }
 
 function pasteGDB() {
@@ -1070,7 +1142,11 @@ if (window.location.href.startsWith('file') || window.location.href.startsWith('
   document.title = 'GHRB (' + window.location.href.slice(0, 4) + ')';
 }
 
+document.getElementById('loading').style.display = 'none';
+
+
 //AFTER THIS POINT, FUNCTIONS UTILISE INDEXEDDB AND/OR LOCALSTORAGE. THESE FEATURES WILL NOT WORK ON DATA: URLS.
+
 
 const request = indexedDB.open('GData', 1);
 
@@ -1244,7 +1320,7 @@ function pasteGD() {
   }
 }
 
-document.getElementById('loading').style.display = 'none';
+
 </script>
 </body>
 </html>
