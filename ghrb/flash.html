@@ -59,6 +59,7 @@ input {
 } input[type="file"]::file-selector-button:hover {
   background: #d621ff;
 } input[type="text"] {
+  color: black;
   width: calc(100% - 130px);
   margin: 5px;
   border: 2px solid #8000ff;
@@ -71,10 +72,10 @@ input {
 <h2>Import SWF:</h2>
 <input type="file" id="fileInput">
 <h2>Paste Data URL:</h2>
-<input type="text" id="textInput" placeholder="data:application/x-shockwave-flash;base64,...">
+<input type="text" id="textInput" placeholder="data:application/x-shockwave-flash;base64,..." spellcheck="false">
 <button onclick="pasteData()">Confirm</button>
 <h2>Paste SWF Source (Make sure not to violate CORS):</h2>
-<input type="text" id="srcInput" placeholder="https://example.com/file-name.swf">
+<input type="text" id="srcInput" placeholder="https://example.com/file-name.swf" spellcheck="false">
 <button onclick="dataFromSrc()">Confirm</button>
 <center>
 <div id="flashContainer"></div>
