@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Flash Player (Ruffle)</title>
+<script src="https://thegportal.github.io/ghrb/ruffle/ruffle.js" onerror="this.src='https://unpkg.com/@ruffle-rs/ruffle'"></script>
+<style>
+html, body {
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+}
+
+input {
+  width: calc(100% - 120px);
+} button {
+  width: 100px;
+}
+</style>
+</head>
+<body>
+<p>Import SWF:</p>
+<input type="file" id="fileInput">
+<p>Paste Data URL:</p>
+<input type="text" id="textInput" placeholder="data:application/x-shockwave-flash;base64,...">
+<button onclick="pasteData()">Confirm</button>
+<p>Paste SWF Source:</p>
+<input type="text" id="srcInput" placeholder="https://example.com/file-name.swf">
+<button onclick="pasteData()">Confirm</button>
+<center>
+<div id="flashContainer"></div>
+</center>
+<script>
+document.getElementById('fileInput').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  const url = URL.createObjectURL(file);
+  const ruffle = window.RufflePlayer.newest();
+  const player = ruffle.createPlayer();
+  player.style.width = "800px";
+  player.style.height = "600px";
+  document.getElementById('flashContainer').appendChild(player);
+
+  player.load(url);
+});
+
+function pasteData() {
+  const base64Data = document.getElementById('textInput').value.split(',')[1];
+  const binaryString = window.atob(base64Data);
+  const len = binaryString.length;
+  const bytes = new Uint8Array(len);
+  for (let i = 0; i < len; i++) {
+    bytes[i] = binaryString.charCodeAt(i);
+  }
+  const ruffle = window.RufflePlayer.newest();
+  const player = ruffle.createPlayer();
+  player.style.width = '640px';
+  player.style.height = '480px';
+  document.getElementById('flashContainer').appendChild(player);
+  player.load({data: bytes});
+}
+
+function dataFromSrc() {
+  const ruffle = window.RufflePlayer.newest();
+  const player = ruffle.createPlayer();
+  player.style.width = "800px";
+  player.style.height = "600px";
+  document.getElementById('flashContainer').appendChild(player);
+  player.load(document.getElementById('srcInput').value);
+}
+</script>
+</body>
+</html>
