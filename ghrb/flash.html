@@ -3,28 +3,77 @@
 <head>
 <title>Flash Player (Ruffle)</title>
 <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-<script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+<link href="https://fonts.googleapis.com/css2?family=Exo:ital,wght@0,100..900;1,100..900&family=Iosevka+Charon+Mono:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+<script src="https://thegportal.github.io/ghrb/ruffle/ruffle.js" onerror="this.src='https://unpkg.com/@ruffle-rs/ruffle'"></script>
 <style>
 html, body {
+  background: linear-gradient(to bottom, #2b008f, #1c002e);
+  background-size: 100vw 100vh;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   width: 100vw;
   margin: 0;
   padding: 0;
+  user-select: none;
+}
+
+h2 {
+  font-family: Exo;
+  color: white;
+  margin: 0;
+}
+
+button {
+  width: 100px;
+  color: white;
+  font-family: Exo, Helvetica;
+  font-weight: bold;
+  background: rgba(255, 255, 255, 0.3);
+  border: 2px solid #8000ff;
+  border-radius: 5px;
+  cursor: pointer;
+} button:hover {
+  background: rgba(255, 255, 255, 0.4);
 }
 
 input {
-  width: calc(100% - 120px);
-} button {
-  width: 100px;
+  font-family: Exo;
+  color: white;
+  height: 19px;
+} input[type="file"] {
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid #8000ff;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+} input[type="file"]:hover {
+  background: rgba(255, 255, 255, 0.3);
+}input[type="file"]::file-selector-button {
+  font-family: Exo;
+  color: white;
+  border: none;
+  border-radius: 0;
+  background: #8e00fa;
+  cursor: pointer;
+  transition: 0.3s;
+} input[type="file"]::file-selector-button:hover {
+  background: #d621ff;
+} input[type="text"] {
+  width: calc(100% - 130px);
+  margin: 5px;
+  border: 2px solid #8000ff;
+  border-radius: 5px;
+  outline: none;
 }
 </style>
 </head>
 <body>
-<p>Import SWF:</p>
+<h2>Import SWF:</h2>
 <input type="file" id="fileInput">
-<p>Paste Data URL:</p>
+<h2>Paste Data URL:</h2>
 <input type="text" id="textInput" placeholder="data:application/x-shockwave-flash;base64,...">
 <button onclick="pasteData()">Confirm</button>
-<p>Paste SWF Source (Make sure ):</p>
+<h2>Paste SWF Source (Make sure not to violate CORS):</h2>
 <input type="text" id="srcInput" placeholder="https://example.com/file-name.swf">
 <button onclick="dataFromSrc()">Confirm</button>
 <center>
