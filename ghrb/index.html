@@ -487,6 +487,52 @@ select {
     right: 0px;
   }
 }
+
+@keyframes chacha {
+  0% { transform: translateX(-10%); }
+  50% { transform: translateX(10%); }
+  100% { transform: translateX(-10%); }
+} @keyframes sttl {
+  0% { transform: translateX(0%); }
+  25% { transform: translateX(0%); }
+  33% { transform: translateX(-20%); }
+  60% { transform: translateX(0%); }
+  67% { transform: translateX(-20%); }
+  100% { transform: translateX(0%); }
+} @keyframes sttr {
+  0% { transform: translateX(0%); }
+  25% { transform: translateX(0%); }
+  33% { transform: translateX(20%); }
+  60% { transform: translateX(0%); }
+  67% { transform: translateX(20%); }
+  100% { transform: translateX(0%); }
+} @keyframes crcr {
+  0% { transform: translateX(0%); }
+  5% { transform: translateX(0%); }
+  10% { transform: translateX(20%); }
+  20% { transform: translateX(-20%); }
+  30% { transform: translateX(0%); }
+  50% { transform: translateX(0%); }
+  55% { transform: translateX(0%); }
+  60% { transform: translateX(-20%); }
+  70% { transform: translateX(20%); }
+  80% { transform: translateX(0%); }
+  100% { transform: translateX(0%); }
+}
+
+.chacha {
+  display: inline-block;
+  animation: chacha 0.8s ease-in-out infinite;
+} .sttl {
+  display: inline-block;
+  animation: sttl 1.6s ease-in-out infinite;
+} .sttr {
+  display: inline-block;
+  animation: sttr 1.6s ease-in-out infinite;
+} .crcr {
+  display: inline-block;
+  animation: crcr 3.2s ease-in-out infinite;
+}
 </style>
 </head>
 <body spellcheck="false">
@@ -560,9 +606,8 @@ select {
 <div id="rmessage" style="min-width: 150px; width: calc(100% - 50px); overflow-wrap: break-word; pointer-events: none;"></div>
 </div>
 <embed class="c" src="https://incr.easrng.net/badge?key=thegportal876" style="background: white; border-radius: 5px; display: block; margin: 5px;" title="increment badge" width="88" height="31" frameborder="0">
+<a class="c" href="https://info.flagcounter.com/sOkp"><img src="https://s05.flagcounter.com/count2/sOkp/bg_FFFFFF/txt_000000/border_CCCCCC/columns_8/maxflags_18/viewers_0/labels_0/pageviews_1/flags_0/percent_0/" alt="Flag Counter" border="0" height="0" width="0" style="border-radius: 7px;"></a>
 <p>Hello.</p>
-<hr>
-<h1>Tools</h1>
 </div>
 
 <div id="me2" class="m">
@@ -1089,20 +1134,9 @@ if (window.location.href.startsWith('blob:') || window.location.href.startsWith(
 }
 
 if (window.location.href.startsWith('file') || window.location.href.startsWith('data') || window.location.href.startsWith('blob')) {
-  for (let i = 0; i < document.getElementsByClassName('urlerror').length; i++) {
-    document.getElementsByClassName('urlerror')[i].style.display = 'block';
-    document.getElementsByClassName('urlerror')[i].innerText = `You are on a ${window.location.href.slice(0, 4)} URL, so certain games (such as flash games) may not work :(`;
-  }
-  document.querySelectorAll('.urlerror').forEach((e) => {
-    e.style.display = 'block';
-    e.innerText = `You are on a ${window.location.href.slice(0, 4)} URL, so certain games (such as flash games) may not work :(`;
-    document.getElementById('loading').style.display = 'none';
-  });
-  document.querySelectorAll('.adsbygoogle').forEach((e) => {e.remove()});
+  document.getElementById('loading').style.display = 'none';
   document.title = 'GHRB (' + window.location.href.slice(0, 4) + ')';
 }
-
-document.getElementById('loading').style.display = 'none';
 
 
 //AFTER THIS POINT, FUNCTIONS UTILISE INDEXEDDB AND/OR LOCALSTORAGE. THESE FEATURES WILL NOT WORK ON DATA: URLS.
@@ -1280,7 +1314,7 @@ function pasteGD() {
   }
 }
 
-
+document.getElementById('loading').style.display = 'none';
 </script>
 </body>
 </html>
