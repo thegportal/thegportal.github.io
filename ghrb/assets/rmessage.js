@@ -201,7 +201,12 @@ var items = Array(
 'Unbelievable!',
 'Got Milk?',
 '<button onclick="document.body.setAttribute(\'contenteditable\', \'true\')">Click me and you can edit the page!</button>',
-'SEND THIS VIDEO TO... &#128552;&#128552;'
+'SEND THIS VIDEO TO... &#128552;&#128552;',
+'Japan is turning footsteps into electricity!',
+'<a href="https://thegportal.net" target="_blank" style="text-decoration: underline; color: yellow">thegportal.net</a>',
+'Could I give you 100 dollars?',
+'"Better late than never!" ahh',
+'<p class="sttl">Slide to the left!</p><br><p class="sttr">Slide to the right!</p><br><p class="crcr">Criss cross!</p><br><p class="crcr">Criss cross!</p><br><p class="chacha">Cha cha real smooth.</p>'
 );
 
 //Choose a random splash message & apply it to a div with the id of "rmessage"
