@@ -1,0 +1,9 @@
+{
+	"name": "Basket Random",
+	"short_name": "Basket Random",
+	"description": "",
+	"display": "fullscreen",
+	"orientation": "any",
+	"background_color": "#ffffff",
+	"icons": []
+}
