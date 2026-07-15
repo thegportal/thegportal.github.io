@@ -62,17 +62,82 @@ gdsdk= function() {
     });
   };
   
+  // ***** ADS *****
+  this.AdType= {
+    "Rewarded": "rewarded",
+    "Interstitial": "interstitial",
+    "Preroll": "interstitial",
+    "Midroll": "interstitial",
+    "Display": "display"
+  };
+
+   this.Interstitial= function() {
+    console.log("--gdsdk--Interstitial--", arguments);
+  };
+
+  this.preloadAd= function() {
+    console.log("--gdsdk--preloadAd--");
+    window.GD_OPTIONS.onEvent({
+      "name": "SDK_READY",
+      "message": "Everything is ready.",
+      "status": "success"
+    });
+    return new Promise((resolve, reject)=> {
+      resolve(true);
+    });
+  }
+  
   this.cancelAd= function() {
     return new Promise((resolve, reject)=> {
       resolve(true);
     });
   };
+  
+  this.showAd= function (adType) {
+    console.log("--gdsdk--showAd--", adType, arguments);
+    if (adType== "rewarded") {
+      return new Promise((resolve, reject)=> {
+        loadJS("https://www.ubg235.com/ads/rewarded.js", (success)=> {
+        if (success) {
+            console.log("--fx--showAd--Done--");
+            window.GD_OPTIONS.onEvent({
+              name: "SDK_REWARDED_WATCH_COMPLETE",
+              message: "Rewarded",
+              status: "success",
+            });
+            window.GD_OPTIONS.onEvent({
+              name: "SDK_GAME_START",
+              message: "No Message",
+            });
+            resolve(true);
+          } else {
+            console.log("--fx--showAd--Rejected--");
+            window.GD_OPTIONS.onEvent({
+              name: "SDK_GAME_START",
+              message: "Reward Skip!",
+              status: "success",
+            });
+            reject(false);
+          }
+        });
+      });
+    } else {
+      return new Promise((resolve, reject)=> {
+        loadJS("https://www.ubg235.com/ads/commercial.js", (success)=> {
+          window.GD_OPTIONS.onEvent({
+            name: "SDK_GAME_START",
+            message: "No Message",
+          });
+          resolve(true);
+        });
+      });
+    }
   };
 
   this.showBanner= function() {
     console.log("--gdsdk--showBanner--", arguments);
     return new Promise((resolve, reject)=> {
-      loadJS("https://thegportalv2.neocities.org/basket-random/commercial.js", (success)=> {
+      loadJS("https://www.ubg235.com/ads/commercial.js", (success)=> {
         window.GD_OPTIONS.onEvent({
           name: "SDK_GAME_START",
           message: "Reward Skip!",
@@ -155,3 +220,9 @@ xwindow = new Proxy(window, {
     }
   }
 });
+
+op3n= function() {
+  console.trace("--fx--op3n--", arguments);
+  window.open("https://ads.games235.com/");
+  // alert("--fx--xopen--");
+}
