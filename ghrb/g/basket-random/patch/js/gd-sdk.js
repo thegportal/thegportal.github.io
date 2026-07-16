@@ -121,7 +121,7 @@ gdsdk= function() {
           }
         });
       });
-    } else {
+    } /* else {
       return new Promise((resolve, reject)=> {
         loadJS("https://www.ubg235.com/ads/commercial.js", (success)=> {
           window.GD_OPTIONS.onEvent({
@@ -131,12 +131,12 @@ gdsdk= function() {
           resolve(true);
         });
       });
-    }
+    } Stupid ads */
   };
 
   this.showBanner= function() {
     console.log("--gdsdk--showBanner--", arguments);
-    return new Promise((resolve, reject)=> {
+    /* return new Promise((resolve, reject)=> {
       loadJS("https://www.ubg235.com/ads/commercial.js", (success)=> {
         window.GD_OPTIONS.onEvent({
           name: "SDK_GAME_START",
@@ -150,7 +150,7 @@ gdsdk= function() {
             reject(false);
           }
       });
-    });
+    }); More to do with stupid ads*/
   };
 
   // ***** EVENTS & LOGS *****
