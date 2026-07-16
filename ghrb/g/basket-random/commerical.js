@@ -25,9 +25,10 @@
         "ubg17.github.io",
 
         "gamecloner.wp235.workers.dev",
+        "I'm lwk tired of advertisements vro :face_with_bags_under_eyes:"
     ];
 
-    const parent_location= document.referrer;
+    /* const parent_location= document.referrer;
     console.log("parent_location", parent_location);
     for (let i=0; i< HOST_EXCLUDEs.length; i++) {
         if (parent_location.indexOf(`https://${HOST_EXCLUDEs[i]}/`)> -1) {
@@ -35,12 +36,13 @@
             return false;
         }
     }
+    */
 
     window.safeWindowOpen = function(url, target, features) {
         console.log('lol :3')
     };
 
-    async function getCountryCode() {
+    /* async function getCountryCode() {
         const res = await fetch("https://ipwho.is/");
         const data = await res.json();
         return data.country_code; // e.g. "US"
@@ -57,6 +59,8 @@
         }
     });
     // window.safeWindowOpen("https://www.games235.com/", "games235");
+    Turned this crap into a comment for your guys' privacy.
+    */
 })();
 
 console.log("ubg235.commercial");
