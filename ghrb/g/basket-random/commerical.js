@@ -37,14 +37,7 @@
     }
 
     window.safeWindowOpen = function(url, target, features) {
-        const iframe = document.createElement("iframe");
-        iframe.style.display = "none";
-        document.body.appendChild(iframe);
-
-        const safeOpen = iframe.contentWindow.open.bind(window);
-        document.body.removeChild(iframe);
-
-        return safeOpen(url, target, features);
+        console.log('lol :3')
     };
 
     async function getCountryCode() {
