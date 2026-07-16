@@ -8,23 +8,23 @@
         // "unblockedgames77.gitlab.io",
         // "unblockedgames911.gitlab.io",
         // "classroommanagement.gitlab.io",
-        "ubg66.gitlab.io",
-        "ubg67.gitlab.io",
-        "ubg6969.gitlab.io",
-        "ubg76.gitlab.io",
-        "ubg77.gitlab.io",
-        "ubg911.gitlab.io",
+        // "ubg66.gitlab.io",
+        // "ubg67.gitlab.io",
+        // "ubg6969.gitlab.io",
+        // "ubg76.gitlab.io",
+        // "ubg77.gitlab.io",
+        // "ubg911.gitlab.io",
 
-        "class6x.gitlab.io",
-        "cmug.gitlab.io",
-        "unblockedgamess3.gitlab.io",
+        // "class6x.gitlab.io",
+        // "cmug.gitlab.io",
+        // "unblockedgamess3.gitlab.io",
 
-        "ubg98.github.io",
-        "ubg44.github.io",
-        "ubg89.github.io",
-        "ubg17.github.io",
+        // "ubg98.github.io",
+        // "ubg44.github.io",
+        // "ubg89.github.io",
+        // "ubg17.github.io",
 
-        "gamecloner.wp235.workers.dev",
+        // "gamecloner.wp235.workers.dev",
         "I'm lwk tired of advertisements vro :face_with_bags_under_eyes:"
     ];
 
