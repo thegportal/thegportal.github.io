@@ -219,7 +219,6 @@
 		const blobUrl = URL.createObjectURL(blob);
 		const scr = document.createElement('script');
 		scr.src = blobUrl;
-		scr.setAttribute('data-cf-beacon', '{"version":"2024.11.0","token":"ad1b46a1b93444b49c3358b9853fa475","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}');
 		document.body.appendChild(scr);
 	  } catch (error) {
 	    console.error('Fetch operation failed:', error);
