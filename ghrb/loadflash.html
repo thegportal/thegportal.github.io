@@ -56,7 +56,8 @@ h2, button {
 </div>
 </center>
 <script>
-document.getElementById('header').innerText = `Load Flash from ${srcUrl.substring(srcUrl.lastIndexOf('-') + 1)}`;
+document.getElementById('header').innerText = `Load Flash file: ${srcUrl.substring(srcUrl.lastIndexOf('-') + 1)}`;
+document.getElementById('header').setAttribute('title', srcUrl);
 document.getElementById('loadbtn').setAttribute('onclick', `loadFlash('${srcUrl}'); this.parentElement.remove();`);
 function loadFlash(source) {
   try {
