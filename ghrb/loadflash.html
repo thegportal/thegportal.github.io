@@ -1,33 +1,77 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Load Flash</title>
+<script>
+const srcUrl = '';
+</script>
+<title>Load Flash (Ruffle)</title>
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+<link href="https://fonts.googleapis.com/css2?family=Exo:ital,wght@0,100..900;1,100..900&family=Iosevka+Charon+Mono:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+<script src="https://thegportal.github.io/ghrb/ruffle/ruffle.js" onerror="this.src='https://unpkg.com/@ruffle-rs/ruffle'"></script>
+<style>
+html, body {
+  background: linear-gradient(to bottom, #2b008f, #1c002e);
+  background-size: 100vw 100vh;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+h2, button {
+  font-family: Exo;
+  color: white;
+  margin: 0;
+  border: none;
+  border-radius: 5px;
+} button {
+  background: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+}
+
+#loadContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(50, 50, 255, 0.4);
+  border-radius: 15px;
+  padding: 15px;
+} #flashContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+</style>
 </head>
 <body>
-<script src="ruffle/ruffle.js" onerror="if (this.src != 'https://thegportal.github.io/ghrb/ruffle/ruffle.js') {this.src='https://thegportal.github.io/ghrb/ruffle/ruffle.js'} else {this.src='https://unpkg.com/@ruffle-rs/ruffle'}"></script>
-<div id="gameContainer"></div>
-
+<div id="loadContainer">
+<h2 id="header"></h2>
+<button id="loadbtn">Load</button>
+</div>
+<center>
+<div style="width: 100vw; height: 100vh; background: black;">
+<div id="flashContainer"></div>
+</div>
+</center>
 <script>
-let gContain = document.getElementById('gameContainer');
-const source = window.location.href.split('#')[1];
-console.log(source);
-const base64Data = source.split(',')[1];
-const binaryString = window.atob(base64Data);
-const len = binaryString.length;
-const bytes = new Uint8Array(len);
-for (let i = 0; i < len; i++) {
-  bytes[i] = binaryString.charCodeAt(i);
+document.getElementById('header').innerText = `Load Flash from ${srcUrl}`;
+document.getElementById('loadbtn').setAttribute('onclick', `loadFlash('${srcUrl}')`);
+function loadFlash(source) {
+  try {
+    const ruffle = window.RufflePlayer.newest();
+    const player = ruffle.createPlayer();
+    player.style.width = "800px";
+    player.style.height = "600px";
+    document.getElementById('flashContainer').appendChild(player);
+    player.load(source);
+  } catch (err) {
+    window.alert(err);
+  }
 }
-const ruffle = window.RufflePlayer.newest();
-const player = ruffle.createPlayer();
-player.style.width = '640px';
-player.style.height = '480px';
-player.style.zIndex = '10';
-player.style.position = 'absolute';
-player.style.top = '0';
-player.style.left = '0';
-gContain.appendChild(player);
-player.load({data: bytes});
 </script>
 </body>
 </html>
