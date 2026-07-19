@@ -57,7 +57,7 @@ h2, button {
 </center>
 <script>
 document.getElementById('header').innerText = `Load Flash from ${srcUrl}`;
-document.getElementById('loadbtn').setAttribute('onclick', `loadFlash('${srcUrl}')`);
+document.getElementById('loadbtn').setAttribute('onclick', `loadFlash('${srcUrl}'); this.parentElement.remove();`);
 function loadFlash(source) {
   try {
     const ruffle = window.RufflePlayer.newest();
