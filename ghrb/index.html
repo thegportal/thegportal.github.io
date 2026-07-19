@@ -918,6 +918,13 @@ gms.forEach((ar) => {
     ar[7].forEach(el => {
       tg.innerHTML += `<button class="c tagbtn t${el}" style="background: ${ct.find(subArray => subArray.includes(el))[1]};/* border: 2px solid color-mix(in srgb, ${ct.find(subArray => subArray.includes(el))[1]}, white 50%);*/" onclick="event.stopPropagation(); filterT('t${el}')" title="${el.replaceAll('_',' ').replaceAll('-1','(').replaceAll('-2',')')}"></button>`;
       ng.classList.add(el);
+      if (el === 'Flash') {
+        rfl = document.createElement('img');
+        rfl.src = 'https://ruffle.rs/favicon-180.png';
+        rfl.setAttribute('style', 'position: absolute; top: 10px; right: 10px; width: 30px; background: rgba(255,255,255,0.1); border-radius: 7px; padding: 2.5px;');
+        rfl.setAttribute('title', 'Played with Ruffle');
+        ng.appendChild(rfl);
+      }
     });
     ng.appendChild(tg);
   }
