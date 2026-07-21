@@ -33,28 +33,16 @@
 <button onclick="this.parentElement.style.display = 'none';" style="position: absolute; top: 4px; right: 4px; height: 28px; width: 60px; background: #fc1703; border: none; border-radius: 5px; font-size: 15px; color: white; cursor: pointer;">Close</button>
 </div>
 <script>
-let gu = 'https://thegportal.github.io/ghrb/g/snow-rider-3d/index.html';
-let iu = (window.parent.location.href.startsWith('data:') || window.parent.location.href.startsWith('blob:')) && window.location.href == 'about:srcdoc';
-
-if (iu) {
-  co = window.confirm('-> You are on a blob, file or data URL, with the game in a sd, which does not work. You must switch the method of unblocking to an embed.\n-> NOTE: There is absolutely NO guarantee that this method will work, as it has been patched by (at least) GoGuardian. A better fix to this issue would to access your games website using a method other than blob or data URLs.\n-> Do you wish to continue with the new method?');
-  if (co) {
-    document.body.innerHTML = `<object style="position: absolute; top: 0; left: 0; width: 100vw; height: 100vh;" data="${gu}"></object>`;
-  }
-}
-
 function openDB(name) {
-  if (!iu) {
-    return new Promise((resolve, reject) => {
-      const req = indexedDB.open(name);
-      req.onsuccess = () => {
-        resolve(req.result);
-      };
-      req.onerror = () => {
-        reject(req.error);
-      };
-    });
-  }
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open(name);
+    req.onsuccess = () => {
+      resolve(req.result);
+    };
+    req.onerror = () => {
+      reject(req.error);
+    };
+  });
 }
 
 function serialize(obj) {
@@ -102,289 +90,239 @@ function serialize(obj) {
   );
 }
 
+async function gzipCompress(str) {
+  const stream = new CompressionStream("gzip");
+  const writer = stream.writable.getWriter();
+  writer.write(new TextEncoder().encode(str));
+  writer.close();
+  return await new Response(stream.readable).arrayBuffer();
+}
+
+async function gzipDecompress(buffer) {
+  const stream = new DecompressionStream("gzip");
+  const writer = stream.writable.getWriter();
+  writer.write(buffer);
+  writer.close();
+  return await new Response(stream.readable).text();
+}
+
+function arrayBufferToBase64(buffer) {
+  const bytes = new Uint8Array(buffer);
+  let binary = "";
+  for (let i = 0; i < bytes.length; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return btoa(binary);
+}
+
+function base64ToArrayBuffer(base64) {
+  const binary = atob(base64);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) {
+    bytes[i] = binary.charCodeAt(i);
+  }
+  return bytes.buffer;
+}
+
+function exportLocalStorage() {
+  const data = {};
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    data[key] = localStorage.getItem(key);
+  }
+  return data;
+}
+
 async function exportAllIDB(c) {
-  if (!iu) {
-    const dbList = await indexedDB.databases();
-    const output = {
-      databases: {}
+  const dbList = await indexedDB.databases();
+  const output = {
+    databases: {},
+    localStorage: exportLocalStorage()
+  };
+  for (const info of dbList) {
+    if (!info.name) continue;
+    console.log("Reading database:", info.name);
+    const db = await openDB(info.name);
+    output.databases[info.name] = {
+      version: db.version,
+      stores: {}
     };
-    for (const info of dbList) {
-      if (!info.name) continue;
-      console.log(
-        "Reading database:",
-        info.name);
-      const db = await openDB(info.name);
-      output.databases[info.name] = {
-        version: db.version,
-        stores: {}
+    for (const storeName of db.objectStoreNames) {
+      const tx = db.transaction(storeName, "readonly");
+      const store = tx.objectStore(storeName);
+      const keyPath = store.keyPath;
+      const autoIncrement = store.autoIncrement;
+      const data = await new Promise((resolve, reject) => {
+        const valuesReq = store.getAll();
+        const keysReq = store.getAllKeys();
+        Promise.all([
+          new Promise((r, j) => {
+            valuesReq.onsuccess = () => r(valuesReq.result);
+            valuesReq.onerror = () => j(valuesReq.error);
+          }),
+          new Promise((r, j) => {
+            keysReq.onsuccess = () => r(keysReq.result);
+            keysReq.onerror = () => j(keysReq.error);
+          })
+        ]).then(([values, keys]) => {
+          resolve(
+            values.map((value, i) => ({
+              key: keys[i],
+              value: serialize(value)
+            }))
+          );
+        }).catch(reject);
+      });
+      console.log("Store:", storeName, data);
+      output.databases[info.name].stores[storeName] = {
+        keyPath: keyPath,
+        autoIncrement: autoIncrement,
+        data: data
       };
-      for (const storeName of db.objectStoreNames) {
-        const tx = db.transaction(storeName, "readonly");
-        const store = tx.objectStore(storeName);
-        const data = await new Promise(
-          (resolve,reject)=>{
-            const valuesReq = store.getAll();
-            const keysReq = store.getAllKeys();
-            Promise.all([
-              new Promise((r,j)=>{
-                valuesReq.onsuccess=()=>r(valuesReq.result);
-                valuesReq.onerror=()=>j(valuesReq.error);
-              }),
-              new Promise((r,j)=>{
-                keysReq.onsuccess=()=>r(keysReq.result);
-                keysReq.onerror=()=>j(keysReq.error);
-              })
-            ]).then(([values,keys])=>{
-              resolve(
-                values.map((value, i) => ({
-                  key: keys[i],
-                  value: serialize(value)
-                }))
-              );
-            }).catch(reject);
-          });
-        console.log("Store:", storeName, data);
-        output
-          .databases[info.name]
-          .stores[storeName] = data;
-      }
-      db.close();
     }
-    if (c == 0) {
-      async function gzipCompress(str) {
-        const stream = new CompressionStream("gzip");
-        const writer = stream.writable.getWriter();
-        writer.write(
-          new TextEncoder().encode(str)
-        );
-        writer.close();
-        const compressed =
-          await new Response(
-            stream.readable
-          ).arrayBuffer();
-        return compressed;
-      }
-    
-      const json =
-        JSON.stringify(output);
-      const compressed =
-        await gzipCompress(json);
-      const blob = new Blob(
-        [compressed],
-        { type: "application/gzip" });
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
-      a.download = `Maths (DB).gz`;
-      a.click();
-      URL.revokeObjectURL(a.href);
-      console.log("Export complete");
-    } else {
-    async function gzipCompress(str) {
-        const stream = new CompressionStream("gzip");
-        const writer = stream.writable.getWriter();
-        writer.write(
-          new TextEncoder().encode(str)
-        );
-        writer.close();
-        const compressed =
-          await new Response(
-            stream.readable
-          ).arrayBuffer();
-        return compressed;
-    }
-      const json =
-        JSON.stringify(output);
-      const compressed =
-        await gzipCompress(json);
-        
-    function arrayBufferToBase64(buffer) {
-        const bytes = new Uint8Array(buffer);
-        let binary = "";
-        for (let i = 0; i < bytes.length; i++) {
-            binary += String.fromCharCode(bytes[i]);
-        }
-        return btoa(binary);
-    }
-    
+    db.close();
+  }
+
+  const json = JSON.stringify(output);
+  const compressed = await gzipCompress(json);
+
+  if (c == 0) {
+    const blob = new Blob([compressed], { type: "application/gzip" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `Maths (DB).gz`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+    console.log("Export complete");
+  } else {
     const base64 = arrayBufferToBase64(compressed);
     await navigator.clipboard.writeText(base64);
-      navigator.clipboard.writeText(base64);
-    }
+    console.log("Copy complete");
   }
+}
+
+function fromBase64(base64) {
+  const binary = atob(base64);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) {
+    bytes[i] = binary.charCodeAt(i);
+  }
+  return bytes.buffer;
 }
 
 function deserialize(obj) {
   if (obj && typeof obj === "object") {
     for (const k in obj) {
-      obj[k] =
-        deserialize(
-          obj[k]
-        );
+      obj[k] = deserialize(obj[k]);
     }
     if (obj.__type) {
       switch (obj.__type) {
         case "Date":
-          return new Date(
-            obj.value
-          );
-        function fromBase64(base64) {
-          const binary = atob(base64);
-          const bytes = new Uint8Array(binary.length);
-        
-          for (let i = 0; i < binary.length; i++) {
-            bytes[i] = binary.charCodeAt(i);
-          }
-        
-          return bytes.buffer;
-        }
-        
+          return new Date(obj.value);
         case "ArrayBuffer":
           return fromBase64(obj.value);
         case "Uint8Array":
-          return new Uint8Array(
-            fromBase64(obj.value)
-          );
+          return new Uint8Array(fromBase64(obj.value));
         case "Int8Array":
-          return new Int8Array(
-            fromBase64(obj.value)
-          );
+          return new Int8Array(fromBase64(obj.value));
         case "Uint16Array":
-          return new Uint16Array(
-            fromBase64(obj.value)
-          );
+          return new Uint16Array(fromBase64(obj.value));
         case "Int16Array":
-          return new Int16Array(
-            fromBase64(obj.value)
-          );
+          return new Int16Array(fromBase64(obj.value));
         case "Uint32Array":
-          return new Uint32Array(
-            fromBase64(obj.value)
-          );
+          return new Uint32Array(fromBase64(obj.value));
         case "Int32Array":
-          return new Int32Array(
-            fromBase64(obj.value)
-          );
+          return new Int32Array(fromBase64(obj.value));
       }
     }
   }
   return obj;
 }
 
-async function gzipDecompress(buffer) {
-  const stream =
-    new DecompressionStream(
-      "gzip"
-    );
-  const writer =
-    stream.writable
-    .getWriter();
-  writer.write(buffer);
-  writer.close();
-  return await new Response(
-    stream.readable
-  ).text();
+function importLocalStorage(data) {
+  if (!data) return;
+  localStorage.clear();
+  for (const key in data) {
+    localStorage.setItem(key, data[key]);
+  }
 }
 
 async function importAllIDB(p) {
-  if (!iu) {
-    let json;
-    if (p == 0) {
-      let file = document.getElementById("file-btn").files[0];
-      const name = file.name.toLowerCase();
-      if (!name.endsWith(".gz") && !name.endsWith(".gzip") && !name.endsWith(".json")) {
-        alert("Choose a .gz, .gzip, or .json file");
-        return;
-      }
-      const buffer =
-      await file.arrayBuffer();
-      const text =
-        await gzipDecompress(
-          buffer
-        );
-      json = JSON.parse(text);
-    } else {
-      const base64 = prompt("Paste your JSON here.");
-      function base64ToArrayBuffer(base64) {
-        const binary = atob(base64);
-        const bytes = new Uint8Array(binary.length);
-        for (let i = 0; i < binary.length; i++) {
-          bytes[i] = binary.charCodeAt(i);
-        }
-        return bytes.buffer;
-      }
-      
-      const compressed = base64ToArrayBuffer(base64);
-      const data = await gzipDecompress(compressed);
-      json = JSON.parse(data);
+  let json;
+  if (p == 0) {
+    let file = document.getElementById("file-btn").files[0];
+    if (!file) return;
+    const name = file.name.toLowerCase();
+    if (!name.endsWith(".gz") && !name.endsWith(".gzip") && !name.endsWith(".json")) {
+      alert("Choose a .gz, .gzip, or .json file");
+      return;
     }
-    for (const dbName in json.databases) {
-      const importedDB = json.databases[dbName];
-      console.log(
-        "Importing:",
-        dbName
-      );
-      const db = await openDB(dbName);
-      for (const storeName in importedDB.stores) {
-        if (!db.objectStoreNames.contains(storeName)) {
-          console.warn(`Store "${storeName}" missing`);
-          continue;
-        }
-        await new Promise((resolve, reject) => {
-          const tx = db.transaction(
-            storeName,
-            "readwrite"
-          );
-          const store = tx.objectStore(storeName);
-          const clearReq = store.clear();
-          clearReq.onerror = () => {
-            reject(clearReq.error);
-          };
-          clearReq.onsuccess = () => {
-            for (const item of importedDB.stores[storeName]) {
-              let req;
-              try {
-                item.value = deserialize(item.value);
-                console.log(
-                  storeName,
-                  item
-                );
-                if (item.key !== undefined) {
-                  req = store.put(
-                    item.value,
-                    item.key
-                  );
-                } else {
-                  req = store.put(item.value);
-
-                }
-                req.onerror = () => {
-                  console.error("Failed item:", item);
-                  console.error(
-                    req.error
-                  );
-                };
-              } catch(err) {
-                console.error(
-                  err,
-                  item
-                );
-              }
-            }
-
-          };
-          tx.oncomplete = () => {
-            resolve();
-          };
-          tx.onerror = () => {
-            reject(tx.error);
-          };
-        });
-      }
-      db.close();
-    }
-    alert("Import complete");
-    window.location.reload();
+    const buffer = await file.arrayBuffer();
+    const text = await gzipDecompress(buffer);
+    json = JSON.parse(text);
+  } else {
+    const base64 = prompt("Paste your JSON here.");
+    if (!base64) return;
+    const compressed = base64ToArrayBuffer(base64);
+    const data = await gzipDecompress(compressed);
+    json = JSON.parse(data);
   }
+
+  for (const dbName in json.databases) {
+    const importedDB = json.databases[dbName];
+    console.log("Importing:", dbName);
+    const db = await openDB(dbName);
+    for (const storeName in importedDB.stores) {
+      if (!db.objectStoreNames.contains(storeName)) {
+        console.warn(`Store "${storeName}" missing`);
+        continue;
+      }
+      const storeInfo = importedDB.stores[storeName];
+      const items = Array.isArray(storeInfo) ? storeInfo : storeInfo.data;
+      const hasInlineKeyPath = !Array.isArray(storeInfo) && !!storeInfo.keyPath;
+
+      await new Promise((resolve, reject) => {
+        const tx = db.transaction(storeName, "readwrite");
+        const store = tx.objectStore(storeName);
+        const clearReq = store.clear();
+        clearReq.onerror = () => {
+          reject(clearReq.error);
+        };
+        clearReq.onsuccess = () => {
+          for (const item of items) {
+            try {
+              item.value = deserialize(item.value);
+              console.log(storeName, item);
+              let req;
+              if (hasInlineKeyPath || item.key === undefined) {
+                req = store.put(item.value);
+              } else {
+                req = store.put(item.value, item.key);
+              }
+              req.onerror = () => {
+                console.error("Failed item:", item);
+                console.error(req.error);
+              };
+            } catch (err) {
+              console.error(err, item);
+            }
+          }
+        };
+        tx.oncomplete = () => {
+          resolve();
+        };
+        tx.onerror = () => {
+          reject(tx.error);
+        };
+      });
+    }
+    db.close();
+  }
+
+  importLocalStorage(json.localStorage);
+
+  alert("Import complete");
+  window.location.reload();
 }
 
 document.getElementById('file-btn').addEventListener('change', () => {
