@@ -9,7 +9,8 @@
         <script src="https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/slope/UnityProgress.js"></script>
         <script src="https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/slope/UnityLoader.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-        <script>var unityInstance = window.unityInstance = UnityLoader.instantiate("gameContainer", `${bUrl1}slope_new.json`, {onProgress: UnityProgress,Module:{onRuntimeInitialized: function() {UnityProgress(window.unityInstance, "complete")}}});
+        <script>
+            var unityInstance = window.unityInstance = UnityLoader.instantiate("gameContainer", `https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/slope/slope_new.json`, {onProgress: UnityProgress,Module:{onRuntimeInitialized: function() {UnityProgress(window.unityInstance, "complete")}}});
         </script>
         <style>
             body {
