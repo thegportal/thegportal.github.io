@@ -9,25 +9,7 @@
         <script src="UnityProgress.js" onerror="this.src=`${bUrl1}${this.src}`"></script>
         <script src="UnityLoader.js" onerror="this.src=`${bUrl1}${this.src}`"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-        <script>
-            let blobUrl() = '';
-            async function getJSON() {
-              try {
-                const response = await fetch(`${bUrl1}slope_new.json`);
-                if (!response.ok) {
-                  throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                const data = await response.json();
-                const data2 = JSON.stringify(data);
-                data2 = data2.replace('{{bUrl1}}', bUrl1).replace('{{bUrl1}}', bUrl1);
-                const myblob = new Blob([data2], { type: 'application/json' });
-                blobUrl = URL.createObjectURL(myblob);
-              } catch (error) {
-                console.error('Fetch failed:', error);
-              }
-            }]
-            getJSON();
-            var unityInstance = window.unityInstance = UnityLoader.instantiate("gameContainer", blobUrl, {onProgress: UnityProgress,Module:{onRuntimeInitialized: function() {UnityProgress(window.unityInstance, "complete")}}});
+        <script>var unityInstance = window.unityInstance = UnityLoader.instantiate("gameContainer", `${bUrl1}slope_new.json`, {onProgress: UnityProgress,Module:{onRuntimeInitialized: function() {UnityProgress(window.unityInstance, "complete")}}});
         </script>
         <style>
             body {
