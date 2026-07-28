@@ -683,7 +683,7 @@ var Module = {
             GameArchiveLoader.addFileLoadedListener(Module.onArchiveFileLoaded);
             GameArchiveLoader.addArchiveLoadedListener(Module.onArchiveLoaded);
             GameArchiveLoader.setFileLocationFilter(params["archive_location_filter"]);
-            GameArchiveLoader.loadArchiveDescription('/archive_files.json');
+            GameArchiveLoader.loadArchiveDescription('https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/monkey-mart/archive/archive_files.json');
         } else {
             Progress.updateProgress(100, "Unable to start game, WebGL not supported");
             Module.setStatus = function(text) {
