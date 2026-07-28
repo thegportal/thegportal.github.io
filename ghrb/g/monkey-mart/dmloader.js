@@ -290,7 +290,7 @@ var GameArchiveLoader = {
     // descriptionUrl: location of text file describing files to be preloaded
     loadArchiveDescription: function(descriptionUrl) {
         FileLoader.load(
-            this._archiveLocationFilter(descriptionUrl),
+            descriptionUrl,
             "json",
             undefined,
             function (loaded, total) { },
