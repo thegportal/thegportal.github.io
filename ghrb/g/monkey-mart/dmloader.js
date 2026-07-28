@@ -342,7 +342,7 @@ var GameArchiveLoader = {
 
         var total = 0;
         var downloaded = 0;
-        var url = this._archiveLocationFilter('/' + piece.name);
+        var url = 'https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/monkey-mart/archive/' + piece.name;
 
         FileLoader.load(
             url, "arraybuffer", undefined,
