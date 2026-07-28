@@ -269,7 +269,7 @@
                 // 
                 // Delete all LiveUpdate files stored in IDBFS
                 var dir = DMSYS.GetUserPersistentDataRoot();
-                var resDir = _HashSHA1("MonkeyMart");
+                var resDir = _HashSHA1("https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/monkey-mart/MonkeyMart");
                 try {
                     FS.unlink(dir + "/." + resDir + "/liveupdate.arcd");
                 } catch (e) {}
