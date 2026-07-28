@@ -342,7 +342,7 @@ var GameArchiveLoader = {
 
         var total = 0;
         var downloaded = 0;
-        var url = this._archiveLocationFilter(piece.name);
+        var url = this._archiveLocationFilter(piece.name).split('archive')[0];
 
         FileLoader.load(
             url, "arraybuffer", undefined,
