@@ -1,7 +1,13 @@
 <!DOCTYPE html>
 <html>
 <!--
-
+     _________   __    __             __
+    / _______/  / /   / /            / /
+   / / _____   / /___/ /  __   __   / /__
+  / / /__  /  / ____  /  / /  / /  / ___ \
+ / /____/ /  / /   / /  / /  / /  / /  / /
+/        /  / /   / /   \ ‾‾‾ /  /  ‾‾‾_/
+‾‾‾‾‾‾‾‾‾   ‾‾    ‾‾     ‾‾‾‾‾   ‾‾‾‾‾‾
 JJJJJJJ EEEEEEE RRRRRR
    J    E       R    RR
    J    EEEE    RRRRRR
@@ -132,6 +138,10 @@ select {
   font-family: Iosevka Charon Mono, Monospace;
   color: white;
   background: #360073;
+} optgroup {
+  font-family: Iosevka Charon Mono, Monospace;
+  color: white;
+  background: #4d00a3;
 }
 
 #sidebar {
@@ -451,6 +461,8 @@ select {
 .wind {
   position: fixed;
   display: none;
+  overflow: scroll;
+  padding: 10px;
   top: 50px;
   left: 50px;
   width: calc(100vw - 100px);
@@ -459,6 +471,10 @@ select {
   backdrop-filter: blur(5px);
   border: 3px solid #fc95d8;
   border-radius: 15px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+} .wind::-webkit-scrollbar {
+  display: none;
 }
 
 .tag-results {
@@ -538,6 +554,15 @@ select {
   display: inline-block;
   animation: wobble 1s ease-in-out infinite;
 }
+
+#gOptions {
+  position: absolute;
+  top: 35px;
+  right: 10px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+}
 </style>
 </head>
 <body spellcheck="false">
@@ -581,23 +606,34 @@ select {
 <img src="assets/close.svg" height="25" class="ibtn" style="position: absolute; top: 10px; right: 10px; cursor: pointer; border: none;" onclick="this.parentElement.style.display = 'none'; this.parentElement.parentElement.style.display = 'none'; document.body.style.overflow = 'auto'">
 <p>Settings</p>
 
-<label for="filters">Choose Your Filter:</label>
-
-<select name="filters" id="filters">
-  <option value="GoGuardian">GoGuardian</option>
-  <option value="Securly">Securly</option>
-  <option value="LightSpeed">LightSpeed</option>
-  <option value="Blocksi">Blocksi</option>
-  <option value="LANSchool">LANSchool</option>
-  <option value="Linewise">Linewise</option>
-  <option value="Fortiguard">Fortiguard</option>
-  <option value="Cisco Umbrellla">Cisco Umbrellla</option>
-  <option value="ContentKeeper">ContentKeeper</option>
-  <option value="Hapara">Hapara</option>
-  <option value="iboss">iboss</option>
-</select>
+<h2>Bypass Method</h2>
+<button onclick="openEls(['fTable'])">Show Supported Methods</button>
+<div id="fTable" style="display: none;">
+<button onclick="closeEls(['fTable'])">Close Table</button>
 </div>
 
+<label for="bm">Choose a Method:</label>
+<select name="bm" id="bm">
+  <optgroup label="Most Likely to Work">
+    <option value="newm">The New Method</option>
+    <option value="opab">Open in a:b</option>
+  </optgroup>
+  <optgroup label="Least Likely to Work">
+    <option value="objt">Object Tags</option>
+    <option value="embt">Embed Tags</option>
+    <option value="ifra">iframes</option>
+  </optgroup>
+</select>
+<hr>
+<h2>GHub Data</h2>
+<input type="file" id="import-db" style="display: none;" accept=".gzip, .gz"/>
+<label for="import-db" style="display: block; border: 1px solid white; border-radius: 5px; font-size: 25px; cursor: pointer; margin-bottom: 10px;"><img src="assets/import.svg" height="20" title="Import Data From your Files">Import from files</label>
+<button onclick="importAllIDB(1)" style="width: 60px; background: #9900ff; border: none; border-radius: 5px; font-size: 15px; color: white; cursor: pointer;" title="Paste Data From your Clipboard">Paste</button>
+<button onclick="exportAllIDB(0)" style="width: 60px; background: #11ab00; border: none; border-radius: 5px; font-size: 15px; color: white; cursor: pointer;" title="Export Data to your Files">Export</button>
+<button onclick="exportAllIDB(1)" style="width: 60px; background: #04b88b; border: none; border-radius: 5px; font-size: 15px; color: white; cursor: pointer;" title="Copy Data to your Clipboard">Copy</button>
+<button onclick="window.alert('-> TIP: Do NOT attempt to close or refresh the window when a pop-up, like this, pops up. The pop-up warning will not appear, and you will lose your new data if you do!\n-> Buh-Bye! :D')" style="width: 115px; background: #fcba03; border: none; border-radius: 5px; font-size: 15px; color: white; cursor: pointer;">Important Info</button>
+</div>
+<hr>
 </div>
 
 <div id="main-content">
@@ -682,12 +718,20 @@ select {
 <p id="fps-counter" style="font-size: 18px; display: inline;"></p>
 </div>
 <div style="height: 25px; position: absolute; right: 0; display: flex; gap: 0;">
-<button style="height: 25px; width: 50px; margin: 0; background: blue;" onclick="optionsG()">&bull;&bull;&bull;</button>
+<button style="height: 25px; width: 50px; margin: 0; background: blue;" onclick="openEls(['gOptions']);">&bull;&bull;&bull;</button>
 <button style="height: 25px; width: 50px; margin: 0; background: red;" onclick="closeG()">X</button>
 </div>
-</div>
 <div id="gOptions">
+<img src="assets/close.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/close.svg'" class="img img-btn" style="position: absolute; right: 10px; width: 30px; border-radius: 7px;" onclick="closeEls(['gOptions']);" title="Close">
+<img src="assets/refresh2.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/refresh2.svg'" class="img img-btn" style="position: absolute; right: 50px; width: 30px; border-radius: 7px;" onclick="if(gContent.children[0].hasAttribute('src')){gContent.children[0].src=gContent.children[0].src;}else if(gContent.children[0].hasAttribute('data')){gContent.children[0].data=gContent.children[0].data;}else{gContent.children[0].srcdoc=gContent.children[0].srcdoc;}" title="Refresh">
 
+<p style="display: inline-block;">Zoom: 100%</p><br>
+<img src="assets/minus.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/minus.svg'" class="img img-btn" style="width: 30px; border-radius: 7px;" onclick="gContent.children[0].style.zoom = (parseInt(gContent.children[0].style.zoom) - 5) > 0 ? `${parseInt(gContent.children[0].style.zoom) - 5}%` : '5%'; gOptions.children[2].innerText = 'Zoom: ' + gContent.children[0].style.zoom;">
+<img src="assets/plus.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/plus.svg'" class="img img-btn" style="width: 30px; border-radius: 7px;" onclick="gContent.children[0].style.zoom = (parseInt(gContent.children[0].style.zoom) + 5) < 305 ? `${parseInt(gContent.children[0].style.zoom) + 5}%` : '300%'; gOptions.children[2].innerText = 'Zoom: ' + gContent.children[0].style.zoom;"><br>
+<p style="display: inline-block; margin-top: 20px;">Width and Height (% = percent of the screen; px = pixels)</p><br>
+<input type="text">
+<input type="text">
+</div>
 </div>
 <div id="gContent"></div>
 
@@ -738,13 +782,14 @@ function monitorFrames() {
 }
 window.requestAnimationFrame(monitorFrames);
 </script>
-<script src="assets/rmessage.js" onerror="let emsgs = ['I see the random messages failed to load properly...','Whatever!','These are just bonus messages!','Hello!','Made by Jeremy Powell!','Skibididdy Toilet!'];document.getElementById('rmessage').innerHTML = emsgs[Math.floor(Math.random()*emsgs.length)];document.getElementById('rf').remove();document.getElementById('cb').remove()"></script>
+<script src="assets/rmessage.js" onerror="const sc=document.createElement('script');sc.src='https://thegportal.github.io/ghrb/assets/rmessage.js';sc.setAttribute('onerror','let emsgs=[`I see the random messages failed to load properly...`,`Whatever!`,`These are just bonus messages!`,`Hello!`,`Made by Jeremy Powell!`,`Skibididdy Toilet!`];document.getElementById(`rmessage`).innerHTML=emsgs[Math.floor(Math.random()*emsgs.length)]+`<p style=\'color:rgba(255,255,255,0.5);font-size:10px\'>Messages failed to load properly</p>`;document.getElementById(`rf`).remove();document.getElementById(`cb`).remove()');document.body.appendChild(sc);this.remove();"></script>
 <script>
 let mainMenu = 0;
 let menuSelect = document.getElementById("menus");
 let gameImport = document.getElementById("gameImport");
 let jsonImport = document.getElementById("jsonImport");
 let gContent = document.getElementById("gContent");
+let gOptions = document.getElementById("gOptions");
 let topgBar = document.getElementById("top-gBar");
 let preImg = document.getElementById("preImg");
 let preTitle = document.getElementById("preTitle");
@@ -772,24 +817,32 @@ document.getElementById("tb1")
 
 gms = Array(
   //All Games
-  ['ag', 'https://thegportal.github.io/ghrb/g/2-minute-football/index.html', '2 Minute Football', 'https://play-lh.googleusercontent.com/OwOd0amGXqDehq0ezR79Y-ZBMYyB9jlMAzVWwnXLCQvTEKLpkWO3OcYXWOovbjMsfBrs33DQljWMjdSnBWoPWYg=w240-h480-rw', '100%', '100%', 'black', ['Sports'], 0],
-  ['ag', 'https://thegportal.github.io/ghrb/g/basket-random/index.html', 'Basket Random', 'https://imgs.crazygames.com/basket-random_1x1/20240617090207/basket-random_1x1-cover?format=auto&quality=100&metadata=none&width=1200', '100%', '100%', 'black', ['Sports'], 0],
-  ['ag', 'https://thegportal.github.io/ghrb/g/cookie-clicker/index.html', 'Cookie Clicker', 'https://super142.wordpress.com/wp-content/uploads/2022/07/cookie-clicker.jpg', '100%', '100%', 'black', ['Endless','Idle','Tycoon'], 0],
-  ['ag', 'https://thegportal.github.io/ghrb/g/coreball/index.html', 'Coreball', 'https://geometrydashspam.com/media/uploads/games/thumb/coreball.webp', '100%', '100%', 'black', ['Challenge'], 0],
-  ['ag', 'https://thegportal.github.io/ghrb/g/escape-road/index.html', 'Escape Road', 'https://poorbunny2.io/data/image/game/escaperoad.png', '100%', '100%', 'black', ['Car','Endless'], 0],
-  ['ag', 'https://thegportal.github.io/ghrb/g/fnae/index.html', `Five Nights at Epstein\\'s`, 'https://granny1.io/data/image/game/five-nights-at-epsteins.png', '100%', '100%', 'black', ['Horror'], 0],
-  ['ag', 'https://thegportal.github.io/ghrb/g/gunspin/index.html', 'Gunspin', 'https://static.keygames.com/4/113974/98896/1024x1024/gunspin.webp', '100%', '100%', 'black', ['Endless','Gun'], 0],
-  ['ag', 'https://thegportal.github.io/ghrb/g/idle-breakout/index.html', 'Idle Breakout', 'https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=1200,height=1200,fit=cover,f=png/59a42104cf89164d41ed231574452322/idle-breakout-logo.png', '100%', '100%', 'black', ['Endless','Idle'], 0],
-  ['ag', 'https://thegportal.github.io/ghrb/g/polytrack/index.html', 'PolyTrack', 'https://play-lh.googleusercontent.com/6unB5hJ12tCWdJeyFhuI2mZS_H2PEe9JlufONK_89LKc3a3PH8LLLFTSMv72-hm0bmQFBq1uks3m8_4CPT7Xtw', '100%', '100%', 'black', ['Car'], 0],
-  ['ag', 'https://thegportal.github.io/ghrb/g/rooftop-snipers-2/index.html', 'Rooftop Snipers 2', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLTs454jc7lbWAkvy8hLmV40Lm1D3sjp3FL-DZalasCPgpjMYaSA_9gxY&s=10', '100%', '100%', 'black', ['Gun'], 0],
-  ['ag', 'https://thegportal.github.io/ghrb/g/sandtris/index.html', 'Sandtris', 'https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=1200,height=1200,fit=cover,f=png/ecd6242d6645b16e38220e88d5146301/sandtris-logo.png', '100%', '100%', 'black', ['Challenge'], 0],
-  ['ag', 'https://thegportal.github.io/ghrb/g/snow-rider-3d/index.html', 'Snow Rider 3D', 'https://bowlgames.io/data/image/snow-rider.png', '70%', '100%', 'black', ['Endless'], 0],
-  ['ag', 'https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/flash-g/learn-to-fly.swf', 'Learn to Fly', 'https://tse-mm.bing.com/th?q=Learn%20To%20Fly%20Game%20game', '100%', '100%', 'black', ['Flash','Learn_to_Fly_-1Series-2'], 1],
-  ['ag', 'https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/flash-g/learn-to-fly-2.swf', 'Learn to Fly 2', 'https://e.snmc.io/lk/lv/x/77e0aedce501ea412351ef15386c75e4/9441677', '100%', '100%', 'black', ['Flash','Learn_to_Fly_-1Series-2'], 1],
-  ['ag', 'https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/flash-g/learn-to-fly-3.swf', 'Learn to Fly 3', 'https://www.burrito-bison.com/wp-content/uploads/2026/05/Learn-to-Fly-3.webp', '100%', '100%', 'black', ['Flash','Learn_to_Fly_-1Series-2'], 1],
+  /*2 Minute Football*/['ag', 'https://thegportal.github.io/ghrb/g/2-minute-football/index.html', '2 Minute Football', 'https://play-lh.googleusercontent.com/OwOd0amGXqDehq0ezR79Y-ZBMYyB9jlMAzVWwnXLCQvTEKLpkWO3OcYXWOovbjMsfBrs33DQljWMjdSnBWoPWYg=w240-h480-rw', '100%', '100%', '100%', 'black', ['Sports'], 0],
+  /*Basket Random*/['ag', 'https://thegportal.github.io/ghrb/g/basket-random/index.html', 'Basket Random', 'https://imgs.crazygames.com/basket-random_1x1/20240617090207/basket-random_1x1-cover?format=auto&quality=100&metadata=none&width=1200', '100%', '100%', '100%', 'black', ['Sports'], 0],
+  /*Cookie Clicker*/['ag', 'https://thegportal.github.io/ghrb/g/cookie-clicker/index.html', 'Cookie Clicker', 'https://super142.wordpress.com/wp-content/uploads/2022/07/cookie-clicker.jpg', '100%', '100%', '100%', 'black', ['Endless','Idle','Tycoon'], 0],
+  /*Coreball*/['ag', 'https://thegportal.github.io/ghrb/g/coreball/index.html', 'Coreball', 'https://geometrydashspam.com/media/uploads/games/thumb/coreball.webp', '100%', '100%', '100%', 'black', ['Challenge'], 0],
+  /*Drift Boss*/['ag', 'https://thegportal.github.io/ghrb/g/drift-boss/index.html', 'Drift Boss', 'https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=1200,height=1200,fit=cover,f=png/baf55f009fd63dd63c760a5dcfe79615/drift-boss-logo.png', '100%', '100%', '100%', 'black', ['Car','Challenge','Endless'], 0],
+  /*Escape ROad*/['ag', 'https://thegportal.github.io/ghrb/g/escape-road/index.html', 'Escape Road', 'https://poorbunny2.io/data/image/game/escaperoad.png', '100%', '100%', '100%', 'black', ['Car','Endless'], 0],
+  /*FNAE*/['ag', 'https://thegportal.github.io/ghrb/g/fnae/index.html', `Five Nights at Epstein\\'s`, 'https://granny1.io/data/image/game/five-nights-at-epsteins.png', '100%', '100%', '100%', 'black', ['Horror'], 0],
+  /*Gunspin*/['ag', 'https://thegportal.github.io/ghrb/g/gunspin/index.html', 'Gunspin', 'https://static.keygames.com/4/113974/98896/1024x1024/gunspin.webp', '100%', '100%', '100%', 'black', ['Endless','Gun'], 0],
+  /*Idle Breakout*/['ag', 'https://thegportal.github.io/ghrb/g/idle-breakout/index.html', 'Idle Breakout', 'https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=1200,height=1200,fit=cover,f=png/59a42104cf89164d41ed231574452322/idle-breakout-logo.png', '100%', '100%', '100%', 'black', ['Endless','Idle'], 0],
+  /*Jetpack Joyride*/['ag', 'https://thegportal.github.io/ghrb/g/jetpack-joyride/index.html', 'Jetpak Joyride', 'https://jetpack-joyride.github.io/images/logo.png', '100%', '100%', '100%', 'black', ['Challenge','Endless'], 0],
+  /*PolyTrack*/['ag', 'https://thegportal.github.io/ghrb/g/polytrack/index.html', 'PolyTrack', 'https://play-lh.googleusercontent.com/6unB5hJ12tCWdJeyFhuI2mZS_H2PEe9JlufONK_89LKc3a3PH8LLLFTSMv72-hm0bmQFBq1uks3m8_4CPT7Xtw', '100%', '100%', '100%', 'black', ['Car'], 0],
+  /*Rooftop Snipers 2*/['ag', 'https://thegportal.github.io/ghrb/g/rooftop-snipers-2/index.html', 'Rooftop Snipers 2', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLTs454jc7lbWAkvy8hLmV40Lm1D3sjp3FL-DZalasCPgpjMYaSA_9gxY&s=10', '100%', '100%', '100%', 'black', ['Gun'], 0],
+  /*Sandtris*/['ag', 'https://thegportal.github.io/ghrb/g/sandtris/index.html', 'Sandtris', 'https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=1200,height=1200,fit=cover,f=png/ecd6242d6645b16e38220e88d5146301/sandtris-logo.png', '100%', '100%', '100%', 'black', ['Challenge'], 0],
+  /*Snow Rider 3D*/['ag', 'https://thegportal.github.io/ghrb/g/snow-rider-3d/index.html', 'Snow Rider 3D', 'https://bowlgames.io/data/image/snow-rider.png', '70%', '100%', '100%', 'black', ['Endless'], 0],
+  /*Top Speed Racing 3D*/['ag', 'https://thegportal.github.io/ghrb/g/top-speed-racing-3d/index.html', 'Top Speed Racing 3D', 'https://htmlxm.github.io/thumb/top-speed-racing-3d.png', '70%', '100%', '100%', 'black', ['Car'], 0],
+  /*HS - Breaking the Bank*/['ag', 'https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/flash-g/breaking-the-bank.swf', 'HS - Breaking the Bank', 'https://a.silvergames.com/j/b/breaking-the-bank.jpg', '100%', '100%', '100%', 'black', ['Flash','Henry_Stickmin_-1Series-2'], 1],
+  /*HS - Escaping the Prison*/['ag', 'https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/flash-g/escaping-the-prison.swf', 'HS - Fleeing the Prison', 'https://m.media-amazon.com/images/I/41Xp0u7aZDL.png', '100%', '100%', '100%', 'black', ['Flash','Henry_Stickmin_-1Series-2'], 1],
+  /*HS - Stealing the Diamond*/['ag', 'https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/flash-g/stealing-the-diamond.swf', 'HS - Stealing the Diamond', 'https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=314,height=314,fit=cover,f=auto/df942cb27fd6d1be99cbc496550825cb50a0a4c057476ce5cc350141b0ac7ada/stealing-the-diamond-logo.png', '100%', '100%', '100%', 'black', ['Flash','Henry_Stickmin_-1Series-2'], 1],
+  /*HS - Infiltrating the Airship*/['ag', 'https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/flash-g/learn-to-fly.swf', 'HS - Infiltrating the Airship', 'https://a.silvergames.com/j/b/infiltrating-the-airship.jpg', '100%', '100%', '100%', 'black', ['Flash','Henry_Stickmin_-1Series-2'], 1],
+  /*HS - Fleeing the Complex*/['ag', 'https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/flash-g/fleeing-the-complex.swf', 'HS - Fleeing the Complex', 'https://a.silvergames.com/j/b/fleeing-the-complex.jpg', '100%', '100%', '100%', 'black', ['Flash','Henry_Stickmin_-1Series-2'], 1],
+  /*Learn to Fly*/['ag', 'https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/flash-g/learn-to-fly.swf', 'Learn to Fly', 'https://tse-mm.bing.com/th?q=Learn%20To%20Fly%20Game%20game', '100%', '100%', '100%', 'black', ['Flash','Learn_to_Fly_-1Series-2'], 1],
+  /*Learn to Fly 2*/['ag', 'https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/flash-g/learn-to-fly-2.swf', 'Learn to Fly 2', 'https://e.snmc.io/lk/lv/x/77e0aedce501ea412351ef15386c75e4/9441677', '100%', '100%', '100%', 'black', ['Flash','Learn_to_Fly_-1Series-2'], 1],
+  /*Learn to Fly 3*/['ag', 'https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/flash-g/learn-to-fly-3.swf', 'Learn to Fly 3', 'https://www.burrito-bison.com/wp-content/uploads/2026/05/Learn-to-Fly-3.webp', '100%', '100%', '100%', 'black', ['Flash','Learn_to_Fly_-1Series-2'], 1],
   //Proxies
-  ['pr', 'https://fern.best/', 'Fern', 'https://avatars.githubusercontent.com/u/112173820?s=200&v=4', '100%', '100%', '#000', ['Proxy'], 0],
-  ['pr', 'https://www.croxyproxy.com/', 'CroxyProxy', 'https://avatars.githubusercontent.com/u/45306907?v=4', '100%', '100%', '#fff', ['Proxy'], 0]
+  ['pr', 'https://fern.best/', 'Fern', 'https://avatars.githubusercontent.com/u/112173820?s=200&v=4', '100%', '100%', '100%', '#000', ['Proxy'], 0],
+  ['pr', 'https://www.croxyproxy.com/', 'CroxyProxy', 'https://avatars.githubusercontent.com/u/45306907?v=4', '100%', '100%', '100%', '#fff', ['Proxy'], 0]
 );
 
 function checkMMenu() {
@@ -889,6 +942,7 @@ function addBGm(el, sourc, titl, sourcP, wid, hei, bgCol) {
 }
 
 let ct = Array(
+  ['Henry_Stickmin_-1Series-2', 'linear-gradient(#f27900, #fff)'],
   ['Learn_to_Fly_-1Series-2', 'linear-gradient(#1736ff, #fff)'],
   ['Proxy', 'linear-gradient(45deg, #fc0303, #030ffc)'],
   ['Car', '#348feb'],
@@ -904,22 +958,22 @@ let ct = Array(
 );
 
 gms.forEach((ar) => {
-  let ng = document.createElement('div');
-  ng.setAttribute('onclick', `openG('${ar[1]}', '${ar[4]}', '${ar[5]}', '${ar[6]}', '${ar[2]}', 0, ${ar[8]})`);
+  const ng = document.createElement('div');
+  ng.setAttribute('onclick', `openG('${ar[1]}', '${ar[4]}', '${ar[5]}', '${ar[6]}', '${ar[7]}', '${ar[2]}', 0, ${ar[9]})`);
   ng.setAttribute('class', 'game-select');
   ng.innerHTML = `<img id="preImg" class="icon-img" src="${ar[3]}" onerror="this.src='https://thegportal.github.io/ghrb/assets/error.svg'">
   <p id="preTitle">${ar[2].replaceAll('\\','')}</p>`;
-  if (ar[7] != null) {
+  if (ar[8] != null) {
     console.log('success');
-    let tg = document.createElement('div');
+    const tg = document.createElement('div');
     tg.style.position = 'absolute';
     tg.style.bottom = '5px';
     tg.style.left = '5px';
-    ar[7].forEach(el => {
+    ar[8].forEach(el => {
       tg.innerHTML += `<button class="c tagbtn t${el}" style="background: ${ct.find(subArray => subArray.includes(el))[1]};/* border: 2px solid color-mix(in srgb, ${ct.find(subArray => subArray.includes(el))[1]}, white 50%);*/" onclick="event.stopPropagation(); filterT('t${el}')" title="${el.replaceAll('_',' ').replaceAll('-1','(').replaceAll('-2',')')}"></button>`;
       ng.classList.add(el);
       if (el === 'Flash') {
-        rfl = document.createElement('img');
+        const rfl = document.createElement('img');
         rfl.src = 'https://ruffle.rs/favicon-180.png';
         rfl.setAttribute('style', 'position: absolute; top: 10px; right: 10px; width: 30px; background: rgba(255,255,255,0.1); border-radius: 7px; padding: 2.5px;');
         rfl.setAttribute('title', 'Played with Ruffle');
@@ -951,13 +1005,16 @@ function closeG() {
   multiEls[10].innerText = 'Titley';
 }
 
-async function openG(sourc, wid, hei, bgCol, titl, bts, fla) {
+async function openG(sourc, wid, hei, zm, bgCol, titl, bts, fla) {
   gContent.innerHTML = '';
   if (!(sourc.startsWith('data:application/x-shockwave-flash') || fla === 1)) {
     let g = document.createElement('embed');
     g.src = sourc;
     g.style.width = wid.includes('%') && parseInt(wid) > 100 ? '100%' : wid;
     g.style.height = hei.includes('%') && parseInt(hei) > 100 ? '100%' : hei;
+    g.style.zoom = zm;
+    gOptions.children[9].value = wid;
+    gOptions.children[10].value = hei;
     gContent.appendChild(g);
     gContent.style.background = bgCol;
     gContent.style.display = 'flex';
@@ -971,9 +1028,13 @@ async function openG(sourc, wid, hei, bgCol, titl, bts, fla) {
     g.setAttribute('srcdoc', editedString);
     g.style.width = wid.includes('%') && parseInt(wid) > 100 ? '100%' : wid;
     g.style.height = hei.includes('%') && parseInt(hei) > 100 ? '100%' : hei;
+    g.style.zoom = zm;
+    gOptions.children[9].value = wid;
+    gOptions.children[10].value = hei;
     gContent.appendChild(g);
     gContent.style.background = bgCol;
     gContent.style.display = 'flex';
+    gContent.children[0].style.border = 'none';
     topgBar.style.display = 'block';
     multiEls[10].innerText = titl;
   }
@@ -981,6 +1042,14 @@ async function openG(sourc, wid, hei, bgCol, titl, bts, fla) {
     multiEls[10].innerText = bTS(titl);
   }
 }
+
+gOptions.children[9].addEventListener('change', function() {
+  gContent.children[0].style.width = this.value;
+});
+
+gOptions.children[10].addEventListener('change', function() {
+  gContent.children[0].style.height = this.value;
+});
 
 function openEls(el) {
   el.forEach((e) => {
@@ -1145,6 +1214,104 @@ if (window.location.href.startsWith('file') || window.location.href.startsWith('
   document.getElementById('loading').style.display = 'none';
   document.title = 'GHRB (' + window.location.href.slice(0, 4) + ')';
 }
+
+const fNames = ['GoGuardian','Securly','Lightspeed','Blocksi','LANSchool','Linewise','Fortiguard','Cisco Umbrella','ContentKeeper','Hapara','iboss'];
+const mNames = ['Methods','The New Method','Open in a:b','Object Tags','Embed Tags','iframes']
+const aNames = [
+['G','P','S','S','N'],
+['P','P','S','S','N'],
+['U','U','N','N','N'],
+['U','U','U','U','U'],
+['U','U','U','U','U'],
+['U','U','U','U','U'],
+['U','U','U','U','U'],
+['U','U','U','U','U'],
+['U','U','U','U','U'],
+['U','U','U','U','U'],
+['U','U','U','U','U'],
+];
+
+const tbl = document.createElement('table');
+const row1 = document.createElement('tr');
+mNames.forEach((n) => {
+  const mN = document.createElement('th');
+  mN.style.width = '70px';
+  mN.innerText = n;
+  mN.style.background = 'rgba(0,0,0,0.3)';
+  mN.style.border = '1px solid white';
+  row1.appendChild(mN);
+});
+tbl.appendChild(row1);
+fNames.forEach((ro, ind) => {
+  const row = document.createElement('tr');
+  mNames.forEach((co, ind2) => {
+    if (ind2 < 5) {
+      if (ind2 == 0) {
+        const con = document.createElement('td');
+        con.innerText = fNames[ind];
+        con.style.background = 'rgba(0,0,0,0.3)';
+        con.style.border = '1px solid white';
+        row.appendChild(con);
+      }
+      const con = document.createElement('td');
+      con.style.width = '70px';
+      con.style.textAlign = 'center';
+      con.style.background = 'rgba(0,0,0,0.3)';
+      con.style.border = '1px solid white';
+      if (aNames[ind][ind2] == 'U') {
+        const im = document.createElement('img');
+        im.style.width = '50px';
+        im.src = 'assets/Uncertain.svg';
+        im.setAttribute('onerror','this.src="https://thegportal.github.io/ghrb/assets/Uncertain.svg"');
+        con.appendChild(im);
+        con.setAttribute('title','Uncertain; Not Enough Info COllected');
+      } else if (aNames[ind][ind2] == 'N') {
+        const im = document.createElement('img');
+        im.style.width = '50px';
+        im.src = 'assets/Probably%20Not.svg';
+        im.setAttribute('onerror','this.src="https://thegportal.github.io/ghrb/assets/Probably%20Not.svg"');
+        con.appendChild(im);
+        con.setAttribute('title','Probably Not');
+      } else if (aNames[ind][ind2] == 'S') {
+        const im = document.createElement('img');
+        im.style.width = '50px';
+        im.src = 'assets/Haha%20Sometimes.svg';
+        im.setAttribute('onerror','this.src="https://thegportal.github.io/ghrb/assets/Haha%20Sometimes.svg"');
+        con.appendChild(im);
+        con.setAttribute('title','Haha Sometimes');
+      } else if (aNames[ind][ind2] == 'P') {
+        const im = document.createElement('img');
+        im.style.width = '50px';
+        im.src = 'assets/Probably.svg';
+        im.setAttribute('onerror','this.src="https://thegportal.github.io/ghrb/assets/Probably.svg"');
+        con.appendChild(im);
+        con.setAttribute('title','Probably');
+      } else {
+        const im = document.createElement('img');
+        im.style.width = '50px';
+        im.src = 'assets/Guarranteed.svg';
+        im.setAttribute('onerror','this.src="https://thegportal.github.io/ghrb/assets/Guarranteed.svg"');
+        con.appendChild(im);
+        con.setAttribute('title','Guarranteed');
+      }
+      row.appendChild(con);
+    }
+  });
+  tbl.appendChild(row);
+});
+document.getElementById('fTable').appendChild(tbl);
+
+console.log(`Loaded successfully! :D
+     _________   __    __             __
+    / _______/  / /   / /            / /
+   / / _____   / /___/ /  __   __   / /__
+  / / /__  /  / ____  /  / /  / /  / ___ \\
+ / /____/ /  / /   / /  / /  / /  / /  / /
+/        /  / /   / /   \\ ‾‾‾ /  /  ‾‾‾_/
+‾‾‾‾‾‾‾‾‾   ‾‾    ‾‾     ‾‾‾‾‾   ‾‾‾‾‾‾
+
+GHub - Made by Jeremy Powell :)
+Snapchat: @jer_powell2024 ||| Discord: https://discord.gg/rAwrBrA3yT`);
 
 
 //AFTER THIS POINT, FUNCTIONS UTILISE INDEXEDDB AND/OR LOCALSTORAGE. THESE FEATURES WILL NOT WORK ON DATA: URLS.
@@ -1321,6 +1488,321 @@ function pasteGD() {
       }
   }
 }
+
+async function deleteDatabases() {
+  if (confirm('Are you sure you want to delete your localStorage and IndexedDB data? If you don\'t have your data exported or copied, you will NOT be able to recover it and all of your data, like settings and game progress, will be LOST forever!\nDo you wish to continue?')) {
+    const dbs = await indexedDB.databases();
+    for (const db of dbs) {
+      const req = indexedDB.deleteDatabase(db.name);
+      req.onsuccess = () => {
+        console.log(`Successfully deleted database: ${db.name}`);
+      };
+      req.onerror = (event) => {
+        console.error(`Error deleting database ${db.name}:`, event.target.error);
+        alert(`Error deleting database ${db.name}:`, event.target.error);
+      };
+      req.onblocked = () => {
+        console.warn(`Deletion of ${db.name} is blocked. Close other tabs running this site.`);
+        alert(`Deletion of ${db.name} is blocked. Close other tabs running this site.`);
+      };
+    }
+    localStorage.clear();
+  }
+}
+
+function openDB(name) {
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open(name);
+    req.onsuccess = () => {
+      resolve(req.result);
+    };
+    req.onerror = () => {
+      reject(req.error);
+    };
+  });
+}
+
+function serialize(obj) {
+  return JSON.parse(
+    JSON.stringify(
+      obj,
+      (key, value) => {
+        if (value instanceof Date) {
+          return {
+            __type: 'Date',
+            value: value.toISOString()
+          };
+        }
+        function toBase64(buffer) {
+          let binary = '';
+          const bytes = new Uint8Array(buffer);
+          for (let i = 0; i < bytes.length; i++) {
+            binary += String.fromCharCode(bytes[i]);
+          }
+          return btoa(binary);
+        }
+        if (value instanceof ArrayBuffer) {
+          return {
+            __type: 'ArrayBuffer',
+            value: toBase64(value)
+          };
+        }
+        if (ArrayBuffer.isView(value)) {
+            const bytes = new Uint8Array(
+                value.buffer,
+                value.byteOffset,
+                value.byteLength
+            );
+            return {
+                __type: value.constructor.name,
+                value: toBase64(bytes.buffer.slice(
+                    bytes.byteOffset,
+                    bytes.byteOffset + bytes.byteLength
+                ))
+            };
+        }
+        return value;
+      }
+    )
+  );
+}
+
+async function gzipCompress(str) {
+  const stream = new CompressionStream("gzip");
+  const writer = stream.writable.getWriter();
+  writer.write(new TextEncoder().encode(str));
+  writer.close();
+  return await new Response(stream.readable).arrayBuffer();
+}
+
+async function gzipDecompress(buffer) {
+  const stream = new DecompressionStream("gzip");
+  const writer = stream.writable.getWriter();
+  writer.write(buffer);
+  writer.close();
+  return await new Response(stream.readable).text();
+}
+
+function arrayBufferToBase64(buffer) {
+  const bytes = new Uint8Array(buffer);
+  let binary = "";
+  for (let i = 0; i < bytes.length; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return btoa(binary);
+}
+
+function base64ToArrayBuffer(base64) {
+  const binary = atob(base64);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) {
+    bytes[i] = binary.charCodeAt(i);
+  }
+  return bytes.buffer;
+}
+
+function exportLocalStorage() {
+  const data = {};
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    data[key] = localStorage.getItem(key);
+  }
+  return data;
+}
+
+async function exportAllIDB(c) {
+  const dbList = await indexedDB.databases();
+  const output = {
+    databases: {},
+    localStorage: exportLocalStorage()
+  };
+  for (const info of dbList) {
+    if (!info.name) continue;
+    console.log('Reading database:', info.name);
+    const db = await openDB(info.name);
+    output.databases[info.name] = {
+      version: db.version,
+      stores: {}
+    };
+    for (const storeName of db.objectStoreNames) {
+      const tx = db.transaction(storeName, "readonly");
+      const store = tx.objectStore(storeName);
+      const keyPath = store.keyPath;
+      const autoIncrement = store.autoIncrement;
+      const data = await new Promise((resolve, reject) => {
+        const valuesReq = store.getAll();
+        const keysReq = store.getAllKeys();
+        Promise.all([
+          new Promise((r, j) => {
+            valuesReq.onsuccess = () => r(valuesReq.result);
+            valuesReq.onerror = () => j(valuesReq.error);
+          }),
+          new Promise((r, j) => {
+            keysReq.onsuccess = () => r(keysReq.result);
+            keysReq.onerror = () => j(keysReq.error);
+          })
+        ]).then(([values, keys]) => {
+          resolve(
+            values.map((value, i) => ({
+              key: keys[i],
+              value: serialize(value)
+            }))
+          );
+        }).catch(reject);
+      });
+      console.log('Store:', storeName, data);
+      output.databases[info.name].stores[storeName] = {
+        keyPath: keyPath,
+        autoIncrement: autoIncrement,
+        data: data
+      };
+    }
+    db.close();
+  }
+
+  const json = JSON.stringify(output);
+  const compressed = await gzipCompress(json);
+
+  if (c == 0) {
+    const blob = new Blob([compressed], { type: "application/gzip" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `Maths (DB).gz`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+    console.log('Export complete.');
+  } else {
+    const base64 = arrayBufferToBase64(compressed);
+    await navigator.clipboard.writeText(base64);
+    console.log('Copy complete.');
+    alert('Copy complete.');
+  }
+}
+
+function fromBase64(base64) {
+  const binary = atob(base64);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) {
+    bytes[i] = binary.charCodeAt(i);
+  }
+  return bytes.buffer;
+}
+
+function deserialize(obj) {
+  if (obj && typeof obj === "object") {
+    for (const k in obj) {
+      obj[k] = deserialize(obj[k]);
+    }
+    if (obj.__type) {
+      switch (obj.__type) {
+        case 'Date':
+          return new Date(obj.value);
+        case 'ArrayBuffer':
+          return fromBase64(obj.value);
+        case 'Uint8Array':
+          return new Uint8Array(fromBase64(obj.value));
+        case 'Int8Array':
+          return new Int8Array(fromBase64(obj.value));
+        case 'Uint16Array':
+          return new Uint16Array(fromBase64(obj.value));
+        case 'Int16Array':
+          return new Int16Array(fromBase64(obj.value));
+        case 'Uint32Array':
+          return new Uint32Array(fromBase64(obj.value));
+        case 'Int32Array':
+          return new Int32Array(fromBase64(obj.value));
+      }
+    }
+  }
+  return obj;
+}
+
+function importLocalStorage(data) {
+  if (!data) return;
+  localStorage.clear();
+  for (const key in data) {
+    localStorage.setItem(key, data[key]);
+  }
+}
+
+async function importAllIDB(p) {
+  let json;
+  if (p == 0) {
+    let file = document.getElementById('file-btn').files[0];
+    if (!file) return;
+    const name = file.name.toLowerCase();
+    if (!name.endsWith(".gz") && !name.endsWith('.gzip')) {
+      alert('Choose a .gz or .gzip file');
+      return;
+    }
+    const buffer = await file.arrayBuffer();
+    const text = await gzipDecompress(buffer);
+    json = JSON.parse(text);
+  } else {
+    const base64 = prompt("Paste your JSON here.");
+    if (!base64) return;
+    const compressed = base64ToArrayBuffer(base64);
+    const data = await gzipDecompress(compressed);
+    json = JSON.parse(data);
+  }
+  for (const dbName in json.databases) {
+    const importedDB = json.databases[dbName];
+    console.log('Importing:', dbName);
+    const db = await openDB(dbName);
+    for (const storeName in importedDB.stores) {
+      if (!db.objectStoreNames.contains(storeName)) {
+        console.warn(`Store "${storeName}" missing`);
+        continue;
+      }
+      const storeInfo = importedDB.stores[storeName];
+      const items = Array.isArray(storeInfo) ? storeInfo : storeInfo.data;
+      const hasInlineKeyPath = !Array.isArray(storeInfo) && !!storeInfo.keyPath;
+
+      await new Promise((resolve, reject) => {
+        const tx = db.transaction(storeName, 'readwrite');
+        const store = tx.objectStore(storeName);
+        const clearReq = store.clear();
+        clearReq.onerror = () => {
+          reject(clearReq.error);
+        };
+        clearReq.onsuccess = () => {
+          for (const item of items) {
+            try {
+              item.value = deserialize(item.value);
+              console.log(storeName, item);
+              let req;
+              if (hasInlineKeyPath || item.key === undefined) {
+                req = store.put(item.value);
+              } else {
+                req = store.put(item.value, item.key);
+              }
+              req.onerror = () => {
+                console.error('Failed item:', item);
+                console.error(req.error);
+              };
+            } catch (err) {
+              console.error(err, item);
+            }
+          }
+        };
+        tx.oncomplete = () => {
+          resolve();
+        };
+        tx.onerror = () => {
+          reject(tx.error);
+        };
+      });
+    }
+    db.close();
+  }
+  importLocalStorage(json.localStorage);
+  alert('Import complete. Your tab will now refresh.');
+  window.location.reload();
+}
+
+document.getElementById('import-db').addEventListener('change', () => {
+  importAllIDB(0);
+});
 
 document.getElementById('loading').style.display = 'none';
 </script>
