@@ -1,8 +1,107 @@
 <!DOCTYPE html>
 <html>
-  <body>
-    <p>Hello :)</p>
-    <br>
-    <a href="https://thegportal.github.io/ghrb/">Go to GHRB</a>
-  </body>
+<head>
+<title>Visit GHRB</title>
+<meta charset="UTF-8">
+<link rel="icon" type="image/x-icon" href="ghrb/assets/favi.svg" onerror="this.href='https://thegportal.github.io/ghrb/assets/favi.svg'"
+<script src="https://thegportal.github.io/ghrb/ruffle/ruffle.js" onerror="this.src='https://unpkg.com/@ruffle-rs/ruffle'"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Exo:ital,wght@0,100..900;1,100..900&family=Iosevka+Charon+Mono:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+<style>
+html, body {
+  width: 100vw;
+  background: linear-gradient(to bottom, #2b008f, #1c002e);
+  background-size: 100vw 100vh;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  margin: 0px;
+  color: white;
+  font-family: Iosevka Charon Mono, Monospace;
+  overflow-x: hidden;
+  user-select: none;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+} body {
+  padding: 10px;
+} body::-webkit-scrollbar {
+  display: none;
+}
+
+p {
+  margin: 0;
+  color: white;
+  font-family: Iosevka Charon Mono, Monospace;
+} button {
+  background: rgba(255,255,255,0.3);
+  border: 2px solid white;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+}
+
+#rm {
+  position: relative;
+  margin-top: -30px;
+  min-width: 200px;
+  min-height: 75px;
+  width: 50%;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.8);
+  align-content: center;
+} #rf {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-family: Exo, Helvetica;
+  cursor: pointer;
+  transition: 0.3s;
+} #cb {
+  position: absolute;
+  top: 30px;
+  left: 5px;
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-family: Exo, Helvetica;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#rmessage a, #rmessage button {
+  pointer-events: auto;
+} #rmessage button {
+  border-radius: 5px;
+}
+</style>
+</head>
+<body>
+<center>
+<div>
+<img src="GHub Logo 5.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/GHub%20Logo%205.svg'" style="width: 400px; height: 160px;">
+<div id="rm">
+<button id="rf" onclick="makeM()" title="New Splash"><img src="assets/refresh.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/refresh.svg'" style="width: 20px; margin-left: -6px; margin-top: -1px; cursor: pointer;"></button>
+<button id="cb" onclick="copy()" title="Copy"><img src="assets/copy.svg" onerror="this.src='https://thegportal.github.io/ghrb/assets/copy.svg'" style="width: 20px; margin-left: -6px; margin-top: -1px; cursor: pointer;"></button>
+<div id="rmessage" style="min-width: 150px; width: calc(100% - 50px); overflow-wrap: break-word; pointer-events: none;"></div>
+</div>
+<br>
+<p style="display: inline; width: 400px;">Hello! These are my projects :D</p><br>
+<p style="display: inline; width: 400px;">THIS SITE IS UNDER CONSTRUCTION!!!</p>
+</div>
+<div>
+<h1>Visit GHRB</h1><br>
+<a href="https://thegportal.github.io/ghrb/"><button style="width: 200px; height: 50px;">Go! :)</button></a>
+</div>
+</center>
+<script src="ghrb/assets/rmessage.js" onerror="const sc=document.createElement('script');sc.src='https://thegportal.github.io/ghrb/assets/rmessage.js';sc.setAttribute('onerror','let emsgs=[`I see the random messages failed to load properly...`,`Whatever!`,`These are just bonus messages!`,`Hello!`,`Made by Jeremy Powell!`,`Skibididdy Toilet!`];document.getElementById(`rmessage`).innerHTML=emsgs[Math.floor(Math.random()*emsgs.length)]+`<p style=\'color:rgba(255,255,255,0.5);font-size:10px\'>Messages failed to load properly</p>`;document.getElementById(`rf`).remove();document.getElementById(`cb`).remove()');document.body.appendChild(sc);this.remove();"></script>
+<script>
+</script>
+</body>
 </html>
