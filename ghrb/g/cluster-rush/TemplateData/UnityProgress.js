@@ -1,5 +1,5 @@
 function UnityProgress (dom) {
-  var root_path = './TemplateData';
+  var root_path = 'https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/cluster-rush/TemplateData';
   this.progress = 0.0;
   this.message = "";
   this.dom = dom;
