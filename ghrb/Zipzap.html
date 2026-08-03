@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ZipZap</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap" rel="stylesheet">
+<style>
+body, html {
+  margin: 0;
+  min-width: 100vw;
+  min-height: 100vh;
+  font-family: Helvetica;
+}
+input {
+  border: 1px solid black;
+  border-radius: 5px;
+} input[type="file"]::file-selector-button {
+  border: none;
+  border-right: 1px solid black;
+  border-radius: 4px;
+}
+#logo {
+  width: 550px;
+  max-width: 100vw;
+}
+#game-frame {
+  display: none;
+  width: 100vw;
+  height: 85vh;
+  border: none;
+}
+#status {
+  min-height: 1.2em;
+  color: #900;
+  font-family: Helvetica;
+}
+</style>
+</head>
+<body>
+<center>
+<img src="logo.svg" id="logo">
+<h1 style="font-family: Titan One; font-style: italic;">ZipZap</h1>
+<input type="file" id="fileinput" accept=".zip">
+<p>or:</p>
+<input type="text" id="urlinput" placeholder="Load from URL"><button id="urlbutton">Confirm</button>
+<p id="status"></p>
+<iframe id="game-frame"></iframe>
+</center>
+<script>
+// Types whose content is text and may reference other files by name
+// (so we rewrite those references to point at blob URLs).
+const TEXT_MIME_PREFIXES = ['text/', 'application/javascript', 'application/json', 'image/svg+xml'];
+
+function isTextMime(mime) {
+  return TEXT_MIME_PREFIXES.some(p => mime.startsWith(p));
+}
+
+function setStatus(msg) {
+  document.getElementById('status').textContent = msg;
+}
+
+function getMIME(filen) {
+  const ty = filen.split('.').pop();
+  switch (ty) {
+    case 'css':
+      return 'text/css';
+      break;
+    case 'js':
+      return 'application/javascript';
+      break;
+    case 'json':
+      return 'application/json';
+      break;
+    case 'jpg':
+    case 'jpeg':
+      return 'image/jpeg';
+      break;
+    case 'png':
+      return 'image/png';
+      break;
+    case 'svg':
+    case 'svgz':
+      return 'image/svg+xml';
+      break;
+    case 'webp':
+      return 'image/webp';
+      break;
+    case 'html':
+      return 'text/html';
+      break;
+    case 'ttf':
+      return 'font/ttf';
+      break;
+    case 'woff':
+      return 'font/woff';
+      break;
+    case 'woff2':
+      return 'font/woff2';
+      break;
+    case 'zip':
+      return 'application/zip';
+      break;
+    case 'gzip':
+    case 'gz':
+      return 'application/gzip';
+      break;
+    default:
+      return 'application/octet-stream';
+  }
+}
+
+async function loadZip(zipSource) {
+  setStatus('Loading...');
+  try {
+    const zip = new JSZip();
+    const contents = await zip.loadAsync(zipSource);
+
+    // Collect every non-directory entry, sorted longest-path-first so that
+    // e.g. "img/a.png" gets replaced before the shorter "a.png" would
+    // accidentally clobber part of a longer, unrelated path.
+    const filenames = Object.keys(contents.files)
+      .filter(name => !contents.files[name].dir)
+      .sort((a, b) => b.length - a.length);
+
+    if (!filenames.some(f => f.toLowerCase().endsWith('index.html'))) {
+      setStatus('No index.html found in that zip.');
+      return;
+    }
+
+    // Pass 1: read every file with the correct type (binary vs text) and
+    // create a blob URL for each. Text files are read as raw text so we
+    // can rewrite references in pass 2; binary files (images, fonts, etc.)
+    // are read as blobs directly so their bytes aren't corrupted.
+    const rawText = {};   // filename -> original text content
+    const blobUrls = {};  // filename -> final blob URL
+
+    for (const filename of filenames) {
+      const zipEntry = contents.files[filename];
+      const mime = getMIME(filename);
+      if (isTextMime(mime)) {
+        rawText[filename] = await zipEntry.async('text');
+      } else {
+        const blobData = await zipEntry.async('blob');
+        blobUrls[filename] = URL.createObjectURL(new Blob([blobData], { type: mime }));
+      }
+    }
+
+    // Pass 2: for text files, replace any occurrence of another file's
+    // name/path with that file's blob URL, then turn the rewritten text
+    // into its own blob URL. Binary files already have URLs from pass 1.
+    for (const filename of filenames) {
+      if (!(filename in rawText)) continue;
+      let fileData = rawText[filename];
+      for (const otherName of filenames) {
+        if (otherName === filename) continue;
+        const url = blobUrls[otherName];
+        if (url) fileData = fileData.split(otherName).join(url);
+      }
+      blobUrls[filename] = URL.createObjectURL(new Blob([fileData], { type: getMIME(filename) }));
+    }
+
+    // A second rewrite pass lets text files reference other text files
+    // (e.g. an HTML file pulling in a .js or .css) now that those also
+    // have final blob URLs.
+    for (const filename of filenames) {
+      if (!(filename in rawText)) continue;
+      let fileData = rawText[filename];
+      for (const otherName of filenames) {
+        if (otherName === filename) continue;
+        fileData = fileData.split(otherName).join(blobUrls[otherName]);
+      }
+      blobUrls[filename] = URL.createObjectURL(new Blob([fileData], { type: getMIME(filename) }));
+    }
+
+    const indexName = filenames.find(f => f.toLowerCase().endsWith('index.html'));
+    const frame = document.getElementById('game-frame');
+    frame.src = blobUrls[indexName];
+    frame.style.display = 'block';
+    setStatus('');
+  } catch (error) {
+    console.error('Error reading or unzipping the file:', error);
+    setStatus('Could not load that zip: ' + error.message);
+  }
+}
+
+document.getElementById('fileinput').addEventListener('change', (event) => {
+  const file = event.target.files[0];
+  if (file) loadZip(file);
+});
+
+document.getElementById('urlbutton').addEventListener('click', async () => {
+  const url = document.getElementById('urlinput').value.trim();
+  if (!url) return;
+  setStatus('Fetching...');
+  try {
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const blob = await resp.blob();
+    loadZip(blob);
+  } catch (error) {
+    console.error('Error fetching zip from URL:', error);
+    setStatus('Could not fetch that URL: ' + error.message);
+  }
+});
+</script>
+</body>
+</html>
