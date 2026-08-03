@@ -235,4 +235,4 @@ var _fgq = [];
 			, _fgq, '');
 	};
 	firstJS.parentNode.insertBefore(fgJS, firstJS);
-})(document, 'js/gameapi.js');
+})(document, 'https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/moto-x3m/js/gameapi.js');
