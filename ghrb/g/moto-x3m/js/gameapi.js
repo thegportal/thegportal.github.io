@@ -9105,7 +9105,7 @@ fg_api.prototype.init = function () {
 			newStylesheet.setAttribute("type", "text/css");
 			newStylesheet.setAttribute(
 				"href",
-				self.config.assetsPath + "https://thegportal.github.io/ghrb/g/moto-x3m/css/play.css"
+				"https://thegportal.github.io/ghrb/g/moto-x3m/assets/css/play.css"
 			);
 			newStylesheet.onload = resolve;
 			newStylesheet.onerror = resolve;
@@ -9124,7 +9124,7 @@ fg_api.prototype.init = function () {
 			moreGamesImg.onerror = function () {
 				if (self.config.game_i18n.current) {
 					self.config.game_i18n.current.more_games_image =
-						"More_Games600x253_transparent.png";
+						"https://thegportal.github.io/ghrb/g/moto-x3m/More_Games600x253_transparent.png";
 				}
 				resolve();
 			};
