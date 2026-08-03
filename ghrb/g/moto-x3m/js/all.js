@@ -100896,7 +100896,7 @@ function() {
             return s(e, t),
             e.prototype.statePreloader = function() {
                 var t = this;
-                ["js/phaser-cachebuster.min.js", "js/phaser-super-storage.min.js", "assets/box2dweb/dragonBones.min.js"].forEach(function(e) {
+                ["https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/moto-x3m/js/phaser-cachebuster.min.js", "https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/moto-x3m/js/phaser-super-storage.min.js", "https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/moto-x3m/assets/box2dweb/dragonBones.min.js"].forEach(function(e) {
                     t.load.script(e, e)
                 })
             }
@@ -100918,7 +100918,7 @@ function() {
                 o.load({
                     custom: {
                         families: ["Aller Display", "CfCrackBold", "Impact"],
-                        urls: ["assets/css/AllerDisplay.css", "assets/css/CfCrackBold.css", "assets/css/impact.css"]
+                        urls: ["https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/moto-x3m/assets/css/AllerDisplay.css", "https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/moto-x3m/assets/css/CfCrackBold.css", "https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/moto-x3m/assets/css/impact.css"]
                     },
                     active: e,
                     inactive: e
@@ -133370,7 +133370,7 @@ function() {
                 t.game.load.json(e, "https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/moto-x3m/assets/levels/" + e + ".json")
             }),
             o.Atlases.preloadList.forEach(function(i) {
-                t.game.load.atlas(i, "https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/moto-x3m/assets/atlases/" + e + i + ".png", "assets/atlases/" + e + i + ".json")
+                t.game.load.atlas(i, "https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/moto-x3m/assets/atlases/" + e + i + ".png", "https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/moto-x3m/assets/atlases/" + e + i + ".json")
             }),
             o.Sounds.preloadList.forEach(function(e) {
                 t.game.device.iOS ? t.game.load.audio(e, ["https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/moto-x3m/assets/sounds/" + e + ".m4a"]) : t.game.load.audio(e, ["https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/moto-x3m/assets/sounds/" + e + ".ogg", "https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/moto-x3m/assets/sounds/" + e + ".mp3"])
