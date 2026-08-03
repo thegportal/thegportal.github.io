@@ -99308,16 +99308,16 @@ function() {
             this.game.load.onFileComplete.add(this.fileComplete, this);
             var i = "x" + n.Constants.GAME_SCALE + "/";
             n.JSONData.list.forEach(function(t) {
-                e.game.load.json(t, "assets/levels/" + t + ".json")
+                e.game.load.json(t, "https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/moto-x3m/assets/levels/" + t + ".json")
             }),
             n.Images.list.forEach(function(t) {
-                e.game.load.image(t, "assets/images/" + i + t + ".png")
+                e.game.load.image(t, "https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/moto-x3m/assets/images/" + i + t + ".png")
             }),
             n.Atlases.list.forEach(function(t) {
-                e.game.load.atlas(t, "assets/atlases/" + i + t + ".png", "assets/atlases/" + i + t + ".json")
+                e.game.load.atlas(t, "https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/moto-x3m/assets/atlases/" + i + t + ".png", "https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/moto-x3m/assets/atlases/" + i + t + ".json")
             }),
             n.Sounds.list.forEach(function(t) {
-                e.game.device.iOS ? e.game.load.audio(t, ["assets/sound/" + t + ".m4a"]) : e.game.load.audio(t, ["assets/sound/" + t + ".ogg", "assets/sound/" + t + ".mp3"])
+                e.game.device.iOS ? e.game.load.audio(t, ["https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/moto-x3m/assets/sounds/" + t + ".m4a"]) : e.game.load.audio(t, ["https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/moto-x3m/assets/sounds/" + t + ".ogg", "https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/moto-x3m/assets/sounds/" + t + ".mp3"])
             }),
             this.game.scale.onSizeChange.add(function() {
                 e.game.state.getCurrentState().resize()
@@ -133364,16 +133364,16 @@ function() {
             this.game.load.cacheBuster = 1557148703677;
             var e = "x" + o.Constants.GAME_SCALE + "/";
             o.Images.preloadList.forEach(function(i) {
-                t.game.load.image(i, "assets/images/" + e + i + ".png")
+                t.game.load.image(i, "https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/moto-x3m/assets/images/" + e + i + ".png")
             }),
             o.JSONData.preloadList.forEach(function(e) {
-                t.game.load.json(e, "assets/levels/" + e + ".json")
+                t.game.load.json(e, "https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/moto-x3m/assets/levels/" + e + ".json")
             }),
             o.Atlases.preloadList.forEach(function(i) {
-                t.game.load.atlas(i, "assets/atlases/" + e + i + ".png", "assets/atlases/" + e + i + ".json")
+                t.game.load.atlas(i, "https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/moto-x3m/assets/atlases/" + e + i + ".png", "assets/atlases/" + e + i + ".json")
             }),
             o.Sounds.preloadList.forEach(function(e) {
-                t.game.device.iOS ? t.game.load.audio(e, ["assets/sounds/" + e + ".m4a"]) : t.game.load.audio(e, ["assets/sounds/" + e + ".ogg", "assets/sounds/" + e + ".mp3"])
+                t.game.device.iOS ? t.game.load.audio(e, ["https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/moto-x3m/assets/sounds/" + e + ".m4a"]) : t.game.load.audio(e, ["https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/moto-x3m/assets/sounds/" + e + ".ogg", "https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/moto-x3m/assets/sounds/" + e + ".mp3"])
             }),
             this.game.load.crossOrigin = "anonymous",
             this.game.load.image("more_games", window.famobi.getMoreGamesButtonImage())
