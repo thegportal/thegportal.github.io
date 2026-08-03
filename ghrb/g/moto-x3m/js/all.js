@@ -100918,7 +100918,7 @@ function() {
                 o.load({
                     custom: {
                         families: ["Aller Display", "CfCrackBold", "Impact"],
-                        urls: ["https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/moto-x3m/assets/css/AllerDisplay.css", "https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/moto-x3m/assets/css/CfCrackBold.css", "https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/moto-x3m/assets/css/impact.css"]
+                        urls: ["https://thegportal.github.io/ghrb/g/moto-x3m/assets/css/AllerDisplay.css", "https://thegportal.github.io/ghrb/g/moto-x3m/assets/css/CfCrackBold.css", "https://thegportal.github.io/ghrb/g/moto-x3m/assets/css/impact.css"]
                     },
                     active: e,
                     inactive: e

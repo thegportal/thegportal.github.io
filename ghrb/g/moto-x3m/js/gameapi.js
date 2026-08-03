@@ -9105,7 +9105,7 @@ fg_api.prototype.init = function () {
 			newStylesheet.setAttribute("type", "text/css");
 			newStylesheet.setAttribute(
 				"href",
-				self.config.assetsPath + "/css/play.css"
+				self.config.assetsPath + "https://thegportal.github.io/ghrb/g/moto-x3m/css/play.css"
 			);
 			newStylesheet.onload = resolve;
 			newStylesheet.onerror = resolve;
