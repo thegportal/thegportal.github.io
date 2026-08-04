@@ -3,6 +3,7 @@
 
   <head>
     <meta charset="utf-8">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>Burrito Bison - Launcha Libre</title>
     <link rel="canonical" href="https://ubg44.github.io/BurritoBisonLaunchaLibre/" />
     <style>
@@ -96,11 +97,11 @@
     </div>
   </body>
 
-  <script src="js/unity-mod.js"></script>
-  <script src="Build/UnityLoader.js"></script>
-  <script src='Build/kongregate_api.js'></script>
+  <script src="https://thegportal.github.io/ghrb/g/burrito-bison/js/unity-mod.js"></script>
+  <script src="https://thegportal.github.io/ghrb/g/burrito-bison/Build/UnityLoader.js"></script>
+  <script src='https://thegportal.github.io/ghrb/g/burrito-bison/Build/kongregate_api.js'></script>
   <script>
-  var gameInstance = UnityLoader.instantiate("gameContainer", "Build/Web.json", {onProgress: UnityProgress});
+  var gameInstance = UnityLoader.instantiate("gameContainer", "https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/burrito-bison/Build/Web.json", {onProgress: UnityProgress});
   function UnityProgress(gameInstance, progress) {
     if (!gameInstance.Module) {
       return;
@@ -118,5 +119,5 @@
     }
   }
   </script>
-  <script src="js/analytics_ubg_v1_4.js"></script>
+  <script src="https://thegportal.github.io/ghrb/g/burrito-bison/js/analytics_ubg_v1_4.js"></script>
 </html>
