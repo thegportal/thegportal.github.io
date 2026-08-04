@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ZipZap</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap" rel="stylesheet">
+<style>
+body, html {
+  margin: 0;
+  min-width: 100vw;
+  min-height: 100vh;
+  font-family: Helvetica;
+}
+input {
+  border: 1px solid black;
+  border-radius: 5px;
+} input[type="file"]::file-selector-button {
+  border: none;
+  border-right: 1px solid black;
+  border-radius: 4px;
+}
+#logo {
+  width: 550px;
+  max-width: 100vw;
+}
+#game-frame {
+  display: none;
+  width: 100vw;
+  height: 95vh;
+  border: none;
+}
+#status {
+  min-height: 1.2em;
+  color: #900;
+  font-family: Helvetica;
+}
+</style>
+</head>
+<body>
+<center>
+<img src="logo.svg" id="logo">
+<h1 style="font-family: Titan One; font-style: italic;">ZipZap</h1>
+<input type="file" id="fileinput" accept=".zip">
+<p>or:</p>
+<input type="text" id="urlinput" placeholder="Load from URL"><button id="urlbutton">Confirm</button>
+<p id="status"></p>
+<iframe id="game-frame"></iframe>
+</center>
+<script>
+const TEXT_MIME_PREFIXES = ['text/', 'application/javascript', 'application/json', 'image/svg+xml'];
+
+function isTextMime(mime) {
+  return TEXT_MIME_PREFIXES.some(p => mime.startsWith(p));
+}
+
+function setStatus(msg) {
+  document.getElementById('status').textContent = msg;
+}
+
+function getMIME(filen) {
+  const ty = filen.split('.').pop();
+  switch (ty) {
+    case 'css':
+      return 'text/css';
+      break;
+    case 'js':
+      return 'application/javascript';
+      break;
+    case 'json':
+      return 'application/json';
+      break;
+    case 'jpg':
+    case 'jpeg':
+      return 'image/jpeg';
+      break;
+    case 'png':
+      return 'image/png';
+      break;
+    case 'svg':
+    case 'svgz':
+      return 'image/svg+xml';
+      break;
+    case 'webp':
+      return 'image/webp';
+      break;
+    case 'html':
+      return 'text/html';
+      break;
+    case 'ttf':
+      return 'font/ttf';
+      break;
+    case 'woff':
+      return 'font/woff';
+      break;
+    case 'woff2':
+      return 'font/woff2';
+      break;
+    case 'zip':
+      return 'application/zip';
+      break;
+    case 'gzip':
+    case 'gz':
+      return 'application/gzip';
+      break;
+    default:
+      return 'application/octet-stream';
+  }
+}
+
+function blobToDataURL(blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(blob);
+  });
+}
+
+async function loadZip(zipSource) {
+  setStatus('Loading...');
+  try {
+    const zip = new JSZip();
+    const contents = await zip.loadAsync(zipSource);
+    const filenames = Object.keys(contents.files)
+      .filter(name => !contents.files[name].dir)
+      .sort((a, b) => b.length - a.length);
+    const indexName = filenames.find(f => f.toLowerCase().endsWith('index.html'));
+    if (!indexName) {
+      setStatus('No index.html found in that zip.');
+      return;
+    }
+    const rawText = {};
+    const dataUrls = {};
+    for (const filename of filenames) {
+      const zipEntry = contents.files[filename];
+      const mime = getMIME(filename);
+      if (isTextMime(mime)) {
+        rawText[filename] = await zipEntry.async('text');
+      } else {
+        const blobData = await zipEntry.async('blob');
+        dataUrls[filename] = await blobToDataURL(new Blob([blobData], { type: mime }));
+      }
+    }
+    for (let pass = 0; pass < 2; pass++) {
+      for (const filename of filenames) {
+        if (!(filename in rawText) || filename === indexName) continue;
+        let fileData = rawText[filename];
+        for (const otherName of filenames) {
+          if (otherName === filename) continue;
+          const url = dataUrls[otherName];
+          if (url) fileData = fileData.split(otherName).join(url);
+        }
+        dataUrls[filename] = await blobToDataURL(new Blob([fileData], { type: getMIME(filename) }));
+      }
+    }
+    let indexData = rawText[indexName];
+    for (const otherName of filenames) {
+      if (otherName === indexName) continue;
+      const url = dataUrls[otherName];
+      if (url) indexData = indexData.split(otherName).join(url);
+    }
+    const shimFiles = {};
+    for (const filename of filenames) {
+      if (filename !== indexName && dataUrls[filename]) shimFiles[filename] = dataUrls[filename];
+    }
+    const filesJson = JSON.stringify(shimFiles).replace(/</g, '\\u003c');
+    const shim = `<script>(function(){
+  var __ZZ_FILES__ = ${filesJson};
+  function resolvePath(url) {
+    if (typeof url !== 'string') return null;
+    if (/^(data|blob|https?|ftp|mailto|tel|javascript):/i.test(url)) return null;
+    var clean = url.split('#')[0].split('?')[0].replace(/^(\\.\\.\\/|\\.\\/|\\/)+/, '');
+    if (__ZZ_FILES__[clean]) return __ZZ_FILES__[clean];
+    var base = clean.split('/').pop();
+    for (var key in __ZZ_FILES__) {
+      if (key.split('/').pop() === base) return __ZZ_FILES__[key];
+    }
+    return null;
+  }
+  if (window.fetch) {
+    var originalFetch = window.fetch.bind(window);
+    window.fetch = function(input, init) {
+      var url = typeof input === 'string' ? input : (input && input.url);
+      var resolved = resolvePath(url);
+      return originalFetch(resolved || input, init);
+    };
+  }
+  var origOpen = XMLHttpRequest.prototype.open;
+  XMLHttpRequest.prototype.open = function(method, url) {
+    var resolved = resolvePath(url);
+    var args = Array.prototype.slice.call(arguments);
+    if (resolved) args[1] = resolved;
+    return origOpen.apply(this, args);
+  };
+  function patchProp(proto, prop) {
+    var desc = Object.getOwnPropertyDescriptor(proto, prop);
+    if (!desc || !desc.set) return;
+    Object.defineProperty(proto, prop, {
+      get: desc.get,
+      set: function(value) {
+        var resolved = resolvePath(value);
+        desc.set.call(this, resolved || value);
+      },
+      configurable: true
+    });
+  }
+  [HTMLImageElement, HTMLScriptElement, HTMLMediaElement, HTMLSourceElement, HTMLTrackElement, HTMLEmbedElement].forEach(function(p) { patchProp(p.prototype, 'src'); });
+  patchProp(HTMLLinkElement.prototype, 'href');
+  var origSetAttribute = Element.prototype.setAttribute;
+  Element.prototype.setAttribute = function(name, value) {
+    if ((name === 'src' || name === 'href') && typeof value === 'string') {
+      var resolved = resolvePath(value);
+      if (resolved) value = resolved;
+    }
+    return origSetAttribute.call(this, name, value);
+  };
+  if (window.Worker) {
+    var OrigWorker = window.Worker;
+    window.Worker = function(url, opts) {
+      var resolved = resolvePath(url);
+      return new OrigWorker(resolved || url, opts);
+    };
+    window.Worker.prototype = OrigWorker.prototype;
+  }
+})();<\/script>`;
+
+    if (/<head[^>]*>/i.test(indexData)) {
+      indexData = indexData.replace(/<head[^>]*>/i, m => m + shim);
+    } else if (/<html[^>]*>/i.test(indexData)) {
+      indexData = indexData.replace(/<html[^>]*>/i, m => m + shim);
+    } else {
+      indexData = shim + indexData;
+    }
+    const frame = document.getElementById('game-frame');
+    frame.removeAttribute('src');
+    frame.srcdoc = indexData;
+    frame.style.display = 'block';
+    setStatus('');
+  } catch (error) {
+    console.error('Error reading or unzipping the file:', error);
+    setStatus('Could not load that zip: ' + error.message);
+  }
+}
+document.getElementById('fileinput').addEventListener('change', (event) => {
+  const file = event.target.files[0];
+  if (file) loadZip(file);
+});
+document.getElementById('urlbutton').addEventListener('click', async () => {
+  const url = document.getElementById('urlinput').value.trim();
+  if (!url) return;
+  setStatus('Fetching...');
+  try {
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const blob = await resp.blob();
+    loadZip(blob);
+  } catch (error) {
+    console.error('Error fetching zip from URL:', error);
+    setStatus('Could not fetch that URL: ' + error.message);
+  }
+});
+</script>
+</body>
+</html>
