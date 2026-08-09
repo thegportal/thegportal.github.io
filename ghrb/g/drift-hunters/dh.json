@@ -1,9 +1,9 @@
 {
     "TOTAL_MEMORY": 1073741824,
     "dataUrl": "https://catgamesa.github.io/drfhunter/dh.data.unityweb",
-    "asmCodeUrl": "dh.asm.code.unityweb",
-    "asmMemoryUrl": "dh.asm.memory.unityweb",
-    "asmFrameworkUrl": "dh.asm.framework.unityweb",
+    "asmCodeUrl": "https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/drift-hunters/dh.asm.code.unityweb",
+    "asmMemoryUrl": "https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/drift-hunters/dh.asm.memory.unityweb",
+    "asmFrameworkUrl": "https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/drift-hunters/dh.asm.framework.unityweb",
     "backgroundUrl": "",
     "splashScreenStyle": "Dark",
     "backgroundColor": "#111111",
