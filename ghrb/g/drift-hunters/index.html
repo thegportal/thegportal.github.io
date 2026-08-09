@@ -3,9 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>Drift Hunters</title>
     <meta name="description" content="Drift Hunters is an online 3D car drifting game. Race on multiple challenging racetracks and customize your cars.">
-    <script type="text/javascript" src="/cloak.js"></script>
   <meta name="robots" content="noindex,nofollow" />
     <style>
       body {
@@ -106,10 +106,10 @@ canvas {
   </div>
     
   </body>
-  <script src="UnityLoader2019.js"></script>
+  <script src="https://thegportal.github.io/ghrb/g/drift-hunters/UnityLoader2019.js"></script>
   <script>
   
-    var gameInstance = UnityLoader.instantiate("gameContainer", "dh.json");
+    var gameInstance = UnityLoader.instantiate("gameContainer", "https://thegportal.github.io/ghrb/g/drift-hunters/dh.json");
 
     function UnityProgress(gameInstance, progress) {
       if (!gameInstance.Module) {
