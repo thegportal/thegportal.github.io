@@ -1712,7 +1712,7 @@ function createExportWrapper(name, fixedasm) {
 
 var wasmBinaryFile = 'https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/super-mario-64/sm64.us.f3dex2e.wasm';
 if (!isDataURI(wasmBinaryFile)) {
-  wasmBinaryFile = locateFile(wasmBinaryFile);
+  wasmBinaryFile = wasmBinaryFile;
 }
 
 function getBinary() {
