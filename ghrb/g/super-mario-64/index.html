@@ -53,16 +53,15 @@
         color: white;
         cursor: pointer;
         position: absolute;
-        bottom: 50%;
-        right: 5px;
-        transform: translateY(50%);
+        top: 0;
+        left: 0;
       }
     </style>
   </head>
   <body>
     <div id="controls">
       <div id="keyboard">
-        <h2 style="margin: 0;">Keyboard Controls</h2>
+        <h2 style="margin: 0; margin-top: 10px;">Keyboard Controls</h2>
         <ul style="margin: 0;">
           <li>Movement: WASD</li>
           <li>A: L</li>
@@ -73,8 +72,8 @@
           <li>C-stick: Arrow Keys/WASD</li>
         </ul>
       </div>
-      <button onclick="hideControls();" id="closeBtn">Hide</button>
     </div>
+    <button onclick="hideControls(this);" id="closeBtn">Hide</button>
     <div id="container">
       <canvas class="emscripten" id="canvas"></canvas>
     </div>
@@ -106,9 +105,11 @@
         setStatus: function(text) {
         }
       };
-      function hideControls() {
-        document.getElementById('controls').style.display = 'none';
-        
+      let cs=0;
+      function toggleControls(el) {
+        cs=cs?0:1;
+        if(cs){document.getElementById('controls').style.display='none';el.textContent='<'}
+        else{document.getElementById('controls').style.display='block';el.textContent='>'}
       }
     </script>
     <script async type="text/javascript" src="https://thegportal.github.io/ghrb/g/super-mario-64/sm64.us.f3dex2e.js"></script>
