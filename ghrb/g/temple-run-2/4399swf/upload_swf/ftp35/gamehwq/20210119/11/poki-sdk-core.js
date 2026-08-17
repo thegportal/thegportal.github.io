@@ -1216,7 +1216,7 @@
     var i = e(78);
     e(104), e(105), e(106), e(107), t.exports = i
 }, function(t) {
-    t.exports = JSON.parse('{"a":"./prebid4.12.0.js"}')
+    t.exports = JSON.parse('{"a":"https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/temple-run-2/4399swf/upload_swf/ftp35/gamehwq/20210119/11/prebid4.12.0.js"}')
 }, , function(t, n, e) {
     e(70);
     var i = e(30);
@@ -3862,11 +3862,11 @@
                             if (At) return [2];
                             i.label = 1;
                         case 1:
-                            return i.trys.push([1, 4, , 5]), [4, fetch("./touchControllerConfig.json")];
+                            return i.trys.push([1, 4, , 5]), [4, fetch("https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/temple-run-2/4399swf/upload_swf/ftp35/gamehwq/20210119/11/touchControllerConfig.json")];
                         case 2:
                             return [4, i.sent().json()];
                         case 3:
-                            return (t = i.sent()) && ((n = document.createElement("script")).src = "//game-cdn.poki.com/scripts/touchOverlayController.js", n.onload = function() {
+                            return (t = i.sent()) && ((n = document.createElement("script")).src = "https://game-cdn.poki.com/scripts/touchOverlayController.js", n.onload = function() {
                                 new window.OverlayController(document.body, t)
                             }, document.head.appendChild(n), At = !0), [3, 5];
                         case 4:
