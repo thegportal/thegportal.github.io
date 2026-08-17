@@ -16,7 +16,7 @@ if (!window.config.unityWebglLoaderUrl) {
         minor = versionSplit[1];
     switch (year) {
         case "2019":
-            window.config.unityWebglLoaderUrl = 1 === minor ? "UnityLoader.2019.1.js" : "UnityLoader.2019.2.js";
+            window.config.unityWebglLoaderUrl = "https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/subway-surfers/UnityLoader.2019.2.js";
             break;
         default:
             window.config.unityWebglLoaderUrl = "UnityLoader.js"
