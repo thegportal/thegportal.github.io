@@ -117,7 +117,7 @@
         var r = function() {
                 var e, n = window.pokiSDKVersion;
                 n || (n = (e = RegExp("[?&]" + "ab" + "=([^&]*)").exec(window.location.search)) && decodeURIComponent(e[1].replace(/\+/g, " ")) || "v2");
-                return "./poki-sdk-core.js"
+                return "https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/temple-run-2/4399swf/upload_swf/ftp35/gamehwq/20210119/11/poki-sdk-core.js"
             }(),
             i = document.createElement("script");
         i.setAttribute("src", r), i.setAttribute("type", "text/javascript"), i.onload = function() {
