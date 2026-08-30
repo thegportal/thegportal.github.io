@@ -481,7 +481,7 @@ select {
   position: fixed;
   width: 100vw;
   height: 100vh;
-  background: rgba(0,0,0,0.5);
+  overflow: scroll;
   top: 0;
   left: 0;
   z-index: 9999;
@@ -491,6 +491,8 @@ select {
   width: 70vw;
   height: 100vh;
   background: #1a0047;
+  overflow: scroll;
+  align-items: center;
   padding: 10px;
   animation-name: slide-left-tr;
   animation-duration: 1s;
@@ -626,7 +628,6 @@ select {
 <select name="bm" id="bm">
   <optgroup label="More Likely to Work">
     <option value="newm">The New Method</option>
-    <option value="opab">Open in a:b</option>
   </optgroup>
   <optgroup label="Less Likely to Work">
     <option value="objt">Object Tags</option>
@@ -646,7 +647,6 @@ select {
 <button onclick="window.alert('-> TIP: Do NOT attempt to close or refresh the window when a pop-up, like this, pops up. The pop-up warning will not appear, and you will lose your new data if you do!\n-> Buh-Bye! :D')" style="width: 115px; background: #fcba03; border: none; border-radius: 5px; font-size: 15px; color: white; cursor: pointer;">Important Info</button>
 <button onclick="deleteDatabases()" style="width: 165px; background: red; border: none; border-radius: 5px; font-size: 15px; color: white; cursor: pointer;">DELETE ALL DATA &#9760;</button>
 </div>
-<hr>
 </div>
 
 <div id="main-content">
@@ -837,32 +837,32 @@ Bye-bye! :D*/
 
 gms = Array(
   //All Games
-  /*2 Minute Football*/['ag', 'https://thegportal.github.io/ghrb/g/2-minute-football/index.html', '2 Minute Football', 'https://play-lh.googleusercontent.com/OwOd0amGXqDehq0ezR79Y-ZBMYyB9jlMAzVWwnXLCQvTEKLpkWO3OcYXWOovbjMsfBrs33DQljWMjdSnBWoPWYg=w240-h480-rw', '100%', '100%', '100%', 'black', ['Sports'], 0],
-  /*Angry Birds Chrome*/['ag', 'https://thegportal.github.io/angyburds.github.io/index.html', 'Angry Birds Chrome', 'https://upload.wikimedia.org/wikipedia/en/thumb/2/2d/Angry_Birds_promo_art.png/250px-Angry_Birds_promo_art.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail', '100%', '100%', '100%', 'black', ['Challenge'], 0],
-  /*Basket Random*/['ag', 'https://thegportal.github.io/ghrb/g/basket-random/index.html', 'Basket Random', 'https://imgs.crazygames.com/basket-random_1x1/20240617090207/basket-random_1x1-cover?format=auto&quality=100&metadata=none&width=1200', '100%', '100%', '100%', 'black', ['Sports'], 0],
-  /*Burrito Bison - LL*/['ag', 'https://thegportal.github.io/ghrb/g/burrito-bison/index.html', 'Burrito Bison - LL', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5H2uLVmJ7j3q4IQMTwq1gTditPFuoidbON9FbE8imELWrt1nWypnCqQDLhgrttYiwylNG&s=10', '100%', '100%', '100%', 'black', ['Challenge'], 0],
-  /*Cluster Rush*/['ag', 'https://thegportal.github.io/ghrb/g/cluster-rush/index.html', 'Cluster Rush', 'https://clusterrush.com/images/login-logo.png', '100%', '100%', '100%', 'black', ['Challenge'], 0],
-  /*Cookie Clicker*/['ag', 'https://thegportal.github.io/ghrb/g/cookie-clicker/index.html', 'Cookie Clicker', 'https://super142.wordpress.com/wp-content/uploads/2022/07/cookie-clicker.jpg', '100%', '100%', '100%', 'black', ['Endless','Idle','Tycoon'], 0],
-  /*Coreball*/['ag', 'https://thegportal.github.io/ghrb/g/coreball/index.html', 'Coreball', 'https://geometrydashspam.com/media/uploads/games/thumb/coreball.webp', '100%', '100%', '100%', 'black', ['Challenge'], 0],
-  /*Drift Boss*/['ag', 'https://thegportal.github.io/ghrb/g/drift-boss/index.html', 'Drift Boss', 'https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=1200,height=1200,fit=cover,f=png/baf55f009fd63dd63c760a5dcfe79615/drift-boss-logo.png', '100%', '100%', '100%', 'black', ['Car','Challenge','Endless'], 0],
-  /*Drift Hunters*/['ag', 'https://thegportal.github.io/ghrb/g/drift-hunters/index.html', 'Drift Hunters', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCicJPOAvGO5-Ny81hXhYO16z8dpFRXyZSdA5HTw27Ug&s', '100%', '100%', '100%', 'black', ['Car','Challenge'], 0],
-  /*Escape ROad*/['ag', 'https://thegportal.github.io/ghrb/g/escape-road/index.html', 'Escape Road', 'https://poorbunny2.io/data/image/game/escaperoad.png', '100%', '100%', '100%', 'black', ['Car','Endless'], 0],
-  /*FNAE*/['ag', 'https://thegportal.github.io/ghrb/g/fnae/index.html', `Five Nights at Epstein\\'s`, 'https://granny1.io/data/image/game/five-nights-at-epsteins.png', '100%', '100%', '100%', 'black', ['Horror'], 0],
-  /*Gunspin*/['ag', 'https://thegportal.github.io/ghrb/g/gunspin/index.html', 'Gunspin', 'https://static.keygames.com/4/113974/98896/1024x1024/gunspin.webp', '100%', '100%', '100%', 'black', ['Endless','Gun'], 0],
-  /*Idle Breakout*/['ag', 'https://thegportal.github.io/ghrb/g/idle-breakout/index.html', 'Idle Breakout', 'https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=1200,height=1200,fit=cover,f=png/59a42104cf89164d41ed231574452322/idle-breakout-logo.png', '100%', '100%', '100%', 'black', ['Endless','Idle'], 0],
-  /*Jetpack Joyride*/['ag', 'https://thegportal.github.io/ghrb/g/jetpack-joyride/index.html', 'Jetpack Joyride', 'https://jetpack-joyride.github.io/images/logo.png', '100%', '100%', '100%', 'black', ['Challenge','Endless'], 0],
-  /*Monkey Mart*/['ag', 'https://thegportal.github.io/ghrb/g/monkey-mart/index.html', 'Monkey Mart', 'https://play-lh.googleusercontent.com/Yqx6iSJYfrEdTTUQXz8uhX9e05duBrbuupvC-Jsdg7FffNc5nu3tzLc0Bi0i2cxugnNXWUTgzCzdqhEcztgBCQ', '100%', '100%', '100%', 'black', ['Tycoon'], 0],
-  /*Moto X3M*/['ag', 'https://thegportal.github.io/ghrb/g/moto-x3m/index.html', 'Moto X3M', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIQ2GsOndmf7VMOANJ57kpvSw2kFeZcdMtP_pfg4S2Y-vAagU_e_5uCSfs&s=10', '100%', '100%', '100%', 'black', ['Challenge'], 0],
-  /*PolyTrack*/['ag', 'https://thegportal.github.io/ghrb/g/polytrack/index.html', 'PolyTrack', 'https://play-lh.googleusercontent.com/6unB5hJ12tCWdJeyFhuI2mZS_H2PEe9JlufONK_89LKc3a3PH8LLLFTSMv72-hm0bmQFBq1uks3m8_4CPT7Xtw', '100%', '100%', '100%', 'black', ['Car'], 0],
-  /*Retro Bowl*/['ag', 'https://thegportal.github.io/ghrb/g/retro-bowl/index.html', 'Retro Bowl', 'https://upload.wikimedia.org/wikipedia/en/b/bf/Retro_Bowl_cover.png?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=original', '100%', '100%', '100%', 'black', ['Sports'], 0],
-  /*Rooftop Snipers 2*/['ag', 'https://thegportal.github.io/ghrb/g/rooftop-snipers-2/index.html', 'Rooftop Snipers 2', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLTs454jc7lbWAkvy8hLmV40Lm1D3sjp3FL-DZalasCPgpjMYaSA_9gxY&s=10', '100%', '100%', '100%', 'black', ['Gun'], 0],
-  /*Sandtris*/['ag', 'https://thegportal.github.io/ghrb/g/sandtris/index.html', 'Sandtris', 'https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=1200,height=1200,fit=cover,f=png/ecd6242d6645b16e38220e88d5146301/sandtris-logo.png', '100%', '100%', '100%', 'black', ['Challenge'], 0],
-  /*Slope*/['ag', 'https://thegportal.github.io/ghrb/g/slope/index.html', 'Slope', 'https://slopegame-online.com/slope.webp', '100%', '100%', '100%', 'black', ['Challenge','Endless'], 0],
-  /*Snow Rider 3D*/['ag', 'https://thegportal.github.io/ghrb/g/snow-rider-3d/index.html', 'Snow Rider 3D', 'https://bowlgames.io/data/image/snow-rider.png', '70%', '100%', '100%', 'black', ['Endless'], 0],
-  /*Stickman Hook*/['ag', 'https://thegportal.github.io/ghrb/g/slope/index.html', 'Stickman Hook', 'https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=314,height=314,fit=cover,f=auto/99e090d154caf30f3625df7e456d5984/stickman-hook-logo.png', '100%', '100%', '100%', 'black', ['Challenge'], 0],
-  /*Subway Surfers*/['ag', 'https://thegportal.github.io/ghrb/g/subway-surfers/index.html', 'Subway Surfers', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRbSeOMMPaRO5342B51AaFVIL-Wtpc_P4Yi39uT4Q4JaxFxLFHUS1CmiXjsEt6nC6py8bj&s=10', '100%', '100%', '100%', 'black', ['Challenge','Endless'], 0],
-  /*Super Mario 64*/['ag', 'https://thegportal.github.io/ghrb/g/super-mario-64/index.html', 'Super Mario 64', 'https://s3.amazonaws.com/gameopedia_covers/covers/291779/2c138eb2b338d6f0db383d47ccedb946.png', '100%', '100%', '100%', 'black', ['Challenge'], 0],
-  /*Top Speed Racing 3D*/['ag', 'https://thegportal.github.io/ghrb/g/top-speed-racing-3d/index.html', 'Top Speed Racing 3D', 'https://htmlxm.github.io/thumb/top-speed-racing-3d.png', '70%', '100%', '100%', 'black', ['Car'], 0],
+  /*2 Minute Football*/['ag', ['https://thegportal.github.io/ghrb/g/2-minute-football/index.html','https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/2-minute-football/index.html'], '2 Minute Football', 'https://play-lh.googleusercontent.com/OwOd0amGXqDehq0ezR79Y-ZBMYyB9jlMAzVWwnXLCQvTEKLpkWO3OcYXWOovbjMsfBrs33DQljWMjdSnBWoPWYg=w240-h480-rw', '100%', '100%', '100%', 'black', ['Sports'], 0],
+  /*Angry Birds Chrome*/['ag', ['https://thegportal.github.io/angyburds.github.io/index.html','https://raw.githubusercontent.com/thegportal/angyburds.github.io/refs/heads/main/index.html'], 'Angry Birds Chrome', 'https://upload.wikimedia.org/wikipedia/en/thumb/2/2d/Angry_Birds_promo_art.png/250px-Angry_Birds_promo_art.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail', '100%', '100%', '100%', 'black', ['Challenge'], 0],
+  /*Basket Random*/['ag', ['https://thegportal.github.io/ghrb/g/basket-random/index.html','https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/basket-random/index.html'], 'Basket Random', 'https://imgs.crazygames.com/basket-random_1x1/20240617090207/basket-random_1x1-cover?format=auto&quality=100&metadata=none&width=1200', '100%', '100%', '100%', 'black', ['Sports'], 0],
+  /*Burrito Bison - LL*/['ag', ['https://thegportal.github.io/ghrb/g/burrito-bison/index.html','https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/burrito-bison/index.html'], 'Burrito Bison - LL', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5H2uLVmJ7j3q4IQMTwq1gTditPFuoidbON9FbE8imELWrt1nWypnCqQDLhgrttYiwylNG&s=10', '100%', '100%', '100%', 'black', ['Challenge'], 0],
+  /*Cluster Rush*/['ag', ['https://thegportal.github.io/ghrb/g/cluster-rush/index.html','https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/cluster-rush/index.html'], 'Cluster Rush', 'https://clusterrush.com/images/login-logo.png', '100%', '100%', '100%', 'black', ['Challenge'], 0],
+  /*Cookie Clicker*/['ag', ['https://thegportal.github.io/ghrb/g/cookie-clicker/index.html','https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/cookie-clicker/index.html'], 'Cookie Clicker', 'https://super142.wordpress.com/wp-content/uploads/2022/07/cookie-clicker.jpg', '100%', '100%', '100%', 'black', ['Endless','Idle','Tycoon'], 0],
+  /*Coreball*/['ag', ['https://thegportal.github.io/ghrb/g/coreball/index.html','https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/coreball/index.html'], 'Coreball', 'https://geometrydashspam.com/media/uploads/games/thumb/coreball.webp', '100%', '100%', '100%', 'black', ['Challenge'], 0],
+  /*Drift Boss*/['ag', ['https://thegportal.github.io/ghrb/g/drift-boss/index.html','https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/drift-boss/index.html'], 'Drift Boss', 'https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=1200,height=1200,fit=cover,f=png/baf55f009fd63dd63c760a5dcfe79615/drift-boss-logo.png', '100%', '100%', '100%', 'black', ['Car','Challenge','Endless'], 0],
+  /*Drift Hunters*/['ag', ['https://thegportal.github.io/ghrb/g/drift-hunters/index.html','https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/drift-hunters/index.html'], 'Drift Hunters', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCicJPOAvGO5-Ny81hXhYO16z8dpFRXyZSdA5HTw27Ug&s', '100%', '100%', '100%', 'black', ['Car','Challenge'], 0],
+  /*Escape Road*/['ag', ['https://thegportal.github.io/ghrb/g/escape-road/index.html','https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/escape-road/index.html'], 'Escape Road', 'https://poorbunny2.io/data/image/game/escaperoad.png', '100%', '100%', '100%', 'black', ['Car','Endless'], 0],
+  /*FNAE*/['ag', ['https://thegportal.github.io/ghrb/g/fnae/index.html','https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/fnae/index.html'], `Five Nights at Epstein\\'s`, 'https://granny1.io/data/image/game/five-nights-at-epsteins.png', '100%', '100%', '100%', 'black', ['Horror'], 0],
+  /*Gunspin*/['ag', ['https://thegportal.github.io/ghrb/g/gunspin/index.html','https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/gunspin/index.html'], 'Gunspin', 'https://static.keygames.com/4/113974/98896/1024x1024/gunspin.webp', '100%', '100%', '100%', 'black', ['Endless','Gun'], 0],
+  /*Idle Breakout*/['ag', ['https://thegportal.github.io/ghrb/g/idle-breakout/index.html','https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/idle-breakout/index.html'], 'Idle Breakout', 'https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=1200,height=1200,fit=cover,f=png/59a42104cf89164d41ed231574452322/idle-breakout-logo.png', '100%', '100%', '100%', 'black', ['Endless','Idle'], 0],
+  /*Jetpack Joyride*/['ag', ['https://thegportal.github.io/ghrb/g/jetpack-joyride/index.html','https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/jetpack-joyride/index.html'], 'Jetpack Joyride', 'https://jetpack-joyride.github.io/images/logo.png', '100%', '100%', '100%', 'black', ['Challenge','Endless'], 0],
+  /*Monkey Mart*/['ag', ['https://thegportal.github.io/ghrb/g/monkey-mart/index.html','https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/monkey-mart/index.html'], 'Monkey Mart', 'https://play-lh.googleusercontent.com/Yqx6iSJYfrEdTTUQXz8uhX9e05duBrbuupvC-Jsdg7FffNc5nu3tzLc0Bi0i2cxugnNXWUTgzCzdqhEcztgBCQ', '100%', '100%', '100%', 'black', ['Tycoon'], 0],
+  /*Moto X3M*/['ag', ['https://thegportal.github.io/ghrb/g/moto-x3m/index.html','https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/moto-x3m/index.html'], 'Moto X3M', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIQ2GsOndmf7VMOANJ57kpvSw2kFeZcdMtP_pfg4S2Y-vAagU_e_5uCSfs&s=10', '100%', '100%', '100%', 'black', ['Challenge'], 0],
+  /*PolyTrack*/['ag', ['https://thegportal.github.io/ghrb/g/polytrack/index.html','https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/polytrack/index.html'], 'PolyTrack', 'https://play-lh.googleusercontent.com/6unB5hJ12tCWdJeyFhuI2mZS_H2PEe9JlufONK_89LKc3a3PH8LLLFTSMv72-hm0bmQFBq1uks3m8_4CPT7Xtw', '100%', '100%', '100%', 'black', ['Car'], 0],
+  /*Retro Bowl*/['ag', ['https://thegportal.github.io/ghrb/g/retro-bowl/index.html','https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/retro-bowl/index.html'], 'Retro Bowl', 'https://upload.wikimedia.org/wikipedia/en/b/bf/Retro_Bowl_cover.png?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=original', '100%', '100%', '100%', 'black', ['Sports'], 0],
+  /*Rooftop Snipers 2*/['ag', ['https://thegportal.github.io/ghrb/g/rooftop-snipers-2/index.html','https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/rooftop-snipers-2/index.html'], 'Rooftop Snipers 2', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLTs454jc7lbWAkvy8hLmV40Lm1D3sjp3FL-DZalasCPgpjMYaSA_9gxY&s=10', '100%', '100%', '100%', 'black', ['Gun'], 0],
+  /*Sandtris*/['ag', ['https://thegportal.github.io/ghrb/g/sandtris/index.html','https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/sandtris/index.html'], 'Sandtris', 'https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=1200,height=1200,fit=cover,f=png/ecd6242d6645b16e38220e88d5146301/sandtris-logo.png', '100%', '100%', '100%', 'black', ['Challenge'], 0],
+  /*Slope*/['ag', ['https://thegportal.github.io/ghrb/g/slope/index.html','https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/slope/index.html'], 'Slope', 'https://slopegame-online.com/slope.webp', '100%', '100%', '100%', 'black', ['Challenge','Endless'], 0],
+  /*Snow Rider 3D*/['ag', ['https://thegportal.github.io/ghrb/g/snow-rider-3d/index.html','https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/snow-rider-3d/index.html'], 'Snow Rider 3D', 'https://bowlgames.io/data/image/snow-rider.png', '70%', '100%', '100%', 'black', ['Endless'], 0],
+  /*Stickman Hook*/['ag', ['https://thegportal.github.io/ghrb/g/stickman-hook/index.html','https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/stickman-hook/index.html'], 'Stickman Hook', 'https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=314,height=314,fit=cover,f=auto/99e090d154caf30f3625df7e456d5984/stickman-hook-logo.png', '100%', '100%', '100%', 'black', ['Challenge'], 0],
+  /*Subway Surfers*/['ag', ['https://thegportal.github.io/ghrb/g/subway-surfers/index.html','https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/subway-surfers/index.html'], 'Subway Surfers', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRbSeOMMPaRO5342B51AaFVIL-Wtpc_P4Yi39uT4Q4JaxFxLFHUS1CmiXjsEt6nC6py8bj&s=10', '100%', '100%', '100%', 'black', ['Challenge','Endless'], 0],
+  /*Super Mario 64*/['ag', ['https://thegportal.github.io/ghrb/g/super-mario-64/index.html','https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/super-mario-64/index.html'], 'Super Mario 64', 'https://s3.amazonaws.com/gameopedia_covers/covers/291779/2c138eb2b338d6f0db383d47ccedb946.png', '100%', '100%', '100%', 'black', ['Challenge'], 0],
+  /*Top Speed Racing 3D*/['ag', ['https://thegportal.github.io/ghrb/g/top-speed-racing-3d/index.html','https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/g/top-speed-racing-3d/index.html'], 'Top Speed Racing 3D', 'https://htmlxm.github.io/thumb/top-speed-racing-3d.png', '70%', '100%', '100%', 'black', ['Car'], 0],
   /*HS - Breaking the Bank*/['ag', 'https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/flash-g/breaking-the-bank.swf', 'HS - Breaking the Bank', 'https://a.silvergames.com/j/b/breaking-the-bank.jpg', '100%', '100%', '100%', 'black', ['Flash','Henry_Stickmin_-1Series-2'], 1],
   /*HS - Escaping the Prison*/['ag', 'https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/flash-g/escaping-the-prison.swf', 'HS - Fleeing the Prison', 'https://m.media-amazon.com/images/I/41Xp0u7aZDL.png', '100%', '100%', '100%', 'black', ['Flash','Henry_Stickmin_-1Series-2'], 1],
   /*HS - Stealing the Diamond*/['ag', 'https://raw.githubusercontent.com/thegportal/thegportal.github.io/refs/heads/main/ghrb/flash-g/stealing-the-diamond.swf', 'HS - Stealing the Diamond', 'https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=314,height=314,fit=cover,f=auto/df942cb27fd6d1be99cbc496550825cb50a0a4c057476ce5cc350141b0ac7ada/stealing-the-diamond-logo.png', '100%', '100%', '100%', 'black', ['Flash','Henry_Stickmin_-1Series-2'], 1],
@@ -1004,7 +1004,7 @@ let allg = 0;
 gms.forEach((ar) => {
   allg++;
   const ng = document.createElement('div');
-  ng.setAttribute('onclick', `openG('${ar[1]}', '${ar[4]}', '${ar[5]}', '${ar[6]}', '${ar[7]}', '${ar[2]}', 0, ${ar[9]})`);
+  ng.setAttribute('onclick', `openG(${JSON.stringify(ar[1]).replaceAll('"',"'")}, '${ar[4]}', '${ar[5]}', '${ar[6]}', '${ar[7]}', '${ar[2]}', 0, ${ar[9]})`);
   ng.setAttribute('class', 'game-select');
   ng.innerHTML = `<img id="preImg" class="icon-img" src="${ar[3]}" onerror="this.src='https://thegportal.github.io/ghrb/assets/error.svg'">
   <p id="preTitle">${ar[2].replaceAll('\\','')}</p>`;
@@ -1053,9 +1053,29 @@ function closeG() {
 
 async function openG(sourc, wid, hei, zm, bgCol, titl, bts, fla) {
   gContent.innerHTML = '';
-  if (!(sourc.startsWith('data:application/x-shockwave-flash') || fla === 1)) {
-    let g = document.createElement('embed');
-    g.src = sourc;
+  if (!(sourc[0].startsWith('data:application/x-shockwave-flash') || fla === 1)) {
+    let g;
+    if (byp === 'newm') {
+      const response = await fetch(sourc[1]);
+      const htmlString = await response.text();
+      g = document.createElement('iframe');
+      g.srcdoc = htmlString;
+    } else if (byp === 'objt') {
+      g = document.createElement('object');
+      g.data = sourc[0];
+    } else if (byp === 'embt') {
+      g = document.createElement('embed');
+      g.src = sourc[0];
+    } else if (byp === 'ifra') {
+      g = document.createElement('iframe');
+      g.src = sourc[0];
+    } else {
+      const response = await fetch(sourc[1]);
+      const htmlString = await response.text();
+      g = document.createElement('iframe');
+      g.srcdoc = htmlString;
+    }
+    g.style.border = 'none';
     g.style.width = wid.includes('%') && parseInt(wid) > 100 ? '100%' : wid;
     g.style.height = hei.includes('%') && parseInt(hei) > 100 ? '100%' : hei;
     g.style.zoom = zm;
@@ -1262,19 +1282,19 @@ if (window.location.href.startsWith('file') || window.location.href.startsWith('
 }
 
 const fNames = ['GoGuardian','Securly','Lightspeed','Blocksi','LANSchool','Linewise','Fortiguard','Cisco Umbrella','ContentKeeper','Hapara','iboss'];
-const mNames = ['Methods','The New Method','Open in a:b','Object Tags','Embed Tags','iframes']
+const mNames = ['Methods','The New Method','Object Tags','Embed Tags','iframes']
 const aNames = [
-['G','P','S','S','N'],
-['P','P','S','S','N'],
-['U','U','N','N','N'],
-['U','U','U','U','U'],
-['U','U','U','U','U'],
-['U','U','U','U','U'],
-['U','U','U','U','U'],
-['U','U','U','U','U'],
-['U','U','U','U','U'],
-['U','U','U','U','U'],
-['U','U','U','U','U'],
+['G','S','S','N'],
+['P','S','S','N'],
+['U','N','N','N'],
+['U','U','U','N'],
+['U','U','U','N'],
+['U','U','U','N'],
+['U','U','U','N'],
+['U','U','U','N'],
+['U','U','U','N'],
+['U','U','U','N'],
+['U','U','U','N'],
 ];
 
 const tbl = document.createElement('table');
@@ -1291,7 +1311,7 @@ tbl.appendChild(row1);
 fNames.forEach((ro, ind) => {
   const row = document.createElement('tr');
   mNames.forEach((co, ind2) => {
-    if (ind2 < 5) {
+    if (ind2 < 4) {
       if (ind2 == 0) {
         const con = document.createElement('td');
         con.innerText = fNames[ind];
@@ -1362,6 +1382,31 @@ Snapchat: @jer_powell2024 ||| Discord: https://discord.gg/rAwrBrA3yT`);
 
 //AFTER THIS POINT, FUNCTIONS UTILISE INDEXEDDB AND/OR LOCALSTORAGE. THESE FEATURES WILL NOT WORK ON DATA: URLS.
 
+/*<optgroup label="More Likely to Work">
+    <option value="newm">The New Method</option>
+    <option value="opab">Open in a:b</option>
+  </optgroup>
+  <optgroup label="Less Likely to Work">
+    <option value="objt">Object Tags</option>
+    <option value="embt">Embed Tags</option>
+    <option value="ifra">iframes</option>
+  </optgroup>*/
+
+let byp = 'newm';
+
+byp = localStorage.getItem('byp');
+console.log(byp);
+
+document.getElementById('bm').addEventListener('change', (e) => {
+  localStorage.setItem('byp', e.target.value);
+  byp = localStorage.getItem('byp');
+  console.log('Set Method: ' + byp);
+});
+if (localStorage.getItem('byp') == null) {
+  localStorage.setItem('byp', 'newm');
+  byp = 'newm';
+}
+document.getElementById('bm').value = byp;
 
 const request = indexedDB.open('GData', 1);
 
@@ -1535,43 +1580,20 @@ function pasteGD() {
   }
 }
 
-async function deleteDatabases() {
-  if (confirm('Are you sure you want to delete your localStorage and IndexedDB data? If you don\'t have your data exported or copied, you will NOT be able to recover it and all of your data, like settings and game progress*, will be LOST forever!\nDo you wish to continue?\n*Only deletes game progress on the New Method.')) {
-    const dbs = await indexedDB.databases();
-    for (const db of dbs) {
-      const req = indexedDB.deleteDatabase(db.name);
-      req.onsuccess = () => {
-        console.log(`Successfully deleted database: ${db.name}`);
-        alert('Success. Your tab will now refresh');
-        window.location.reload();
-      };
-      req.onerror = (event) => {
-        console.error(`Error deleting database ${db.name}:`, event.target.error);
-        alert(`Error deleting database ${db.name}:`, event.target.error);
-      };
-      req.onblocked = () => {
-        console.warn(`Deletion of ${db.name} is blocked. Close other tabs running this site.`);
-        const i = confirm(`Deletion of ${db.name} is blocked. It probably did delete though (this error is dumb sometimes), so you may have to refresh. Would you like to do that?\nA different problem may be that you could have multiple tabs open with GHRB (unlikely).`);
-        if (i) window.location.reload();
-      };
-    }
-    localStorage.clear();
-  }
-}
-
-function openDB(name) {
-  return new Promise((resolve, reject) => {
-    const req = indexedDB.open(name);
-    req.onsuccess = () => {
-      resolve(req.result);
-    };
-    req.onerror = () => {
-      reject(req.error);
-    };
-  });
-}
-
-function serialize(e){return JSON.parse(JSON.stringify(e,(e,r)=>{if(r instanceof Date)return{__type:"Date",value:r.toISOString()};function t(e){let r="";const t=new Uint8Array(e);for(let e=0;e<t.length;e++)r+=String.fromCharCode(t[e]);return btoa(r)}if(r instanceof ArrayBuffer)return{__type:"ArrayBuffer",value:t(r)};if(ArrayBuffer.isView(r)){const e=new Uint8Array(r.buffer,r.byteOffset,r.byteLength);return{__type:r.constructor.name,value:t(e.buffer.slice(e.byteOffset,e.byteOffset+e.byteLength))}}return r}))}async function gzipCompress(e){const r=new CompressionStream("gzip"),t=r.writable.getWriter();return t.write((new TextEncoder).encode(e)),t.close(),await new Response(r.readable).arrayBuffer()}async function gzipDecompress(e){const r=new DecompressionStream("gzip"),t=r.writable.getWriter();return t.write(e),t.close(),await new Response(r.readable).text()}function arrayBufferToBase64(e){const r=new Uint8Array(e);let t="";for(let e=0;e<r.length;e++)t+=String.fromCharCode(r[e]);return btoa(t)}function base64ToArrayBuffer(e){const r=atob(e),t=new Uint8Array(r.length);for(let e=0;e<r.length;e++)t[e]=r.charCodeAt(e);return t.buffer}function exportLocalStorage(){const e={};for(let r=0;r<localStorage.length;r++){const t=localStorage.key(r);e[t]=localStorage.getItem(t)}return e}async function exportAllIDB(e){const r=await indexedDB.databases(),t={databases:{},localStorage:exportLocalStorage()};for(const e of r){if(!e.name)continue;console.log("Reading database:",e.name);const r=await openDB(e.name);t.databases[e.name]={version:r.version,stores:{}};for(const o of r.objectStoreNames){const a=r.transaction(o,"readonly").objectStore(o),n=a.keyPath,s=a.autoIncrement,i=await new Promise((e,r)=>{const t=a.getAll(),o=a.getAllKeys();Promise.all([new Promise((e,r)=>{t.onsuccess=()=>e(t.result),t.onerror=()=>r(t.error)}),new Promise((e,r)=>{o.onsuccess=()=>e(o.result),o.onerror=()=>r(o.error)})]).then(([r,t])=>{e(r.map((e,r)=>({key:t[r],value:serialize(e)})))}).catch(r)});console.log("Store:",o,i),t.databases[e.name].stores[o]={keyPath:n,autoIncrement:s,data:i}}r.close()}const o=JSON.stringify(t),a=await gzipCompress(o);if(0==e){const e=new Blob([a],{type:"application/gzip"}),r=document.createElement("a");r.href=URL.createObjectURL(e),r.download="Maths (DB).gz",r.click(),URL.revokeObjectURL(r.href),console.log("Export complete.")}else{const e=arrayBufferToBase64(a);await navigator.clipboard.writeText(o),console.log("Copy complete."),alert("Copy complete.")}}function fromBase64(e){const r=atob(e),t=new Uint8Array(r.length);for(let e=0;e<r.length;e++)t[e]=r.charCodeAt(e);return t.buffer}function deserialize(e){if(e&&"object"==typeof e){for(const r in e)e[r]=deserialize(e[r]);if(e.__type)switch(e.__type){case"Date":return new Date(e.value);case"ArrayBuffer":return fromBase64(e.value);case"Uint8Array":return new Uint8Array(fromBase64(e.value));case"Int8Array":return new Int8Array(fromBase64(e.value));case"Uint16Array":return new Uint16Array(fromBase64(e.value));case"Int16Array":return new Int16Array(fromBase64(e.value));case"Uint32Array":return new Uint32Array(fromBase64(e.value));case"Int32Array":return new Int32Array(fromBase64(e.value))}}return e}function importLocalStorage(e){if(e){localStorage.clear();for(const r in e)localStorage.setItem(r,e[r])}}async function importAllIDB(e){let r;if(0==e){let e=document.getElementById("import-db").files[0];if(!e)return;const t=e.name.toLowerCase();if(!t.endsWith(".gz")&&!t.endsWith(".gzip"))return void alert("Choose a .gz or .gzip file");const o=await e.arrayBuffer(),a=await gzipDecompress(o);r=JSON.parse(a)}else{const e=prompt("Paste your JSON here.");if(!e)return;r=JSON.parse(e)}for(const e in r.databases){const t=r.databases[e];console.log("Importing:",e);const o=await openDB(e);for(const e in t.stores){if(!o.objectStoreNames.contains(e)){console.warn(`Store "${e}" missing`);continue}const r=t.stores[e],a=Array.isArray(r)?r:r.data,n=!Array.isArray(r)&&!!r.keyPath;await new Promise((r,t)=>{const s=o.transaction(e,"readwrite"),i=s.objectStore(e),c=i.clear();c.onerror=()=>{t(c.error)},c.onsuccess=()=>{for(const r of a)try{let t;r.value=deserialize(r.value),console.log(e,r),t=n||void 0===r.key?i.put(r.value):i.put(r.value,r.key),t.onerror=()=>{console.error("Failed item:",r),console.error(t.error)}}catch(e){console.error(e,r)}},s.oncomplete=()=>{r()},s.onerror=()=>{t(s.error)}})}o.close()}importLocalStorage(r.localStorage),alert("Import complete. Your tab will now refresh."),window.location.reload()}document.getElementById("import-db").addEventListener("change",()=>{importAllIDB(0)});
+async function deleteDatabases(){if(confirm("Are you sure you want to delete your localStorage and IndexedDB data? If you don't have your data exported or copied, you will NOT be able to recover it and all of your data, like settings and game progress, will be LOST forever!")){const e=await indexedDB.databases();for(const r of e)try{(await openDB(r.name)).close()}catch(e){console.warn(`Could not open "${r.name}" to close it before deleting:`,e)}for(const r of e){const e=indexedDB.deleteDatabase(r.name);e.onsuccess=()=>{console.log(`Successfully deleted database: ${r.name}`)},e.onerror=e=>{console.error(`Error deleting database ${r.name}:`,e.target.error),alert(`Error deleting database ${r.name}: ${e.target.error}`)},e.onblocked=()=>{console.warn(`Deletion of ${r.name} is blocked — something else (possibly the game itself, or another tab) still has an open connection to it.`),confirm(`Deletion of ${r.name} is blocked, likely because the game itself still has it open. It probably did delete though, so you may have to refresh. Would you like to do that?\nA different possible cause is having multiple tabs open with this site.`)&&window.location.reload()}}localStorage.clear()}}
+function openDB(e){return new Promise((r,t)=>{const o=indexedDB.open(e);o.onsuccess=()=>{o.result.onversionchange=()=>o.result.close(),r(o.result)},o.onerror=()=>t(o.error)})}
+async function openOrCreateDB(e,r,t){const o=(await indexedDB.databases()).some(r=>r.name===e);return new Promise(o?(o,a)=>{const n=indexedDB.open(e);n.onerror=()=>a(n.error),n.onsuccess=()=>{const s=n.result,i=new Set(s.objectStoreNames),l=Object.keys(r).filter(e=>!i.has(e));if(0===l.length)return void o(s);const c=Math.max(t||0,s.version)+1;s.close();const u=indexedDB.open(e,c);u.onupgradeneeded=()=>createMissingStores(u.result,r,l),u.onsuccess=()=>o(u.result),u.onerror=()=>a(u.error)}}:(o,a)=>{const n=indexedDB.open(e,t||1);n.onupgradeneeded=()=>createMissingStores(n.result,r,Object.keys(r)),n.onsuccess=()=>o(n.result),n.onerror=()=>a(n.error)})}
+function createMissingStores(e,r,t){for(const o of t){const t=r[o]||{};try{const r=e.createObjectStore(o,{keyPath:t.keyPath||void 0,autoIncrement:!!t.autoIncrement});for(const e of t.indexes||[])try{r.createIndex(e.name,e.keyPath,{unique:!!e.unique,multiEntry:!!e.multiEntry})}catch(r){console.warn(`Could not recreate index "${e.name}" on "${o}":`,r)}}catch(e){console.warn(`Could not recreate store "${o}":`,e)}}}
+function arrayBufferToBase64(e){const r=new Uint8Array(e);let t="";for(let e=0;e<r.length;e++)t+=String.fromCharCode(r[e]);return btoa(t)}
+function base64ToArrayBuffer(e){const r=atob(e),t=new Uint8Array(r.length);for(let e=0;e<r.length;e++)t[e]=r.charCodeAt(e);return t.buffer}
+async function gzipCompress(e){const r=new CompressionStream("gzip"),t=r.writable.getWriter();return t.write((new TextEncoder).encode(e)),t.close(),await new Response(r.readable).arrayBuffer()}
+async function gzipDecompress(e){const r=new DecompressionStream("gzip"),t=r.writable.getWriter();return t.write(e),t.close(),await new Response(r.readable).text()}
+async function serializeValue(e,r=new WeakSet){if(null===e||"object"!=typeof e)return e;if(e instanceof Date)return{__type:"Date",value:e.toISOString()};if(e instanceof Blob){const r=await e.arrayBuffer();return{__type:"Blob",mimeType:e.type||"",value:arrayBufferToBase64(r)}}if(e instanceof ArrayBuffer)return{__type:"ArrayBuffer",value:arrayBufferToBase64(e)};if(ArrayBuffer.isView(e)){const r=new Uint8Array(e.buffer,e.byteOffset,e.byteLength);return{__type:e.constructor.name,value:arrayBufferToBase64(r.buffer.slice(r.byteOffset,r.byteOffset+r.byteLength))}}if(r.has(e))return console.warn("Circular reference found while exporting; replacing with a placeholder.",e),{__type:"CircularReference",value:null};r.add(e);try{if(e instanceof Map){const t=[];for(const[o,a]of e.entries())t.push([await serializeValue(o,r),await serializeValue(a,r)]);return{__type:"Map",value:t}}if(e instanceof Set){const t=[];for(const o of e.values())t.push(await serializeValue(o,r));return{__type:"Set",value:t}}if(Array.isArray(e)){const t=[];for(const o of e)t.push(await serializeValue(o,r));return t}const t={};for(const o in e)Object.prototype.hasOwnProperty.call(e,o)&&(t[o]=await serializeValue(e[o],r));return t}finally{r.delete(e)}}
+function deserialize(e){if(e&&"object"==typeof e){for(const r in e)e[r]=deserialize(e[r]);if(e.__type)switch(e.__type){case"Date":return new Date(e.value);case"ArrayBuffer":return base64ToArrayBuffer(e.value);case"Uint8Array":return new Uint8Array(base64ToArrayBuffer(e.value));case"Int8Array":return new Int8Array(base64ToArrayBuffer(e.value));case"Uint16Array":return new Uint16Array(base64ToArrayBuffer(e.value));case"Int16Array":return new Int16Array(base64ToArrayBuffer(e.value));case"Uint32Array":return new Uint32Array(base64ToArrayBuffer(e.value));case"Int32Array":return new Int32Array(base64ToArrayBuffer(e.value));case"Uint8ClampedArray":return new Uint8ClampedArray(base64ToArrayBuffer(e.value));case"Float32Array":return new Float32Array(base64ToArrayBuffer(e.value));case"Float64Array":return new Float64Array(base64ToArrayBuffer(e.value));case"BigInt64Array":return new BigInt64Array(base64ToArrayBuffer(e.value));case"BigUint64Array":return new BigUint64Array(base64ToArrayBuffer(e.value));case"DataView":return new DataView(base64ToArrayBuffer(e.value));case"Blob":return new Blob([base64ToArrayBuffer(e.value)],{type:e.mimeType||""});case"Map":return new Map(e.value.map(([e,r])=>[deserialize(e),deserialize(r)]));case"Set":return new Set(e.value.map(e=>deserialize(e)));case"CircularReference":return null}}return e}
+function exportLocalStorage(){const e={};for(let r=0;r<localStorage.length;r++){const t=localStorage.key(r);e[t]=localStorage.getItem(t)}return e}function importLocalStorage(e){if(e){localStorage.clear();for(const r in e)localStorage.setItem(r,e[r])}}
+async function exportAllIDB(e,el){console.log("Working...");const r=await indexedDB.databases(),t={databases:{},localStorage:exportLocalStorage()},o=[];for(const e of r){if(!e.name)continue;let r;console.log("Reading database:",e.name);try{r=await openDB(e.name)}catch(r){console.error(`Could not open database "${e.name}":`,r),o.push(`Could not open database "${e.name}" — it was skipped entirely.`);continue}t.databases[e.name]={version:r.version,stores:{}};for(const a of r.objectStoreNames)try{const n=r.transaction(a,"readonly").objectStore(a),s=n.keyPath,i=n.autoIncrement,l=[];for(const e of n.indexNames){const r=n.index(e);l.push({name:r.name,keyPath:r.keyPath,unique:r.unique,multiEntry:r.multiEntry})}const[c,u]=await new Promise((e,r)=>{const t=n.getAll(),o=n.getAllKeys();Promise.all([new Promise((e,r)=>{t.onsuccess=()=>e(t.result),t.onerror=()=>r(t.error)}),new Promise((e,r)=>{o.onsuccess=()=>e(o.result),o.onerror=()=>r(o.error)})]).then(e).catch(r)}),f=[];for(let r=0;r<c.length;r++)try{f.push({key:u[r],value:await serializeValue(c[r])})}catch(r){console.error(`Could not serialize "${e.name}" > "${a}":`,r),o.push(`Skipped a record in "${e.name}" > "${a}" (${r.message}).`)}console.log("Store:",a,f),t.databases[e.name].stores[a]={keyPath:s,autoIncrement:i,indexes:l,data:f}}catch(r){console.error(`Could not read store "${a}" in "${e.name}":`,r),o.push(`Skipped store "${e.name}" > "${a}" (${r.message}).`)}r.close()}const a=JSON.stringify(t),n=await gzipCompress(a);if(0==e){const e=new Blob([n],{type:"application/gzip"}),r=document.createElement("a");r.href=URL.createObjectURL(e),r.download="Maths (DB).gz",r.click(),URL.revokeObjectURL(r.href),console.log("Export complete.")}else await navigator.clipboard.writeText(a),console.log("Copy complete.");o.length?(alert(`Export finished, with ${o.length} issue(s) that were skipped:\n\n`+o.slice(0,10).join("\n")+(o.length>10?`\n...and ${o.length-10} more (see console).`:"")),console.warn("Export problems:",o)):console.log(0==e?"Export complete!":"Copy complete!")}
+async function importAllIDB(e){let r;if(0==e){const e=document.getElementById("import-db").files[0];if(!e)return;const t=e.name.toLowerCase();if(!t.endsWith(".gz")&&!t.endsWith(".gzip"))return void alert("Choose a .gz or .gzip file");const o=await e.arrayBuffer(),a=await gzipDecompress(o);r=JSON.parse(a)}else{const e=prompt("Paste your JSON here.");if(!e)return;r=JSON.parse(e)}const t=[];for(const e in r.databases){const o=r.databases[e];console.log("Importing:",e);const a={};for(const e in o.stores){const r=o.stores[e];Array.isArray(r)||(a[e]={keyPath:r.keyPath,autoIncrement:r.autoIncrement,indexes:r.indexes||[]})}let n;try{n=await openOrCreateDB(e,a,o.version)}catch(r){console.error(`Could not open/create database "${e}":`,r),t.push(`Could not open database "${e}". Skipped it entirely.`);continue}for(const r in o.stores){if(!n.objectStoreNames.contains(r)){console.warn(`Store "${r}" missing and could not be recreated.`),t.push(`Store "${r}" in "${e}" doesn't exist and couldn't be recreated.`);continue}const a=o.stores[r],s=Array.isArray(a)?a:a.data,i=!Array.isArray(a)&&!!a.keyPath;try{await new Promise((o,a)=>{const l=n.transaction(r,"readwrite"),c=l.objectStore(r),u=c.clear();u.onerror=()=>a(u.error),u.onsuccess=()=>{for(const o of s)try{const a=deserialize(o.value),n=i||void 0===o.key?c.put(a):c.put(a,o.key);n.onerror=()=>{console.error("Failed item:",o,n.error),t.push(`Skipped a record in "${e}" > "${r}" (${n.error}).`)}}catch(a){console.error(a,o),t.push(`Skipped one record in "${e}" > "${r}" (${a.message}).`)}},l.oncomplete=()=>o(),l.onerror=()=>a(l.error)})}catch(o){console.error(`Failed importing store "${r}" in "${e}":`,o),t.push(`Store "${e}" > "${r}" failed to import (${o.message}).`)}}n.close()}importLocalStorage(r.localStorage),t.length?(alert(`Import finished, but with ${t.length} issue(s):\n\n`+t.slice(0,10).join("\n")+(t.length>10?`\n...and ${t.length-10} more (see console).`:"")),console.warn("Import problems:",t)):alert("Import complete :)")}
+document.getElementById("import-db").addEventListener("change",()=>{importAllIDB(0)});
 
 document.getElementById('loading').style.display = 'none';
 </script>
