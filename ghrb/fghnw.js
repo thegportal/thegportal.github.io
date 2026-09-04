@@ -12,8 +12,10 @@ function fetgh() {
     })
     .catch(error => {
       console.error('Fetch error: ', error, ' :(');
-      document.body.innerHTML = `<p style="margin: 0; font-family: Helvetica;">Failed to fetch the GHub data  :(<br>Report a problem:</p>
-      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScbnf5yjlLtawLyMVYepb8VwwCwgtV4fABgQOi0eBD3_E2npQ/viewform?embedded=true" width="640" height="425" style="border: 2px solid black; border-radius: 5px;">Loading…</iframe>`;
+      document.body.innerHTML = `<p style="margin: 0; font-family: Helvetica">Failed to fetch the GHub data  :(<br>Report a problem:</p>
+      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScbnf5yjlLtawLyMVYepb8VwwCwgtV4fABgQOi0eBD3_E2npQ/viewform?embedded=true" width="640" height="425" style="border: 2px solid black; border-radius: 5px;">Loading…</iframe>
+      <p>If pop-ups are disabled, you can try again.</p>
+      <button onclick="fetgh()" style="width: 100%; height: 50px">Try again.</p>`;
     });
 }
 fetgh();
